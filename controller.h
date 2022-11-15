@@ -34,8 +34,9 @@ public slots:
 
     void log_in(string name , string password , int choice);
     void sign_up(string ,string ,string,int);
-    // publisher
+    // Admin
     void Upload_book(string ,string,string,int);
+    void removeBookData(Book);
     void updatePublisher(string ,string,string,string,int);
     void updateStudent(string,string,string,string,int);
 

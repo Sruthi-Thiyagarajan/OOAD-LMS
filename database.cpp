@@ -12,7 +12,7 @@ DataBase::DataBase()
 void DataBase::init(QString path)
 {
     this->db = QSqlDatabase ::addDatabase("QSQLITE");
-    QString Path = path + "/../../Library-Management-System/ray2.db";
+    QString Path = path + "/../../OOAD-LMS/ray2.db";
 
     Path.toStdString();
 
@@ -21,7 +21,7 @@ void DataBase::init(QString path)
     this->db.open();
 
     if (!this->db.isOpen())
-        cout << "db doesn't open and you are not ray2" << endl;
+        cout << "db doesn't open" << endl;
     else
         cout << "db is open" << endl;
 
@@ -33,8 +33,6 @@ bool DataBase::saveBook(Book book)
     check.prepare("SELECT * FROM Books WHERE Name=?;");
     check.bindValue(0,QString::fromStdString(book.getName()));
     check.exec();
-//    if(check.next())
-//        return false;
     QSqlQuery query(this->db);
     query.prepare("INSERT INTO Books(Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath) VALUES(?,?,?,?,?,?,?,?,?,?);");
     query.bindValue(0,QString::fromStdString(book.getName()));
@@ -49,6 +47,22 @@ bool DataBase::saveBook(Book book)
     query.bindValue(9,QString::fromStdString(book.getImagePath()));
     //query.bindValue(10,book.getLike());
     query.exec();
+    return true;
+}
+
+bool DataBase::removeBook(Book book)
+{
+    QString book_key = QString::fromStdString(book.getName());
+    QSqlQuery query(this->db);
+    query.prepare("DELETE FROM Books WHERE Name = ?");
+    query.bindValue(0,book_key);
+    query.exec();
+    cout<<"Book remove db called"<<endl;
+    // Delete the entry of the book from the book DB(like-review)
+    QSqlQuery q(this->db);
+    QString str= "DELETE FROM "+ book_key;
+    cout<<str.toStdString()<<endl;
+    q.exec(str);
     return true;
 }
 

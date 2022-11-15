@@ -15,9 +15,10 @@
 #include <QIcon>
 #include <iostream>
 #include <QDebug>
-#include "indexs.h"
 #include "publisher.h"
 #include <QToolBar>
+#include "indexs.h"
+#include "book.h"
 
 using namespace std;
 class PublisherWidget : public QWidget
@@ -81,11 +82,13 @@ public:
 
 signals:
     void addBookData(string,string,string,int);
+    void removeBookData(Book);
     void setCurrentWidget(int);
     void updatePublisher(string,string,string,string,int);
 
 public slots:
     void bookDataCheck();
+    void removeDataCheck();
     void error(string);
     void buttonBack();
     void editButtonClicked();

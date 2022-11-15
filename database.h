@@ -31,6 +31,7 @@ public:
     void init(QString);
     // savers
     bool saveBook(Book);
+    bool removeBook(Book);
     bool saveStudent(Student);
     bool savePublisher(Publisher);
     //***************************

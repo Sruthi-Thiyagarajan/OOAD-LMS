@@ -174,13 +174,14 @@ void PublisherWidget::Signals_Slots()
     connect(this->toolBar,SIGNAL(actionTriggered(QAction*)),this,SLOT(handleToolBar(QAction*)));
 
     connect(this->addBookBtn,SIGNAL(clicked()),this,SLOT(bookDataCheck()));
+    connect(this->removeBookBtn,SIGNAL(clicked()),this,SLOT(removeDataCheck()));
     connect(this->EditBtn,SIGNAL(clicked()),this,SLOT(editButtonClicked()));
     connect(this->OkBtn,SIGNAL(clicked()),this,SLOT(okButtonClicked()));
 }
 
 void PublisherWidget::bookDataCheck()
 {
-    cout << "ray2" << endl;
+    cout << "Add Book Check " << endl;
     if(this->bookName->text().isEmpty() || this->bookType->text().isEmpty() || this->bookPrice->text().isEmpty())
     {
         this->errorBox->setText("Please Fill all the Required Data");
@@ -197,9 +198,31 @@ void PublisherWidget::bookDataCheck()
     emit addBookData(this->currentPublisher.getName(),Name,Type,Price);
 
     // check box
-    this->sucessBox->setText("Successfully Published Your Book !");
+    this->sucessBox->setText("Book Added Successfully!");
     this->sucessBox->show();
 }
+
+void PublisherWidget::removeDataCheck()
+{
+    cout << "Remove Book Check " << endl;
+    if(this->bookName->text().isEmpty() || this->bookType->text().isEmpty() || this->bookPrice->text().isEmpty())
+    {
+        this->errorBox->setText("Please Fill all the Required Data");
+        this->errorBox->show();
+        return;
+    }
+
+    Book b;
+    b.setName(this->bookName->text().toStdString());
+    b.setType(this->bookType->text().toStdString());
+    b.setPrice(this->bookPrice->text().toInt());
+    emit removeBookData(b);
+
+    // check box
+    this->sucessBox->setText("Book Remove Successfully!");
+    this->sucessBox->show();
+}
+
 
 void PublisherWidget::initProfileWidget()
 {
