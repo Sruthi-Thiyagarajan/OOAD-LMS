@@ -8,7 +8,7 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
     this->headerWidget = new QWidget;
     this->headerLayout = new QHBoxLayout;
 
-    this->pixMapHeader = new QPixmap(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/person.png");
+    this->pixMapHeader = new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/person.png");
     this->iconHeader   = new QLabel;
     this->Name = new QLabel;
     this->toolBar = new QToolBar;
@@ -18,7 +18,7 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
     // book image
     this->image = new QLabel;
     this->image->setMaximumSize(QSize(200,200));
-    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/addBook.png");
+    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/addBook.png");
     this->image->setPixmap(pixMap->scaled(this->image->width(),this->image->height(),Qt::KeepAspectRatio) );
     this->image->setScaledContents(true);
 
@@ -54,9 +54,9 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
 
 
     this->errorBox = new QMessageBox();
-    this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/error.png"));
+    this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/error.png"));
     this->sucessBox = new QMessageBox();
-    this->sucessBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/sucess.png"));
+    this->sucessBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/sucess.png"));
 
 //    this->showInfo = new QPushButton("Profile");
 //    this->showInfo->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 100px;");
@@ -79,13 +79,13 @@ void PublisherWidget::initHeader()
 {
     // ********* tool Bar ************
     this->toolBar->setCursor(Qt::PointingHandCursor);
-    QIcon logoutBtn= QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/logout.png");
-    QIcon profileBtn = QIcon (QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/profile.png");
+    QIcon logoutBtn= QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/logout.png");
+    QIcon profileBtn = QIcon (QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/profile.png");
     // *************************************************
-    //QIcon addBookBtn = QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/book.png");
+    //QIcon addBookBtn = QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/book.png");
 
-    QIcon getAllBooksInfo = QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/book.png");
-    QIcon sendNotification = QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/message.jpg");
+    QIcon getAllBooksInfo = QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/book.png");
+    QIcon sendNotification = QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/message.jpg");
 
 
     QString getAllBooksInfoString = "Browse";
@@ -246,7 +246,7 @@ void PublisherWidget::initProfileWidget()
 
     QLabel *image; QPixmap* pixMap;
     image = new QLabel;
-    pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/person.png");
+    pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/person.png");
     image->setPixmap(pixMap->scaled(image->width()/4,image->height()/4,Qt::KeepAspectRatio) );
     image->setScaledContents(true);
 

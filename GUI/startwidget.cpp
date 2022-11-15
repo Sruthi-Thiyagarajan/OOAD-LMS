@@ -3,7 +3,7 @@ StartWidget::StartWidget(QWidget *parent) : QLabel(parent)
 {
     this->grid = new QGridLayout();
 
-    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/background/blur5.jpg");
+    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/background/blur5.jpg");
     this->setPixmap(pixMap->scaled(this->width(),this->height(),Qt::KeepAspectRatio) );
     this->setScaledContents(true);
 
@@ -21,8 +21,8 @@ void StartWidget::initButtons()
 {
     this->toolBar =new QToolBar("");
     this->toolBar->setCursor(Qt::PointingHandCursor);
-    this->loginBtn= QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/login6.png");
-    this->signupBtn = QIcon (QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/signup.png");
+    this->loginBtn= QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/login6.png");
+    this->signupBtn = QIcon (QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/signup.png");
     this->loginString  = "Login";
     this->signupString = "Sign Up";
     this->toolBar->addAction(this->loginBtn,this->loginString);

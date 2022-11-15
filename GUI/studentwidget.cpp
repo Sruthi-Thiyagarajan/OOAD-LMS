@@ -31,7 +31,7 @@ StudentWidget::StudentWidget(QWidget *parent) : QWidget(parent)
 
     this->errorBox = new QMessageBox();
     this->successBox = new QMessageBox();
-    this->successBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/sucess.png"));
+    this->successBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/sucess.png"));
     this->tabWidget = new QTabWidget();
 
     this->initProfileWidget();
@@ -52,13 +52,13 @@ void StudentWidget::initToolBar()
     this->toolBar->setOrientation(Qt::Vertical);
     this->toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    QIcon Profile(this->Path +"/../../Library-Management-System/icons/profile.png"); QString ProfileText = "Profile";
-    QIcon Search(this->Path + "/../../Library-Management-System/icons/search.png"); QString SearchText = "Search";
-    QIcon favorite(this->Path + "/../../Library-Management-System/icons/book.png"); QString favoriteText = "My Books";
-    QIcon History( this->Path + "/../../Library-Management-System/icons/history.png"); QString HistoryText = "History";
-    QIcon Return(this->Path + "/../../Library-Management-System/icons/return.png"); QString ReturnText = "Return";
-    QIcon LogOut(this->Path + "/../../Library-Management-System/icons/logout.png"); QString LogOutText = "Log Out";
-    QIcon Pay(this->Path + "/../../Library-Management-System/icons/pay.jpg"); QString PayText = "My Wallet";
+    QIcon Profile(this->Path +"/../../OOAD-LMS/icons/profile.png"); QString ProfileText = "Profile";
+    QIcon Search(this->Path + "/../../OOAD-LMS/icons/search.png"); QString SearchText = "Search";
+    QIcon favorite(this->Path + "/../../OOAD-LMS/icons/book.png"); QString favoriteText = "My Books";
+    QIcon History( this->Path + "/../../OOAD-LMS/icons/history.png"); QString HistoryText = "History";
+    QIcon Return(this->Path + "/../../OOAD-LMS/icons/return.png"); QString ReturnText = "Return";
+    QIcon LogOut(this->Path + "/../../OOAD-LMS/icons/logout.png"); QString LogOutText = "Log Out";
+    QIcon Pay(this->Path + "/../../OOAD-LMS/icons/pay.jpg"); QString PayText = "My Wallet";
 
     this->toolBar->addAction(Profile,ProfileText);
     this->toolBar->addAction(Search,SearchText);
@@ -92,7 +92,7 @@ void StudentWidget::initProfileWidget()
 
     QLabel *image; QPixmap* pixMap;
     image = new QLabel;
-    pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/person.png");
+    pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/person.png");
     image->setPixmap(pixMap->scaled(image->width()/4,image->height()/4,Qt::KeepAspectRatio) );
     image->setScaledContents(true);
 

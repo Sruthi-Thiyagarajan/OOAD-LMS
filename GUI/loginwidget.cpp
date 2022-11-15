@@ -6,7 +6,7 @@ LogInWidget::LogInWidget(QWidget* parent): QWidget(parent)
     this->widget = new QWidget;
 
     this->image = new QLabel;
-    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/laptop.jpg");
+    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/laptop.jpg");
     this->image->setPixmap(pixMap->scaled(this->image->width()/2,this->image->height()/2,Qt::KeepAspectRatio) );
     this->image->setScaledContents(true);
 
@@ -33,7 +33,7 @@ LogInWidget::LogInWidget(QWidget* parent): QWidget(parent)
     this->studentBtn->setChecked(true);
 
     this->errorBox = new QMessageBox();
-    this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../Library-Management-System/icons/error.png"));
+    this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/error.png"));
 
     this->Design();
     this->outDesign();
