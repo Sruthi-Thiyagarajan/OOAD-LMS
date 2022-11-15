@@ -247,12 +247,57 @@ Book DataBase::loadBookForce(string name)
     return book;
 }
 //********************
+//********************* check book table and row**************
+// ****************** Create talbe and/or insert a new row ****************
+
+bool DataBase::insertNewRowInBookStudent(bookstudent bs)
+//  ************To Do: insert a row if the studentName is not existent *************
+{
+
+
+    string bookName = bs.getbookname();
+    string studentName = bs.getstudentname();
+
+    // check the table "bookName" exists or not
+    QSqlQuery queryCreate(this->db);
+    string query_string_create = "CREATE TABLE IF NOT EXISTS " + bookName + "(studentName text, likeAlready int, review text);";
+    queryCreate.prepare(QString::fromStdString(query_string_create));
+    queryCreate.exec();
+
+    // check the row "studentName" exists or not
+    QSqlQuery queryCheck(this->db);
+    string query_string_check = "SELECT studentName from " + bookName;
+    queryCheck.prepare(QString::fromStdString(query_string_check));
+    queryCheck.exec();
+    int found = false;
+    while (queryCheck.next()){
+        string targetStudent = queryCheck.value(0).toString().toStdString();
+        if (targetStudent == studentName)
+        {
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {   // if not found the studentName, add a new row
+        string query_insert = "INSERT INTO " + bookName + " (studentName, likeAlready, review) VALUES (?,?,?);";
+        QSqlQuery queryInsert(this->db);
+        queryInsert.prepare(QString::fromStdString(query_insert));
+        queryInsert.bindValue(0,QString::fromStdString(studentName));
+        queryInsert.bindValue(1,QString::fromStdString(to_string(0)));
+        queryInsert.bindValue(2,QString::fromStdString(""));
+        queryInsert.exec();
+    }
+    return true;
+}
+// **************************************
 //int DataBase::checkLikeStatus(string bookName, string studentName)
 int DataBase::checkLikeStatus(bookstudent bs)
 {   string bookName = bs.getbookname();
     string studentName = bs.getstudentname();
     int likeAlready;
     int test = 11;
+    insertNewRowInBookStudent(bs);
     QSqlQuery query(this->db);
 
     string query_string = "SELECT likeAlready from " + bookName + " where studentName = ?;";
@@ -274,6 +319,7 @@ bool DataBase::saveReview(string review, bookstudent bs)
     int test = 111;
     string bookName = bs.getbookname();
     string studentName = bs.getstudentname();
+    insertNewRowInBookStudent(bs);
     QSqlQuery query(this->db);
     string query_string = "UPDATE " + bookName + " SET review = ? WHERE studentName =?;";
     query.prepare(QString::fromStdString(query_string));
@@ -287,6 +333,7 @@ vector<string> DataBase::loadReview(string bookName)
 {
     QSqlQuery query(this->db);
     vector<string> review;
+
     string query_string = "SELECT review from " + bookName + ";";
     query.exec(QString::fromStdString(query_string));
 
