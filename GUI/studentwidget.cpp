@@ -58,7 +58,7 @@ void StudentWidget::initToolBar()
     QIcon History( this->Path + "/../../Library-Management-System/icons/history.png"); QString HistoryText = "History";
     QIcon Return(this->Path + "/../../Library-Management-System/icons/return.png"); QString ReturnText = "Return";
     QIcon LogOut(this->Path + "/../../Library-Management-System/icons/logout.png"); QString LogOutText = "Log Out";
-    QIcon Pay(this->Path + "/../../Library-Management-System/icons/pay.jpg"); QString PayText = "Pay";
+    QIcon Pay(this->Path + "/../../Library-Management-System/icons/pay.jpg"); QString PayText = "My Wallet";
 
     this->toolBar->addAction(Profile,ProfileText);
     this->toolBar->addAction(Search,SearchText);

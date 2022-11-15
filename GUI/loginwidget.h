@@ -46,6 +46,7 @@ public:
     void Design();
     void outDesign();
     void Signals_Slots();
+    void clear_entries();
 
 signals:
     void LogInWidgetData(string,string,int);

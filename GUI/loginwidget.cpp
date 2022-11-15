@@ -22,6 +22,7 @@ LogInWidget::LogInWidget(QWidget* parent): QWidget(parent)
     this->Name = new QLineEdit;
     this->Name->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     this->Password = new QLineEdit;
+    this->Password->setEchoMode(QLineEdit::Password);
     this->Password->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
 
     this->nameLabel = new QLabel("Name");   this->nameLabel->setStyleSheet("color:black;");
@@ -96,8 +97,14 @@ void LogInWidget::LogInWidgetCheck()
     if(this->studentBtn->isChecked())type=1;
     if(this->publisherBtn->isChecked())type=2;
     emit LogInWidgetData(name,pass,type);
+    clear_entries();
 }
 
+void LogInWidget::clear_entries()
+{
+    this->Name->clear();
+    this->Password->clear();
+}
 void LogInWidget::error(string text)
 {
     this->errorBox->setText(QString::fromStdString(text));
@@ -107,4 +114,5 @@ void LogInWidget::error(string text)
 void LogInWidget::buttonBack()
 {
     emit setCurrentWidget(START_WIDGET);
+    clear_entries();
 }

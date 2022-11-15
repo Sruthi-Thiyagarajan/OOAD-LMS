@@ -61,9 +61,9 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->ReturnWidget = new QWidget();
     this->ReturnWidget->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
     this->ReturnLayout = new QGridLayout();
-    //this->enterBook = new QLabel("Enter expected return date :"); enterBook->setStyleSheet("color:#00BFFF;");
+    this->enterBook = new QLabel("Enter expected return date :"); enterBook->setStyleSheet("color:#00BFFF;");
     //********************
-    this->enterBook = new QLabel("Please pay the rental here or in the pay tab: "); enterBook->setStyleSheet("color:#00BFFF;");
+    //this->enterBook = new QLabel("Please pay the rental here or in the pay tab: "); enterBook->setStyleSheet("color:#00BFFF;");
     //**********************
     this->ReturnDate = new QLineEdit();
     this->OkkBtn = new QPushButton("Ok");
@@ -229,7 +229,7 @@ void BookWidget::error(string text)
 }
 
 void BookWidget::okkkButtonClicked()
-{   /*
+{
     // check empty search
     if(this->ReturnDate->text().isEmpty())
     {
@@ -245,9 +245,8 @@ void BookWidget::okkkButtonClicked()
         return;
     }
     this->expectedReturnDate = this->ReturnDate->text().toInt();
-    */
-    //emit borrowBook(this->bookNameStr,this->userName ,this->expectedReturnDate);
-    emit borrowBook(this->bookNameStr, this->userName);
+    emit borrowBook(this->bookNameStr,this->userName ,this->expectedReturnDate);
+    //emit borrowBook(this->bookNameStr, this->userName);
     this->ReturnWidget->hide();
     this->successBox->setText("Borrowed the Book Successfully !");
     this->successBox->show();

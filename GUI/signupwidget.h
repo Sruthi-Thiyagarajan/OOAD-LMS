@@ -15,6 +15,8 @@
 #include <QIcon>
 #include <iostream>
 #include <QDebug>
+#include <QRegularExpressionValidator>
+#include <QDateEdit>
 //#include "indexs.h"
 
 using namespace std;
@@ -38,6 +40,10 @@ private:
     QLineEdit* Email;           QLabel* emailLabel;
     QLineEdit* Password;        QLabel* passLabel;
     QLineEdit* ConfirmPassword; QLabel* confirmLabel;
+    QLineEdit* CardName;        QLabel* cardnameLabel;
+    QLineEdit* CardNumber;      QLabel* cardnumLabel;
+    QLineEdit* CVV;             QLabel* cvvLabel;
+    QDateEdit* expiry_date;     QLabel* expLabel;
 
     QRadioButton* publisherBtn;
     QRadioButton* studentBtn;
@@ -49,6 +55,7 @@ public:
     void Design();
     void outDesign();
     void Signals_Slots();
+    void clear_entries();
 
 signals:
     void signUpData(string,string,string,int);

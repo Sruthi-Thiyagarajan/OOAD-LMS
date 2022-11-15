@@ -44,6 +44,7 @@ HEADERS += \
     GUI/signupwidget.h \
     GUI/startwidget.h \
     GUI/studentwidget.h \
+    Transaction.h \
     book.h \
     bookstudent.h \
     bookstudent.h \

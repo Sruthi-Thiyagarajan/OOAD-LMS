@@ -45,9 +45,8 @@ public slots:
     void searchBookByType(string,string);
     void searchBookByPrice(int,string);
     void searchBookByPub(string,string);
-    //void borrowBook(string,string,int);
-    //**************************
-    void borrowBook(string, string);
+    void borrowBook(string,string,int);
+    //void borrowBook(string, string);
     int checkLikeAlready(bookstudent);
     void saveBookLikeDB(bookstudent, int);
     vector<string> loadReview(string);

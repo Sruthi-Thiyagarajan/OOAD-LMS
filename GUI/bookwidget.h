@@ -91,9 +91,9 @@ signals:
     void setCurrentWidget(int);
     void getBookInfo(string);
     void getBookInfo(Book);
-    //void borrowBook(string,string,int);
+    void borrowBook(string,string,int);
     //*******************
-    void borrowBook(string, string);
+    //void borrowBook(string, string);
     int checkLikeAlready(bookstudent);
     void saveBookLikeDB(bookstudent, int);
     vector<string> loadReview(string);

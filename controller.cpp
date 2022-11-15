@@ -240,31 +240,31 @@ void Controller::searchBookByPub(string pub, string stuName)
     }
 }
 
-//**************************************
-void Controller::borrowBook(string bookName, string stuName)
-{
-    if(db.loadBook(bookName).getName().empty())
-    {
-        emit error_noBook("This book is not available");
-        return;
-    }
-    else{
-        Student s = db.loadStudent(stuName);
-        Book b = db.loadBook(bookName);
-        s.setCurrentBook(db.loadBook(bookName).getRowId());
-        //db.addCurrentBooks(b,stuName);
-        //db.addBorrowedBooks(b,stuName);
-        b.setAvailability(0);
-        //b.setBorrower(stuName);
-        //db.updateStudent(s,stuName);
-        db.updateBookByRowId(b,db.loadBook(bookName).getRowId());
-        //**********************
-        emit payRental(b);
-        //**********************
-    }
+
+//void Controller::borrowBook(string bookName, string stuName)
+//{
+//    if(db.loadBook(bookName).getName().empty())
+//    {
+//        emit error_noBook("This book is not available");
+//        return;
+//    }
+//    else{
+//        Student s = db.loadStudent(stuName);
+//        Book b = db.loadBook(bookName);
+//        s.setCurrentBook(db.loadBook(bookName).getRowId());
+//        //db.addCurrentBooks(b,stuName);
+//        //db.addBorrowedBooks(b,stuName);
+//        b.setAvailability(0);
+//        //b.setBorrower(stuName);
+//        //db.updateStudent(s,stuName);
+//        db.updateBookByRowId(b,db.loadBook(bookName).getRowId());
+//        //**********************
+//        emit payRental(b);
+//        //**********************
+//    }
 
 
-}
+//}
 
 int Controller::checkLikeAlready(bookstudent bs)
 {   int likeAlready;
@@ -285,8 +285,7 @@ void Controller::saveBookLikeDB(bookstudent bs, int isliked)
 void Controller::saveReview(string review, bookstudent bs){
     db.saveReview(review, bs);
 }
-//**************************************
-/*
+
 void Controller::borrowBook(string bookName,string stuName,int expectedReturnDate)
 {
     if(db.loadBook(bookName).getName().empty())
@@ -317,7 +316,7 @@ void Controller::borrowBook(string bookName,string stuName,int expectedReturnDat
         cout<<"Warning 1 : if you return the book late, you'll pay a fee of 5$ for each week late"<<endl;
         cout<<"Warning 2 : if you return the book damaged, you'll pay a fee of half the book's price"<<endl;
     }}
- */
+
 
 void Controller::returnBook(string bookName, string stuName)
 {

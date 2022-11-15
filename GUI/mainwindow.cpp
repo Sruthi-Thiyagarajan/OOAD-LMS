@@ -66,10 +66,10 @@ void MainWindow::Signals_Slots()
     connect(this->bookWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->bookWidget, SIGNAL(checkLikeAlready(bookstudent)),this->controller, SLOT(checkLikeAlready(bookstudent)));
     connect(this->bookWidget, SIGNAL(saveBookLikeDB(bookstudent,int)),this->controller,SLOT(saveBookLikeDB(bookstudent,int)));
-    //connect(this->bookWidget,SIGNAL(borrowBook(string,string,int)),this->controller,SLOT(borrowBook(string,string,int)));
+    connect(this->bookWidget,SIGNAL(borrowBook(string,string,int)),this->controller,SLOT(borrowBook(string,string,int)));
     connect(this->bookWidget,SIGNAL(saveReview(string,bookstudent)),this->controller,SLOT(saveReview(string,bookstudent)));
     //**************************
-    connect(this->bookWidget,SIGNAL(borrowBook(string,string)),this->controller,SLOT(borrowBook(string,string)));
+    //connect(this->bookWidget,SIGNAL(borrowBook(string,string)),this->controller,SLOT(borrowBook(string,string)));
 
     //**************************
     connect(this->controller,SIGNAL(error_noBook(string)),this->bookWidget,SLOT(error(string)));
