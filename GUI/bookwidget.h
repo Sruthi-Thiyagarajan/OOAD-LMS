@@ -45,7 +45,7 @@ private:
     QLabel* bookName; QLabel* name;
     QLabel* bookType; QLabel* type;
     QLabel* bookPrice;QLabel* price;
-    QLabel* bookPublisher;QLabel* publisher;
+    //QLabel* bookPublisher;QLabel* publisher;
     QLabel* bookAvailability;QLabel* availability;
     //*******************
     QLabel* bookLike; QLabel* like;
