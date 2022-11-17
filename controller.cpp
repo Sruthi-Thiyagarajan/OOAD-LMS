@@ -399,6 +399,20 @@ void Controller::getBookInfo(string BookNameOrID)
     emit bookInfo(b);
 }
 
+void Controller::getbookInfo(string bookName)
+{
+    Book b;
+    b= db.loadBook(bookName);
+    if(b.getName().empty())
+        b= db.loadBookForce(bookName);
+    if(b.getName().empty())
+    {
+        emit error_noBook("Not Found Book");
+        return;
+    }
+    emit bookInfoAdmin(b);
+}
+
 void Controller::getSearchHistory(string stuName)
 {
     Student s = db.loadStudent(stuName);

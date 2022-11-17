@@ -19,6 +19,8 @@
 #include <QToolBar>
 #include "indexs.h"
 #include "book.h"
+#include "GUI/imagewidget.h"
+#include <QScrollArea>
 
 using namespace std;
 class PublisherWidget : public QWidget
@@ -67,6 +69,14 @@ private :
     QPushButton* removeBookBtn;
     QWidget* browseWidget;
     QWidget* sendNotificationWidget;
+
+    // **************** Browse all the books ******************
+    QSize lastSize;
+    std::vector<imageWidget*> books;
+    QGridLayout* gridBrowse;
+    QScrollArea* viewBooksScroll;
+    QWidget* viewBooksWidget;
+    QGridLayout* viewBooksLayout = new QGridLayout();
 public:
     PublisherWidget(QWidget *parent = nullptr);
     void initHeader();
@@ -78,6 +88,8 @@ public:
     //***************************
     void initBrowseWidget();
     void initSendNotificationWidget();
+    void updateBooks();
+
     //***************************
 
 signals:
@@ -85,6 +97,8 @@ signals:
     void removeBookData(Book);
     void setCurrentWidget(int);
     void updatePublisher(string,string,string,string,int);
+    map<string,string> getAllBooksP();
+    void getbookInfo(string);
 
 public slots:
     void bookDataCheck();
@@ -95,8 +109,9 @@ public slots:
     void okButtonClicked();
     void publisherLoggedIn(Publisher);
     void showInfoBtnClicked();
-
+    void browseBtnClicked();
     void handleToolBar(QAction*);
+    void bookClicked(string);
 
 };
 

@@ -220,6 +220,25 @@ void BookWidget::bookInfo(Book b)
     this->show();
 }
 
+void BookWidget::bookInfoAdmin(Book b)
+{
+    currentBook = b;
+    this->bookName->setText(QString::fromStdString(currentBook.getName()));
+    this->bookType->setText(QString::fromStdString(currentBook.getType()));
+    this->bookPrice->setText(QString::fromStdString(to_string(currentBook.getPrice())));
+    this->bookLike->setText(QString::fromStdString(to_string(currentBook.getLike())));
+    this->ReturnDate->setText(QString::fromStdString(to_string(currentBook.getPrice())));
+
+    if(currentBook.getAvailability()) this->bookAvailability->setText("Available");
+    else this->bookAvailability->setText("Not Available");
+    QIcon icon(this->Path + QString::fromStdString(currentBook.getImagePath()));
+    QPixmap image = icon.pixmap(100,100);
+    bookImage->setPixmap(image);
+    this->borrowBtn->hide();
+    this->likeBtn->hide();
+    this->reviewBtn->hide();
+    this->show();
+}
 
 void BookWidget::error(string text)
 {

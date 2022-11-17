@@ -54,7 +54,10 @@ public slots:
     //**************************
     void returnBook(string,string);
     void aa(string);
+    // for member
     void getBookInfo(string);
+    // for admin
+    void getbookInfo(string);
     void getSearchHistory(string);
     map<string,string> getAllBooks();
 
@@ -71,7 +74,10 @@ signals:
 
     // books
     void error_noBook(string);
+    // for member
     void bookInfo(Book);
+    //for admin
+    void bookInfoAdmin(Book);
     void error_return(string);
     void bookReturned(int,int);
     void borrowedBooks(vector<Book>);
