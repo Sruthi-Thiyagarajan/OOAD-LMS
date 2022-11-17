@@ -21,6 +21,10 @@
 #include "book.h"
 #include "GUI/imagewidget.h"
 #include <QScrollArea>
+#include <QTableView>>
+#include <QSqlQueryModel>
+#include <QSqlQuery>
+#include <QHeaderView>
 
 using namespace std;
 class PublisherWidget : public QWidget
@@ -77,6 +81,11 @@ private :
     QScrollArea* viewBooksScroll;
     QWidget* viewBooksWidget;
     QGridLayout* viewBooksLayout = new QGridLayout();
+
+    QTableView* bookTableView;
+    QSqlQueryModel* model;
+    QSqlQuery* bookTableHandle;
+    QGridLayout* tableviewLayout;
 public:
     PublisherWidget(QWidget *parent = nullptr);
     void initHeader();
@@ -100,6 +109,7 @@ signals:
     map<string,string> getAllBooksP();
     void getbookInfo(string);
 
+    QSqlQuery* getbooktablehandle();
 public slots:
     void bookDataCheck();
     void removeDataCheck();

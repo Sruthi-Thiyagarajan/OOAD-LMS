@@ -282,7 +282,22 @@ void PublisherWidget::initProfileWidget()
 }
 
 void PublisherWidget::initBrowseWidget(){
+    this->browseWidget = new QWidget();
+    this->browseWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
+    this->model = new QSqlQueryModel();
+    this->bookTableView = new QTableView();
+    this->bookTableView->setAlternatingRowColors(true);
+    this->tableviewLayout = new QGridLayout();
+    tableviewLayout->addWidget(bookTableView,0,0,0,-1);
 
+    //this->bookTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //this->bookTableView->horizontalHeader()->setStretchLastSection(true);
+    this->browseWidget->setLayout(tableviewLayout);
+    this->browseWidget->setMinimumWidth(1000);
+    this->browseWidget->setMinimumHeight(600);
+
+    //show individal book layout similar to studentWidget
+    /*
     this->browseWidget = new QWidget();
     this->browseWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->gridBrowse = new QGridLayout();
@@ -302,7 +317,7 @@ void PublisherWidget::initBrowseWidget(){
 
     this->gridBrowse->addWidget(viewBooksScroll,0,0);
     this->browseWidget->setLayout(gridBrowse);
-
+    */
 }
 
 void PublisherWidget::updateBooks()
@@ -344,6 +359,7 @@ void PublisherWidget::updateBooks()
 void PublisherWidget::bookClicked(string name)
 {
     emit getbookInfo(name);
+
 }
 
 void PublisherWidget::initSendNotificationWidget(){
@@ -370,13 +386,20 @@ void PublisherWidget::publisherLoggedIn(Publisher Publisher)
 
     this->Name->setText(QString::fromStdString(this->currentPublisher.getName()));
 
-    this->updateBooks();
-}
+    //this->updateBooks();
 
+}
 
 
 void PublisherWidget::browseBtnClicked()
 {
+    this->bookTableHandle = emit getbooktablehandle();
+    //if(this->bookTableHandle->exec())
+    //{
+    //    cout << "got the book table handle!" <<endl;
+    //}
+    this->model->setQuery(*bookTableHandle);
+    this->bookTableView->setModel(model);
     this->browseWidget->show();
 }
 

@@ -94,7 +94,7 @@ void MainWindow::Signals_Slots()
 
     connect(this->studentWidget,SIGNAL(getAllBooks()),this->controller,SLOT(getAllBooks()));
     connect(this->publisherWidget,SIGNAL(getAllBooksP()),this->controller,SLOT(getAllBooks()));
-
+    connect(this->publisherWidget, SIGNAL(getbooktablehandle()),this->controller,SLOT(getbooktablehandle()));
 }
 
 

@@ -61,7 +61,7 @@ public slots:
     void getbookInfo(string);
     void getSearchHistory(string);
     map<string,string> getAllBooks();
-
+    QSqlQuery* getbooktablehandle();
 
 signals:
     //*******
@@ -84,6 +84,7 @@ signals:
     void borrowedBooks(vector<Book>);
     void booksFound(vector<Book>);
     void searchedBooks(vector<string>);
+
 
 };
 

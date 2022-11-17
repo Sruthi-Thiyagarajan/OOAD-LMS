@@ -9,6 +9,12 @@ void Controller::start()
 {
 }
 
+QSqlQuery* Controller::getbooktablehandle()
+{
+    return db.getBookTableHandle();
+
+}
+
 void Controller::sign_up(string name ,string email , string password , int choice, Transaction t)
 {
     Student student1;

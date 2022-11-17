@@ -27,6 +27,14 @@ void DataBase::init(QString path)
 
 }
 
+QSqlQuery* DataBase::getBookTableHandle()
+{
+    int test = 111;
+    QSqlQuery* qry = new QSqlQuery(this->db);
+    qry->prepare("select * from books");
+    if(qry->exec()) test=222;
+    return qry;
+}
 bool DataBase::saveBook(Book book)
 {
     QSqlQuery check(this->db);

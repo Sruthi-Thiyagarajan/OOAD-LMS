@@ -209,7 +209,7 @@ void BookWidget::bookInfo(Book b)
     this->bookPrice->setText(QString::fromStdString(to_string(currentBook.getPrice())));
     //this->bookPublisher->setText(QString::fromStdString(currentBook.getPublisherName()));
     this->bookLike->setText(QString::fromStdString(to_string(currentBook.getLike())));
-    this->ReturnDate->setText(QString::fromStdString(to_string(currentBook.getPrice())));
+
 
     if(currentBook.getAvailability()) this->bookAvailability->setText("Available");
     else this->bookAvailability->setText("Not Available");
@@ -222,12 +222,12 @@ void BookWidget::bookInfo(Book b)
 
 void BookWidget::bookInfoAdmin(Book b)
 {
+
     currentBook = b;
     this->bookName->setText(QString::fromStdString(currentBook.getName()));
     this->bookType->setText(QString::fromStdString(currentBook.getType()));
     this->bookPrice->setText(QString::fromStdString(to_string(currentBook.getPrice())));
     this->bookLike->setText(QString::fromStdString(to_string(currentBook.getLike())));
-    this->ReturnDate->setText(QString::fromStdString(to_string(currentBook.getPrice())));
 
     if(currentBook.getAvailability()) this->bookAvailability->setText("Available");
     else this->bookAvailability->setText("Not Available");
@@ -238,6 +238,7 @@ void BookWidget::bookInfoAdmin(Book b)
     this->likeBtn->hide();
     this->reviewBtn->hide();
     this->show();
+
 }
 
 void BookWidget::error(string text)
