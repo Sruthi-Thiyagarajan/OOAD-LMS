@@ -13,6 +13,7 @@
 #include "loginwidget.h"
 #include "bookwidget.h"
 #include "bookstudent.h"
+#include "Transaction.h"
 
 class MainWindow : public QMainWindow
 {

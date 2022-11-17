@@ -38,7 +38,7 @@ void MainWindow::Design()
 
 void MainWindow::Signals_Slots()
 {
-    connect(this->signUpWidget,SIGNAL(signUpData(string,string,string,int)),this->controller,SLOT(sign_up(string,string,string,int)));
+    connect(this->signUpWidget,SIGNAL(signUpData(string,string,string,int,Transaction)),this->controller,SLOT(sign_up(string,string,string,int,Transaction)));
     connect(this->controller,SIGNAL(error(string)),this->signUpWidget,SLOT(error(string)));
     connect(this->signUpWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->startWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));

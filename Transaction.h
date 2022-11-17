@@ -1,28 +1,27 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
-
-#include "database.h"
+#include <bits/stdc++.h>
 using namespace std;
 
 class Transaction
 {
     string Name;
     string CardName;
-    long int CardNumber;
-    unsigned int CVV;
+    string CardNumber;
+    string CVV;
     string expiry_date;
 public:
     Transaction();
     void setName(string);
     void setCardName(string);
-    void setCardNumber(long int);
-    void setCVV(unsigned int);
+    void setCardNumber(string);
+    void setCVV(string);
     void setexpiry_date(string);
 
     string getName();
     string getCardName();
-    long int getCardNumber();
-    unsigned int getCVV();
+    string getCardNumber();
+    string getCVV();
     string getexpiry_date();
 
     //add money from card to wallet

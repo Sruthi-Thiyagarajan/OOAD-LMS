@@ -85,10 +85,7 @@ void StudentWidget::initProfileWidget()
     QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true);  this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true); this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true);  this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-//    name->setStyleSheet("background: white; color:#00BFFF;");
-//    password->setStyleSheet("background: white; color:#00BFFF;");
-//    email->setStyleSheet("background: white; color:#00BFFF;");
-//    cashAmount->setStyleSheet("background: white; color:#00BFFF;");
+
 
     QLabel *image; QPixmap* pixMap;
     image = new QLabel;
