@@ -22,6 +22,7 @@
 #include <QLabel>
 #include "book.h"
 #include "bookwidget.h"
+#include "controller.h"
 #include <string>
 #include <QTreeWidget>
 #include <QTabWidget>
@@ -66,8 +67,8 @@ private:
     QWidget* SearchWidget;
     QVBoxLayout* SearchLayout;
     QLineEdit* SearchBook;
-    QPushButton *NameBtn,*TypeBtn,*PriceBtn,*PubBtn,*DoneBtn;
-
+    //QPushButton *NameBtn,*TypeBtn,*PriceBtn,*PubBtn,*DoneBtn;
+    QPushButton *NameBtn,*TypeBtn,*PriceBtn,*DoneBtn;
     QWidget* PayWidget;
 
     QLineEdit* CashEdit;

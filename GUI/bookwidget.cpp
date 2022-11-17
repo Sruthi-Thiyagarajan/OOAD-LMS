@@ -15,13 +15,13 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->bookName = new QLabel(); bookName->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
     this->bookType = new QLabel(); bookType->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
     this->bookPrice = new QLabel(); bookPrice->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
-    this->bookPublisher = new QLabel(); bookPublisher->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
+    //this->bookPublisher = new QLabel(); bookPublisher->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
     this->bookAvailability = new QLabel(); bookAvailability->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
 
     this->name = new QLabel("Name :"); name->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     this->type = new QLabel("Type :"); type->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     this->price = new QLabel("Price :"); price->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
-    this->publisher = new QLabel("Publisher :"); publisher->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
+    //this->publisher = new QLabel("Publisher :"); publisher->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     this->availability = new QLabel("Status :"); availability->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     //************************
     this->bookLike = new QLabel(); bookLike->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
@@ -80,21 +80,21 @@ void BookWidget::Design()
     this->grid->addWidget(this->name,0,0);
     this->grid->addWidget(this->type,1,0);
     this->grid->addWidget(this->price,2,0);
-    this->grid->addWidget(this->publisher,3,0);
-    this->grid->addWidget(this->availability,4,0);
-    this->grid->addWidget(this->like,5,0);
-    this->grid->addWidget(this->reviewBtn, 6,2,1,-1);
+    //this->grid->addWidget(this->publisher,3,0);
+    this->grid->addWidget(this->availability,3,0);
+    this->grid->addWidget(this->like,4,0);
+    this->grid->addWidget(this->reviewBtn, 5,2,1,-1);
 
     this->grid->addWidget(this->bookName,0,1,1,-1);
     this->grid->addWidget(this->bookType,1,1,1,-1);
     this->grid->addWidget(this->bookPrice,2,1,1,-1);
-    this->grid->addWidget(this->bookPublisher,3,1,1,-1);
-    this->grid->addWidget(this->bookAvailability,4,1,1,-1);
-    this->grid->addWidget(this->borrowBtn,6,0,1,2);
+    //this->grid->addWidget(this->bookPublisher,3,1,1,-1);
+    this->grid->addWidget(this->bookAvailability,3,1,1,-1);
+    this->grid->addWidget(this->borrowBtn,5,0,1,2);
 
     this->grid->addWidget(this->bookImage,0,2,5,-1);
-    this->grid->addWidget(this->bookLike,5,1,1,2);
-    this->grid->addWidget(this->likeBtn,5,2,1,4);
+    this->grid->addWidget(this->bookLike,4,1,1,2);
+    this->grid->addWidget(this->likeBtn,4,2,1,4);
 
     //*************************
     this->reviewLayout->addWidget(this->showReviewLabel,0,0);
@@ -153,7 +153,7 @@ void BookWidget::borrowIsClicked()
 void BookWidget::likeIsClicked()
 {
     //first load db of the currentBook
-    int liked;
+    int liked = 10;
     bookstudent bs;
     bs.setbookname(currentBook.getName());
     bs.setstudentname(userName);
@@ -175,7 +175,6 @@ void BookWidget::likeIsClicked()
     }
 
 }
-
 
 void BookWidget::reviewBtnIsClicked(){
     vector<string> vecReview = emit loadReview(currentBook.getName());
@@ -208,7 +207,7 @@ void BookWidget::bookInfo(Book b)
     this->bookName->setText(QString::fromStdString(currentBook.getName()));
     this->bookType->setText(QString::fromStdString(currentBook.getType()));
     this->bookPrice->setText(QString::fromStdString(to_string(currentBook.getPrice())));
-    this->bookPublisher->setText(QString::fromStdString(currentBook.getPublisherName()));
+    //this->bookPublisher->setText(QString::fromStdString(currentBook.getPublisherName()));
     this->bookLike->setText(QString::fromStdString(to_string(currentBook.getLike())));
     this->ReturnDate->setText(QString::fromStdString(to_string(currentBook.getPrice())));
 
@@ -259,7 +258,7 @@ void BookWidget::setCurrentBook(Book b)
     this->bookName->setText(QString::fromStdString(currentBook.getName()));
     this->bookType->setText(QString::fromStdString(currentBook.getType()));
     this->bookPrice->setText(QString::fromStdString(to_string(currentBook.getPrice())));
-    this->bookPublisher->setText(QString::fromStdString(currentBook.getPublisherName()));
+    //this->bookPublisher->setText(QString::fromStdString(currentBook.getPublisherName()));
     this->bookLike->setText(QString::fromStdString(to_string(currentBook.getLike())));
 
     if(currentBook.getAvailability()) this->bookAvailability->setText("Available");

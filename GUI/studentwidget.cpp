@@ -247,9 +247,9 @@ void StudentWidget::initSearchWidget()
     this->PriceBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->PriceBtn->setCursor(Qt::PointingHandCursor);
 
-    this->PubBtn = new QPushButton("Publisher");
-    this->PubBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
-    this->PubBtn->setCursor(Qt::PointingHandCursor);
+    //this->PubBtn = new QPushButton("Publisher");
+    //this->PubBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    //this->PubBtn->setCursor(Qt::PointingHandCursor);
 
     this->DoneBtn = new QPushButton("Done");
     this->DoneBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
@@ -259,7 +259,7 @@ void StudentWidget::initSearchWidget()
     this->SearchLayout->addWidget(NameBtn);
     this->SearchLayout->addWidget(TypeBtn);
     this->SearchLayout->addWidget(PriceBtn);
-    this->SearchLayout->addWidget(PubBtn);
+    //this->SearchLayout->addWidget(PubBtn);
     this->SearchLayout->addWidget(SearchBook);
     this->SearchLayout->addWidget(DoneBtn);
     this->SearchWidget->setLayout(this->SearchLayout);
@@ -340,7 +340,7 @@ void StudentWidget::Signals_Slots()
     connect(this->NameBtn,SIGNAL(clicked()),this,SLOT(nameButtonClicked()));
     connect(this->TypeBtn,SIGNAL(clicked()),this,SLOT(typeButtonClicked()));
     connect(this->PriceBtn,SIGNAL(clicked()),this,SLOT(priceButtonClicked()));
-    connect(this->PubBtn,SIGNAL(clicked()),this,SLOT(pubButtonClicked()));
+    //connect(this->PubBtn,SIGNAL(clicked()),this,SLOT(pubButtonClicked()));
     connect(this->DoneBtn,SIGNAL(clicked()),this,SLOT(doneButtonClicked()));
 }
 
@@ -616,7 +616,13 @@ void StudentWidget::booksFound(vector<Book> v)
     for(uint i=0;i<v.size();i++)
     {
         BookWidget* foundBookWidget  = new BookWidget;
+        Controller* controller1 = new Controller;
+        connect(foundBookWidget,SIGNAL(checkLikeAlready(bookstudent)), controller1, SLOT(checkLikeAlready(bookstudent)));
+        connect(foundBookWidget, SIGNAL(saveBookLikeDB(bookstudent,int)),controller1,SLOT(saveBookLikeDB(bookstudent,int)));
+        connect(foundBookWidget,SIGNAL(loadReview(string)),controller1,SLOT(loadReview(string)));
+        connect(foundBookWidget,SIGNAL(saveReview(string,bookstudent)),controller1,SLOT(saveReview(string,bookstudent)));
         foundBookWidget->setCurrentBook(v[i]);
+        foundBookWidget->setLoggedInUserName(currentStudent.getName());
         this->tabWidget->addTab(foundBookWidget,QString::fromStdString(v[i].getName()));
     }
     this->tabWidget->show();

@@ -39,6 +39,7 @@ public:
     //***************************
     bool saveBookLikeDB(bookstudent,int);
     bool saveReview(string, bookstudent);
+    bool insertNewRowInBookStudent(bookstudent);
     //***************************
     // update1
     void updateBook(Book,string);
