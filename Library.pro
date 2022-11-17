@@ -23,6 +23,7 @@ SOURCES += \
     GUI/signupwidget.cpp \
     GUI/startwidget.cpp \
     GUI/studentwidget.cpp \
+    Transaction.cpp \
     book.cpp \
     bookstudent.cpp \
     controller.cpp \

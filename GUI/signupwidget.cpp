@@ -36,7 +36,8 @@ SignUp::SignUp(QWidget* parent): QWidget(parent)
     this->CardName->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
 
     this->CardNumber = new QLineEdit;
-    CardNumber->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{16}"), this));
+    this->CardNumber->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{16}"), this));
+    this->CardNumber->show();
     this->CardNumber->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
 
     this->CVV = new QLineEdit;
@@ -45,6 +46,7 @@ SignUp::SignUp(QWidget* parent): QWidget(parent)
 
     this->expiry_date = new QDateEdit;
     this->expiry_date->setCalendarPopup(true);
+    this->expiry_date->setMinimumDate(QDate::currentDate());
 
     this->nameLabel = new QLabel("Name");
     this->emailLabel= new QLabel("Email");
@@ -129,7 +131,7 @@ void SignUp::Signals_Slots()
 
 void SignUp::signUpCheck()
 {
-    cout << "ray2" << endl;
+    cout << "Sign Up Check" << endl;
     if(this->Name->text().isEmpty() || this->Email->text().isEmpty() || this->Password->text().isEmpty()
             || this->ConfirmPassword->text().isEmpty() || this->CardName->text().isEmpty() || this->CardNumber->text().isEmpty()
             || this->CVV->text().isEmpty() || this->expiry_date->text().isEmpty())
@@ -150,9 +152,18 @@ void SignUp::signUpCheck()
     email=this->Email->text().toStdString();
     pass=this->Password->text().toStdString();
     if(this->studentBtn->isChecked())type=1;
+
+    Transaction t;
+    t.setName(name);
+    t.setCardName(this->CardName->text().toStdString());
+    t.setCardNumber(this->CardNumber->text().toStdString());
+    t.setCVV(this->CVV->text().toStdString());
+    t.setexpiry_date(this->expiry_date->text().toStdString());
+    cout<<t.getexpiry_date()<<endl;
     //if(this->publisherBtn->isChecked())type=2;
 
-    emit signUpData(name,email,pass,type);
+    emit signUpData(name,email,pass,type,t);
+    //emit signupTransactionData(t);
     clear_entries();
 }
 

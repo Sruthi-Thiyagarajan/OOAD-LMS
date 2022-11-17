@@ -14,6 +14,7 @@
 #include "GUI/indexs.h"
 #include <vector>
 #include <string>
+#include "Transaction.h"
 using namespace std;
 
 class Controller : public QObject
@@ -33,7 +34,7 @@ public :
 public slots:
 
     void log_in(string name , string password , int choice);
-    void sign_up(string ,string ,string,int);
+    void sign_up(string ,string ,string,int,Transaction);
     // Admin
     void Upload_book(string ,string,string,int);
     void removeBookData(Book);

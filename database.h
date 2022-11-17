@@ -12,7 +12,8 @@
 #include <QString>
 #include <QSqlRecord>
 #include <cstddef>
-
+#include "Transaction.h"
+#include <QSqlError>
 using namespace std;
 
 class Student;
@@ -34,6 +35,7 @@ public:
     bool removeBook(Book);
     bool saveStudent(Student);
     bool savePublisher(Publisher);
+    bool savetransactiondetails(Transaction);
     //***************************
     bool saveBookLikeDB(bookstudent,int);
     bool saveReview(string, bookstudent);

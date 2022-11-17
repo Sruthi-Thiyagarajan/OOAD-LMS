@@ -83,6 +83,18 @@ bool DataBase::saveStudent(Student student)
     query.exec();
     return true;
 }
+
+bool DataBase::savetransactiondetails(Transaction t)
+{
+    QSqlQuery query(this->db);
+    query.prepare("INSERT INTO CardData(Name,CardName,CardNumber,CVV,Expiry) VALUES(?,?,?,?,?);");
+    query.bindValue(0,QString::fromStdString(t.getName()));
+    query.bindValue(1,QString::fromStdString(t.getCardName()));
+    query.bindValue(2,QString::fromStdString(t.getCardNumber()));
+    query.bindValue(3,QString::fromStdString(t.getCVV()));
+    query.bindValue(4,QString::fromStdString(t.getexpiry_date()));
+    return query.exec();
+}
 bool DataBase::savePublisher(Publisher publisher)
 {
     QSqlQuery check(this->db);

@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QRegularExpressionValidator>
 #include <QDateEdit>
+#include "Transaction.h"
 //#include "indexs.h"
 
 using namespace std;
@@ -58,7 +59,8 @@ public:
     void clear_entries();
 
 signals:
-    void signUpData(string,string,string,int);
+    void signUpData(string,string,string,int,Transaction);
+    //void signupTransactionData(Transaction);
     void setCurrentWidget(int);
 
 public slots:

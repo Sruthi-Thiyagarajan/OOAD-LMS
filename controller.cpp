@@ -9,7 +9,7 @@ void Controller::start()
 {
 }
 
-void Controller::sign_up(string name ,string email , string password , int choice)
+void Controller::sign_up(string name ,string email , string password , int choice, Transaction t)
 {
     Student student1;
     Publisher publisher1;
@@ -20,8 +20,14 @@ void Controller::sign_up(string name ,string email , string password , int choic
         student1.setEmail(email);
         if(!db.saveStudent(student1))
         {
-            emit error("Student Name already Exist ! Enter another name");
-            cout << "Student Name already Exist ! Enter another name" << endl;
+            emit error("Member Name already Exist ! Enter another name");
+            cout << "Member Name already Exist ! Enter another name" << endl;
+            return;
+        }
+        if(!db.savetransactiondetails(t))
+        {
+            emit error("Error in transaction details. Please create a new Account");
+            cout<<"Transaction details error"<<endl;
             return;
         }
         cout<<"You signed up successfully"<<endl;
