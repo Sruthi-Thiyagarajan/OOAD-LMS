@@ -91,7 +91,7 @@ public:
 
 signals:
     void setCurrentWidget(int);
-    void getBookInfo(string);
+    void getBookInfo(string); 
     void getBookInfo(Book);
     void borrowBook(string,string,string);
     int checkLikeAlready(bookstudent);
@@ -103,7 +103,10 @@ signals:
 public slots:
     void backIsClicked();
     void borrowIsClicked();
+    // for member
     void bookInfo(Book);
+    // for admin
+    void bookInfoAdmin(Book);
     void error(string);
     void okkkButtonClicked();
     void setCurrentBook(Book b);

@@ -81,6 +81,7 @@ public:
 
     map<string,string> getAllBooks();
 
+    QSqlQuery* getBookTableHandle();
     //    void saveLibrarian(Librarian);
     //    Book loadLibirian();
 };

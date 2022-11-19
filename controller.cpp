@@ -10,6 +10,12 @@ void Controller::start()
 {
 }
 
+QSqlQuery* Controller::getbooktablehandle()
+{
+    return db.getBookTableHandle();
+
+}
+
 void Controller::sign_up(string name ,string email , string password , int choice, Transaction t)
 {
     Student student1;
@@ -395,6 +401,20 @@ void Controller::getBookInfo(string BookNameOrID)
         return;
     }
     emit bookInfo(b);
+}
+
+void Controller::getbookInfo(string bookName)
+{
+    Book b;
+    b= db.loadBook(bookName);
+    if(b.getName().empty())
+        b= db.loadBookForce(bookName);
+    if(b.getName().empty())
+    {
+        emit error_noBook("Not Found Book");
+        return;
+    }
+    emit bookInfoAdmin(b);
 }
 
 void Controller::getSearchHistory(string stuName)

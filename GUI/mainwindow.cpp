@@ -63,6 +63,7 @@ void MainWindow::Signals_Slots()
     connect(this->bookWidget,SIGNAL(loadReview(string)),this->controller,SLOT(loadReview(string)));
     //*********
     connect(this->controller,SIGNAL(bookInfo(Book)),this->bookWidget,SLOT(bookInfo(Book)));
+    connect(this->controller,SIGNAL(bookInfoAdmin(Book)),this->bookWidget,SLOT(bookInfoAdmin(Book)));
     connect(this->bookWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->bookWidget, SIGNAL(checkLikeAlready(bookstudent)),this->controller, SLOT(checkLikeAlready(bookstudent)));
     connect(this->bookWidget, SIGNAL(saveBookLikeDB(bookstudent,int)),this->controller,SLOT(saveBookLikeDB(bookstudent,int)));
@@ -70,6 +71,7 @@ void MainWindow::Signals_Slots()
     connect(this->bookWidget,SIGNAL(saveReview(string,bookstudent)),this->controller,SLOT(saveReview(string,bookstudent)));
     connect(this->controller,SIGNAL(error_noBook(string)),this->bookWidget,SLOT(error(string)));
     connect(this->studentWidget,SIGNAL(getBookInfo(string)),this->controller,SLOT(getBookInfo(string)));
+    connect(this->publisherWidget,SIGNAL(getbookInfo(string)),this->controller,SLOT(getbookInfo(string)));
 
     connect(this->studentWidget,SIGNAL(returnBook(string,string)),this->controller,SLOT(returnBook(string,string)));
     connect(this->studentWidget,SIGNAL(addAmount(double,string)),this->controller,SLOT(addAmount(double,string)));
@@ -89,7 +91,8 @@ void MainWindow::Signals_Slots()
     connect(this->studentWidget,SIGNAL(setLoggedInUserName(string)),this->bookWidget,SLOT(setLoggedInUserName(string)));
 
     connect(this->studentWidget,SIGNAL(getAllBooks()),this->controller,SLOT(getAllBooks()));
-
+    connect(this->publisherWidget,SIGNAL(getAllBooksP()),this->controller,SLOT(getAllBooks()));
+    connect(this->publisherWidget, SIGNAL(getbooktablehandle()),this->controller,SLOT(getbooktablehandle()));
 }
 
 

@@ -65,6 +65,7 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
 
     this->browseWidget = new QWidget();
     this->sendNotificationWidget = new QWidget();
+
     //***************************
 
     this->initProfileWidget();
@@ -281,8 +282,86 @@ void PublisherWidget::initProfileWidget()
 }
 
 void PublisherWidget::initBrowseWidget(){
+    this->browseWidget = new QWidget();
+    this->browseWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
+    this->model = new QSqlQueryModel();
+    this->bookTableView = new QTableView();
+    this->bookTableView->setAlternatingRowColors(true);
+    this->tableviewLayout = new QGridLayout();
+    tableviewLayout->addWidget(bookTableView,0,0,0,-1);
+
+    //this->bookTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //this->bookTableView->horizontalHeader()->setStretchLastSection(true);
+    this->browseWidget->setLayout(tableviewLayout);
+    this->browseWidget->setMinimumWidth(1000);
+    this->browseWidget->setMinimumHeight(600);
+
+    //show individal book layout similar to studentWidget
+    /*
+    this->browseWidget = new QWidget();
+    this->browseWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
+    this->gridBrowse = new QGridLayout();
+    this->viewBooksScroll = new QScrollArea();
+    this->viewBooksWidget = new QWidget();
+    this->viewBooksWidget->setStyleSheet("background: white;");
+    this->viewBooksLayout = new QGridLayout();
+    this->lastSize.setWidth(0);
+    this->lastSize.setHeight(0);
+
+    this->viewBooksScroll->setWidget(viewBooksWidget);
+    this->viewBooksScroll->setWidgetResizable(true);
+    this->viewBooksScroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    this->viewBooksWidget->setStyleSheet("background-color:white");
+    this->viewBooksWidget->setLayout(viewBooksLayout);
+
+    this->gridBrowse->addWidget(viewBooksScroll,0,0);
+    this->browseWidget->setLayout(gridBrowse);
+    */
+}
+
+void PublisherWidget::updateBooks()
+{
+    // get allBooks from dataBase -> no duplicates
+    map<string, string> name_imagePath = emit getAllBooksP();
+    // convert them into imageWidget (book interface)
+    for (auto i = name_imagePath.begin(); i != name_imagePath.end() ;i++)
+    {
+        imageWidget* book_interface = new imageWidget(i->first,i->second);
+        connect(book_interface,SIGNAL(bookClicked(string)),this,SLOT(bookClicked(string)));
+        books.push_back(book_interface);
+        cout << i->first << ",";
+    }
+    cout << "  =========== books" << endl;
+    // display it in the gridlayout
+    uint COLOMN_SIZE = 3;
+    uint ROW_SIZE = books.size()/COLOMN_SIZE +1;
+
+    cout << ROW_SIZE << "," << COLOMN_SIZE << endl;
+    for (uint i =0 ; i< ROW_SIZE ; i++)
+    {
+        for(uint j =0 ; j< COLOMN_SIZE; j++)
+        {
+            uint index =  i * COLOMN_SIZE + j ;
+            if(index >= books.size())
+                break;
+            cout << "i=" << i << ",j=" << j << ",index=" << index << endl;
+            // for sizing apperance
+            books[index]->setMaximumWidth(this->viewBooksWidget->width()/3);
+            books[index]->setMaximumHeight(this->viewBooksWidget->height()/3);
+
+            this->viewBooksLayout->addWidget(books[index],i,j);
+        }
+    }
 
 }
+
+void PublisherWidget::bookClicked(string name)
+{
+    emit getbookInfo(name);
+
+}
+
 void PublisherWidget::initSendNotificationWidget(){
 
 }
@@ -306,6 +385,22 @@ void PublisherWidget::publisherLoggedIn(Publisher Publisher)
     this->cashEdit->setText(QString::fromStdString(to_string(this->currentPublisher.getCash())));
 
     this->Name->setText(QString::fromStdString(this->currentPublisher.getName()));
+
+    //this->updateBooks();
+
+}
+
+
+void PublisherWidget::browseBtnClicked()
+{
+    this->bookTableHandle = emit getbooktablehandle();
+    //if(this->bookTableHandle->exec())
+    //{
+    //    cout << "got the book table handle!" <<endl;
+    //}
+    this->model->setQuery(*bookTableHandle);
+    this->bookTableView->setModel(model);
+    this->browseWidget->show();
 }
 
 void PublisherWidget::showInfoBtnClicked()
@@ -318,9 +413,13 @@ void PublisherWidget::handleToolBar(QAction * action)
     QString action_name = action->text();
     if(action_name == "Logout")
         emit setCurrentWidget(START_WIDGET);
-    else if (action_name == "Profile")
+    if (action_name == "Profile")
         this->showInfoBtnClicked();
+    if (action_name == "Browse")
+        this->browseBtnClicked();
 }
+
+
 
 void PublisherWidget::editButtonClicked()
 {

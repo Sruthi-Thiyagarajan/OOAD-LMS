@@ -55,10 +55,13 @@ public slots:
     void returnBook(string,string);
     void addAmount(double,string);
     void aa(string);
+    // for member
     void getBookInfo(string);
+    // for admin
+    void getbookInfo(string);
     void getSearchHistory(string);
     map<string,string> getAllBooks();
-
+    QSqlQuery* getbooktablehandle();
 
 signals:
 
@@ -71,13 +74,17 @@ signals:
 
     // books
     void error_noBook(string);
+    // for member
     void bookInfo(Book);
+    //for admin
+    void bookInfoAdmin(Book);
     void error_return(string);
     void update_wallet(string);
     void bookReturned(double,int);
     void borrowedBooks(vector<Book>);
     void booksFound(vector<Book>);
     void searchedBooks(vector<string>);
+
 
 };
 
