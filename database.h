@@ -14,6 +14,7 @@
 #include <cstddef>
 #include "Transaction.h"
 #include <QSqlError>
+#include <QDate>
 using namespace std;
 
 class Student;
@@ -45,6 +46,8 @@ public:
     void updateBook(Book,string);
     void updateBookByRowId(Book,string);
     void updateStudent(Student,string);
+    void updateStudent(Student,string,Transaction);
+    void updateTransaction(Transaction, string);
     void updatePublisher(Publisher,string);
     void addPublisherBooks(Book,string);
     void addPublisherCash(int,string);
@@ -58,6 +61,7 @@ public:
     Book loadBookForce(string);
     Student loadStudent(string);
     Publisher loadPublisher(string);
+    Transaction loadtransaction(string);
 
     //*************
     vector<string> loadReview(string);

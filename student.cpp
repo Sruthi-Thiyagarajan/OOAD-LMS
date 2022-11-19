@@ -48,6 +48,10 @@ void Student::setCurrentBook(string name)
     this->currentBook_name = name;
 }
 
+void Student::setborrowed_books(string s)
+{
+    this->borrowed_books=s;
+}
 void Student::setRequestedBook(string name)
 {
     this->requestedBook_name = name;
@@ -63,7 +67,10 @@ string Student::getCurrentBookName()
 {
     return this->currentBook_name;
 }
-
+string Student::getborrowed_books()
+{
+    return this->borrowed_books;
+}
 vector<Book> Student::getCurrentBookVector(DataBase *db)
 {
     vector<string> v= this->split_string(currentBook_name,",");
@@ -82,7 +89,10 @@ vector<string> Student::getSearchHistory()
 {
     return this->searchHistory_names;
 }
-
+vector<string> Student::getborrow_books_vector()
+{
+    return this->borrowedBooks_names;
+}
 vector<string> Student :: split_string(string s,string splitter)
 {
     vector<string> splitted;

@@ -30,6 +30,7 @@ public :
 
     void studentLoggedIn(string);
     void publisherLoggedIn(string);
+    string join_string(vector<string>,string);
 
 public slots:
 
@@ -39,21 +40,20 @@ public slots:
     void Upload_book(string ,string,string,int);
     void removeBookData(Book);
     void updatePublisher(string ,string,string,string,int);
-    void updateStudent(string,string,string,string,int);
+    void updateStudent(string,string,string,string,Transaction);
 
     // books
     void searchBookByName(string,string);
     void searchBookByType(string,string);
     void searchBookByPrice(int,string);
     void searchBookByPub(string,string);
-    void borrowBook(string,string,int);
-    //void borrowBook(string, string);
+    void borrowBook(string,string,string);
     int checkLikeAlready(bookstudent);
     void saveBookLikeDB(bookstudent, int);
     vector<string> loadReview(string);
     void saveReview(string,bookstudent);
-    //**************************
     void returnBook(string,string);
+    void addAmount(double,string);
     void aa(string);
     void getBookInfo(string);
     void getSearchHistory(string);
@@ -61,12 +61,11 @@ public slots:
 
 
 signals:
-    //*******
-    void payRental(Book);
-    //*******
+
     void error(string);
     void error_login(string);
-    void studentLoggedin(Student);
+    void studentLoggedin(Student,Transaction);
+    void transactionupdate(Transaction);
     void publisherLoggedin(Publisher);
     void setCurrentWidget(int index);
 
@@ -74,7 +73,8 @@ signals:
     void error_noBook(string);
     void bookInfo(Book);
     void error_return(string);
-    void bookReturned(int,int);
+    void update_wallet(string);
+    void bookReturned(double,int);
     void borrowedBooks(vector<Book>);
     void booksFound(vector<Book>);
     void searchedBooks(vector<string>);

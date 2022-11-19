@@ -39,9 +39,9 @@ bool DataBase::saveBook(Book book)
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
     query.bindValue(3,QString::fromStdString(book.getPublisherName()));
-    query.bindValue(4,book.getBorrowedDate());
-    query.bindValue(5,book.getExpectedReturnDate());
-    query.bindValue(6,book.getActualReturnDate());
+    query.bindValue(4,QString::fromStdString(book.getBorrowedDate()));
+    query.bindValue(5,QString::fromStdString(book.getExpectedReturnDate()));
+    query.bindValue(6,QString::fromStdString(book.getActualReturnDate()));
     query.bindValue(7,book.getState());
     query.bindValue(8,book.getAvailability());
     query.bindValue(9,QString::fromStdString(book.getImagePath()));
@@ -79,7 +79,7 @@ bool DataBase::saveStudent(Student student)
     query.bindValue(0,QString::fromStdString(student.getName()));
     query.bindValue(1,QString::fromStdString(student.getEmail()));
     query.bindValue(2,QString::fromStdString(student.getPassword()));
-    query.bindValue(3,student.getCash());
+    //query.bindValue(3,student.getCash());
     query.exec();
     return true;
 }
@@ -87,12 +87,13 @@ bool DataBase::saveStudent(Student student)
 bool DataBase::savetransactiondetails(Transaction t)
 {
     QSqlQuery query(this->db);
-    query.prepare("INSERT INTO CardData(Name,CardName,CardNumber,CVV,Expiry) VALUES(?,?,?,?,?);");
+    query.prepare("INSERT INTO CardData(Name,CardName,CardNumber,CVV,Expiry,walletcash) VALUES(?,?,?,?,?,?);");
     query.bindValue(0,QString::fromStdString(t.getName()));
     query.bindValue(1,QString::fromStdString(t.getCardName()));
     query.bindValue(2,QString::fromStdString(t.getCardNumber()));
     query.bindValue(3,QString::fromStdString(t.getCVV()));
     query.bindValue(4,QString::fromStdString(t.getexpiry_date()));
+    query.bindValue(5,t.getwalletcash());
     return query.exec();
 }
 bool DataBase::savePublisher(Publisher publisher)
@@ -114,19 +115,49 @@ bool DataBase::savePublisher(Publisher publisher)
 }
 void DataBase::updateStudent(Student student , string oldStuName)
 {
-    int x = student.getCash();
 
     QSqlQuery query(this->db);
-    query.prepare("UPDATE Students SET Name=?,Email=?,Password=?,cashAmount=?,currentBook=?,requestedBook=? WHERE Name = ? ;");
+    query.prepare("UPDATE Students SET Name=?,Email=?,Password=?,cashAmount=?,currentBook=?,requestedBook=?,borrowedBooks=? WHERE Name = ? ;");
     query.bindValue(0,QString::fromStdString(student.getName()));
     query.bindValue(1,QString::fromStdString(student.getEmail()));
     query.bindValue(2,QString::fromStdString(student.getPassword()));
-    query.bindValue(3,student.getCash());
+    //query.bindValue(3,student.getCash());
     query.bindValue(4,QString::fromStdString(student.getCurrentBookName()));
     query.bindValue(5,QString::fromStdString(student.getRequestedBookName()));
-    query.bindValue(6,QString::fromStdString(oldStuName));
+    query.bindValue(6,QString::fromStdString(student.getborrowed_books()));
+    query.bindValue(7,QString::fromStdString(oldStuName));
     query.exec();
 
+}
+
+void DataBase::updateStudent(Student student , string oldStuName, Transaction t)
+{
+    QSqlQuery query(this->db);
+    query.prepare("UPDATE Students SET Name=?,Email=?,Password=?,currentBook=?,requestedBook=?,borrowedBooks=? WHERE Name = ? ;");
+    query.bindValue(0,QString::fromStdString(student.getName()));
+    query.bindValue(1,QString::fromStdString(student.getEmail()));
+    query.bindValue(2,QString::fromStdString(student.getPassword()));
+    //query.bindValue(3,student.getCash());
+    query.bindValue(3,QString::fromStdString(student.getCurrentBookName()));
+    query.bindValue(4,QString::fromStdString(student.getRequestedBookName()));
+    query.bindValue(5,QString::fromStdString(student.getborrowed_books()));
+    query.bindValue(6,QString::fromStdString(oldStuName));
+    query.exec();
+    updateTransaction(t,oldStuName);
+}
+
+void DataBase::updateTransaction(Transaction t, string name)
+{
+    QSqlQuery q(this->db);
+    q.prepare("UPDATE CardData SET Name=?,CardName=?,CardNumber=?,CVV=?,Expiry=?,walletcash=? WHERE Name = ? ;");
+    q.bindValue(0,QString::fromStdString(t.getName()));
+    q.bindValue(1,QString::fromStdString(t.getCardName()));
+    q.bindValue(2,QString::fromStdString(t.getCardNumber()));
+    q.bindValue(3,QString::fromStdString(t.getCVV()));
+    q.bindValue(4,QString::fromStdString(t.getexpiry_date()));
+    q.bindValue(5,t.getwalletcash());
+    q.bindValue(6,QString::fromStdString(name));
+    q.exec();
 }
 void DataBase::updatePublisher(Publisher publisher, string old_name)
 {
@@ -142,45 +173,45 @@ void DataBase::updatePublisher(Publisher publisher, string old_name)
 void DataBase::updateBook(Book book , string oldBookName)
 {
     QSqlQuery query(this->db);
-    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Publisher=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=? WHERE Name = ? ;");
+    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Publisher=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=?,borrowedBy=? WHERE Name = ? ;");
     query.bindValue(0,QString::fromStdString(book.getName()));
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
     query.bindValue(3,QString::fromStdString(book.getPublisherName()));
-    query.bindValue(4,book.getBorrowedDate());
-    query.bindValue(5,book.getExpectedReturnDate());
-    query.bindValue(6,book.getActualReturnDate());
+    query.bindValue(4,QString::fromStdString(book.getBorrowedDate()));
+    query.bindValue(5,QString::fromStdString(book.getExpectedReturnDate()));
+    query.bindValue(6,QString::fromStdString(book.getActualReturnDate()));
     query.bindValue(7,book.getState());
     query.bindValue(8,book.getAvailability());
     query.bindValue(9,QString::fromStdString(book.getImagePath()));
-    //query.bindValue(10,book.getLike());
-    query.bindValue(10,QString::fromStdString(oldBookName));
+    query.bindValue(10,QString::fromStdString(book.getborrowed_by()));
+    query.bindValue(11,QString::fromStdString(oldBookName));
     query.exec();
 }
 
 void DataBase::updateBookByRowId(Book book, string rowid)
 {
     QSqlQuery query(this->db);
-    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Publisher=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=? WHERE rowid = ? ;");
+    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Publisher=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=?,borrowedBy=? WHERE rowid = ? ;");
     query.bindValue(0,QString::fromStdString(book.getName()));
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
     query.bindValue(3,QString::fromStdString(book.getPublisherName()));
-    query.bindValue(4,book.getBorrowedDate());
-    query.bindValue(5,book.getExpectedReturnDate());
-    query.bindValue(6,book.getActualReturnDate());
+    query.bindValue(4,QString::fromStdString(book.getBorrowedDate()));
+    query.bindValue(5,QString::fromStdString(book.getExpectedReturnDate()));
+    query.bindValue(6,QString::fromStdString(book.getActualReturnDate()));
     query.bindValue(7,book.getState());
     query.bindValue(8,book.getAvailability());
     query.bindValue(9,QString::fromStdString(book.getImagePath()));
-    //query.bindValue(10,book.getRating());
-    query.bindValue(10,QString::fromStdString(rowid));
+    query.bindValue(10,QString::fromStdString(book.getborrowed_by()));
+    query.bindValue(11,QString::fromStdString(rowid));
     query.exec();
 }
 
 Book DataBase::loadBook(string name)
 {
     QSqlQuery query(this->db);
-    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like, rowid FROM "
+    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,rowid FROM "
                   "Books WHERE Name=?;");
     query.bindValue(0,QString::fromStdString(name));
     query.exec();
@@ -196,13 +227,14 @@ Book DataBase::loadBook(string name)
         book.setPrice(stoi(query.value(2).toString().toStdString()));
         book.setPublisherName(query.value(3).toString().toStdString());
 
-        book.setBorrowedDate(query.value(4).toInt());
-        book.setExpectedReturnDate(query.value(5).toInt());
-        book.setActualReturnDate(query.value(6).toInt());
+        book.setBorrowedDate(query.value(4).toString().toStdString());
+        book.setExpectedReturnDate(query.value(5).toString().toStdString());
+        book.setActualReturnDate(query.value(6).toString().toStdString());
         book.setState(query.value(7).toInt());
         book.setImagePath(query.value(9).toString().toStdString());
         book.setLike(query.value(10).toInt());
-        book.setRowId(query.value(11).toString().toStdString());
+        cout<<"My Row ID: "<<to_string(query.value(11).toInt())<<endl;
+        book.setRowId(query.value(11).toInt());
         break;
     }
     return book;
@@ -210,7 +242,7 @@ Book DataBase::loadBook(string name)
 Book DataBase::loadBookByRowId(string rowid)
 {
     QSqlQuery query(this->db);
-    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,rowid FROM "
+    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,borrowedBy,rowid FROM "
                   "Books WHERE rowid=?;");
     query.bindValue(0,QString::fromStdString(rowid));
     query.exec();
@@ -221,14 +253,15 @@ Book DataBase::loadBookByRowId(string rowid)
         book.setType(query.value(1).toString().toStdString());
         book.setPrice(stoi(query.value(2).toString().toStdString()));
         book.setPublisherName(query.value(3).toString().toStdString());
-        book.setBorrowedDate(query.value(4).toInt());
-        book.setExpectedReturnDate(query.value(5).toInt());
-        book.setActualReturnDate(query.value(6).toInt());
+        book.setBorrowedDate(query.value(4).toString().toStdString());
+        book.setExpectedReturnDate(query.value(5).toString().toStdString());
+        book.setActualReturnDate(query.value(6).toString().toStdString());
         book.setState(query.value(7).toInt());
         book.setAvailability(query.value(8).toInt());
         book.setImagePath(query.value(9).toString().toStdString());
         book.setLike(query.value(10).toInt());
-        book.setRowId(query.value(11).toString().toStdString());
+        book.setborrowed_by(query.value(11).toString().toStdString());
+        book.setRowId(query.value(12).toInt());
     }
     return book;
 }
@@ -246,14 +279,14 @@ Book DataBase::loadBookForce(string name)
         book.setType(query.value(1).toString().toStdString());
         book.setPrice(stoi(query.value(2).toString().toStdString()));
         book.setPublisherName(query.value(3).toString().toStdString());
-        book.setBorrowedDate(query.value(4).toInt());
-        book.setExpectedReturnDate(query.value(5).toInt());
-        book.setActualReturnDate(query.value(6).toInt());
+        book.setBorrowedDate(query.value(4).toString().toStdString());
+        book.setExpectedReturnDate(query.value(5).toString().toStdString());
+        book.setActualReturnDate(query.value(6).toString().toStdString());
         book.setState(query.value(7).toInt());
         book.setAvailability(query.value(8).toInt());
         book.setImagePath(query.value(9).toString().toStdString());
         book.setLike(query.value(10).toInt());
-        book.setRowId(query.value(11).toString().toStdString());
+        book.setRowId(query.value(11).toInt());
         break;
     }
     return book;
@@ -393,10 +426,6 @@ bool DataBase::saveBookLikeDB(bookstudent bs, int liked)
 
 }
 
-
-
-
-//********************
 Student DataBase::loadStudent(string name)
 {
     QSqlQuery query(this->db);
@@ -409,15 +438,35 @@ Student DataBase::loadStudent(string name)
         student.setName(query.value(0).toString().toStdString());
         student.setEmail(query.value(1).toString().toStdString());
         student.setPassword(query.value(2).toString().toStdString());
-        student.setCash(stoi(query.value(3).toString().toStdString()));
+        //student.setCash(stoi(query.value(3).toString().toStdString()));
         student.setCurrentBook(query.value(4).toString().toStdString());
         student.setRequestedBook(query.value(5).toString().toStdString());
+        student.setborrowed_books(query.value(6).toString().toStdString());
         student.addBorrowedBooks(split_string(query.value(6).toString().toStdString(),","));
         student.addSearchHistory(split_string(query.value(7).toString().toStdString(),","));
         student.addFavoriteBooks(split_string(query.value(8).toString().toStdString(),","));
     }
     return student;
 }
+Transaction DataBase::loadtransaction(string name)
+{
+    QSqlQuery query(this->db);
+    query.prepare("SELECT Name,CardName,CardNumber,CVV,Expiry,walletcash FROM CardData WHERE Name=?;");
+    query.bindValue(0,QString::fromStdString(name));
+    query.exec();
+    Transaction n;
+    while(query.next())
+    {
+        n.setName(query.value(0).toString().toStdString());
+        n.setCardName(query.value(1).toString().toStdString());
+        n.setCardNumber(query.value(2).toString().toStdString());
+        n.setCVV(query.value(3).toString().toStdString());
+        n.setexpiry_date(query.value(4).toString().toStdString());
+        n.setwalletcash(query.value(5).toDouble());
+    }
+    return n;
+}
+
 Publisher DataBase::loadPublisher(string name)
 {
     QSqlQuery query(this->db);
@@ -513,7 +562,8 @@ void DataBase::addCurrentBooks(Book book, string stuName)
     string currentBooks,currentBooksUnique="";
     while(query.next())
        currentBooks = query.value(0).toString().toStdString();
-    currentBooks += "," + book.getRowId();
+    if(currentBooks!="")currentBooks += "," + to_string(book.getRowId());
+    else currentBooks += to_string(book.getRowId());
     vector<string> vec = split_string(currentBooks,",");
     sort( vec.begin(), vec.end() );
     vec.erase( unique( vec.begin(),vec.end() ), vec.end() );
@@ -536,7 +586,8 @@ void DataBase::addSearchHistory(Book book , string stuName)
     string searchBooks,searchBooksUnique="";
     while(query.next())
        searchBooks = query.value(0).toString().toStdString();
-    searchBooks += "," + book.getName();
+    if(searchBooks!="")searchBooks += "," + book.getName();
+    else searchBooks += book.getName();
     vector<string> vec = split_string(searchBooks,",");
     sort( vec.begin(), vec.end() );
     vec.erase( unique( vec.begin(),vec.end() ), vec.end() );
@@ -558,7 +609,8 @@ void DataBase::addBorrowedBooks(Book book, string stuName)
     string borrowedBooks,borrowedBooksUnique="";
     while(query.next())
        borrowedBooks = query.value(0).toString().toStdString();
-    borrowedBooks += "," + book.getName();
+    if(borrowedBooks!="")borrowedBooks += "," + book.getName();
+    else borrowedBooks += book.getName();
     vector<string> vec = split_string(borrowedBooks,",");
     sort( vec.begin(), vec.end() );
     vec.erase( unique( vec.begin(),vec.end() ), vec.end() );

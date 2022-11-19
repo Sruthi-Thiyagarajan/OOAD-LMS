@@ -47,8 +47,9 @@ void MainWindow::Signals_Slots()
     connect(this->logInWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->controller,SIGNAL(error_login(string)),this->logInWidget,SLOT(error(string)));
 
-    connect(this->controller,SIGNAL(studentLoggedin(Student)),this->studentWidget,SLOT(studentLoggedIn(Student)));
-    connect(this->studentWidget,SIGNAL(updateStudent(string,string,string,string,int)),this->controller,SLOT(updateStudent(string,string,string,string,int)));
+    connect(this->controller,SIGNAL(studentLoggedin(Student,Transaction)),this->studentWidget,SLOT(studentLoggedIn(Student,Transaction)));
+    connect(this->controller,SIGNAL(transactionupdate(Transaction)),this->studentWidget,SLOT(transactionupdate(Transaction)));
+    connect(this->studentWidget,SIGNAL(updateStudent(string,string,string,string,Transaction)),this->controller,SLOT(updateStudent(string,string,string,string,Transaction)));
 
     connect(this->controller,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->controller,SIGNAL(publisherLoggedin(Publisher)),this->publisherWidget,SLOT(publisherLoggedIn(Publisher)));
@@ -59,25 +60,22 @@ void MainWindow::Signals_Slots()
 
     // Books
     //********
-    connect(this->controller,SIGNAL(payRental(Book)),this->studentWidget,SLOT(payRental(Book)));
     connect(this->bookWidget,SIGNAL(loadReview(string)),this->controller,SLOT(loadReview(string)));
     //*********
     connect(this->controller,SIGNAL(bookInfo(Book)),this->bookWidget,SLOT(bookInfo(Book)));
     connect(this->bookWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->bookWidget, SIGNAL(checkLikeAlready(bookstudent)),this->controller, SLOT(checkLikeAlready(bookstudent)));
     connect(this->bookWidget, SIGNAL(saveBookLikeDB(bookstudent,int)),this->controller,SLOT(saveBookLikeDB(bookstudent,int)));
-    connect(this->bookWidget,SIGNAL(borrowBook(string,string,int)),this->controller,SLOT(borrowBook(string,string,int)));
+    connect(this->bookWidget,SIGNAL(borrowBook(string,string,string)),this->controller,SLOT(borrowBook(string,string,string)));
     connect(this->bookWidget,SIGNAL(saveReview(string,bookstudent)),this->controller,SLOT(saveReview(string,bookstudent)));
-    //**************************
-    //connect(this->bookWidget,SIGNAL(borrowBook(string,string)),this->controller,SLOT(borrowBook(string,string)));
-
-    //**************************
     connect(this->controller,SIGNAL(error_noBook(string)),this->bookWidget,SLOT(error(string)));
     connect(this->studentWidget,SIGNAL(getBookInfo(string)),this->controller,SLOT(getBookInfo(string)));
 
     connect(this->studentWidget,SIGNAL(returnBook(string,string)),this->controller,SLOT(returnBook(string,string)));
+    connect(this->studentWidget,SIGNAL(addAmount(double,string)),this->controller,SLOT(addAmount(double,string)));
     connect(this->controller,SIGNAL(error_return(string)),this->studentWidget,SLOT(error_return(string)));
-    connect(this->controller,SIGNAL(bookReturned(int,int)),this->studentWidget,SLOT(bookReturned(int,int)));
+    connect(this->controller,SIGNAL(update_wallet(string)),this->studentWidget,SLOT(update_wallet(string)));
+    connect(this->controller,SIGNAL(bookReturned(double,int)),this->studentWidget,SLOT(bookReturned(double,int)));
     connect(this->studentWidget,SIGNAL(aa(string)),this->controller,SLOT(aa(string)));
     connect(this->controller,SIGNAL(borrowedBooks(vector<Book>)),this->studentWidget,SLOT(borrowedBooks(vector<Book>)));
     connect(this->studentWidget,SIGNAL(searchBookByName(string,string)),this->controller,SLOT(searchBookByName(string,string)));

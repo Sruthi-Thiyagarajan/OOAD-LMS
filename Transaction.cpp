@@ -29,6 +29,11 @@ void Transaction::setexpiry_date(string d)
 {
     expiry_date = d;
 }
+void Transaction::setwalletcash(double d)
+{
+    walletcash = d;
+}
+
 
 //getters
 string Transaction::getName()
@@ -50,5 +55,14 @@ string Transaction::getCVV()
 string Transaction::getexpiry_date()
 {
     return this->expiry_date;
+}
+double Transaction::getwalletcash()
+{
+    return this->walletcash;
+}
+
+void Transaction::add_wallet_amt(double d)
+{
+    this->walletcash+=d;
 }
 #endif TRANSACTION

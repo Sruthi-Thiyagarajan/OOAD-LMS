@@ -31,6 +31,7 @@
 #include "GUI/imagewidget.h"
 #include <vector>
 #include <QFrame>
+#include <QDate>
 using namespace std;
 
 class StudentWidget : public QWidget
@@ -47,11 +48,9 @@ private:
     uint row ;
     uint colomn;
 
-
-
     QWidget* ProfileWidget;
     QGridLayout* ProfileLayout;
-    QLineEdit* nameEdit ,*passEdit , * emailEdit ,* cashEdit ;
+    QLineEdit* nameEdit ,*passEdit , * emailEdit ,* cardname, *cardnum, *cvv, *expiry;
     QPushButton *EditBtn , *OkBtn;
 
     QWidget* ReturnWidget;
@@ -67,12 +66,12 @@ private:
     QWidget* SearchWidget;
     QVBoxLayout* SearchLayout;
     QLineEdit* SearchBook;
-    //QPushButton *NameBtn,*TypeBtn,*PriceBtn,*PubBtn,*DoneBtn;
     QPushButton *NameBtn,*TypeBtn,*PriceBtn,*DoneBtn;
-    QWidget* PayWidget;
 
-    QLineEdit* CashEdit;
-    QPushButton* PayButton;
+    QWidget* PayWidget;
+    QGridLayout* payWidgetLayout;
+    QLineEdit* CashEdit,*CashShow;
+    QPushButton* PayButton,*payBackbtn;
 
     QWidget* HistoryWidget;
     QTreeWidget *HistoryList;
@@ -80,6 +79,7 @@ private:
     void addRoot(string);
 
     Student currentStudent;
+    Transaction currenttrans;
     QSize lastSize;
     vector<QWidget*> BooksWidgets;
     QString Path;
@@ -113,10 +113,11 @@ public:
 
 signals:
 
-    void updateStudent(string,string,string,string,int);
+    void updateStudent(string,string,string,string,Transaction);
     void getBookInfo(string);
     void getBookInfo(Book);
     void returnBook(string,string);
+    void addAmount(double,string);
     void aa(string);
     void searchBookByName(string,string);
     void searchBookByType(string,string);
@@ -126,21 +127,20 @@ signals:
     void setCurrentWidget(int);
     void setLoggedInUserName(string);
     map<string, string> getAllBooks();
-//    void libBookState(int);
 
 public slots:
-    //*************
-    void payRental(Book);
-    //*************
-    void studentLoggedIn(Student);
+
+    void PayButtonClicked();
+    void payBackbtnClicked();
+    void studentLoggedIn(Student,Transaction);
+    void transactionupdate(Transaction);
     void ButtonClicked(QAction *action);
     void editButtonClicked();
     void okButtonClicked();
     void backButtonClicked();
     void okkButtonClicked();
-    void increaseIsClicked();
     void error_return(string);
-    void bookReturned(int,int);
+    void bookReturned(double,int);
     void borrowedBooks(vector<Book>);
     void ok1ButtonClicked();
     void okButtonhClicked();
@@ -152,9 +152,7 @@ public slots:
     void booksFound(vector<Book>);
     void searchedBooks(vector<string>);
     void bookClicked(string name);
-//    void librarianWidgetOpen();
-//    void Ok2ButtonClicked();
-
+    void update_wallet(string text);
 };
 
 #endif // STUDENTWIDGET_H

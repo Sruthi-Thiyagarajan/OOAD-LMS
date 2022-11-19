@@ -1,6 +1,6 @@
 #include "bookwidget.h"
 
-extern int todayDate;
+QDate currdate= QDate::currentDate();
 BookWidget::BookWidget(Book b)
 {
     currentBook =b;
@@ -57,15 +57,17 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->reviewWidget->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
     this->reviewLayout = new QGridLayout();
 
-    //****************************
     this->ReturnWidget = new QWidget();
     this->ReturnWidget->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
     this->ReturnLayout = new QGridLayout();
     this->enterBook = new QLabel("Enter expected return date :"); enterBook->setStyleSheet("color:#00BFFF;");
-    //********************
-    //this->enterBook = new QLabel("Please pay the rental here or in the pay tab: "); enterBook->setStyleSheet("color:#00BFFF;");
-    //**********************
-    this->ReturnDate = new QLineEdit();
+
+    QDate maxborrowperiod = currdate.addMonths(3);
+    cout<<maxborrowperiod.toString().toStdString()<<endl;
+    this->ReturnDate = new QDateEdit();
+    this->ReturnDate->setMinimumDate(currdate.addDays(1));
+    this->ReturnDate->setMaximumDate(maxborrowperiod);
+    this->ReturnDate->setCalendarPopup(true);
     this->OkkBtn = new QPushButton("Ok");
     this->OkkBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkkBtn->setCursor(Qt::PointingHandCursor);
@@ -209,7 +211,6 @@ void BookWidget::bookInfo(Book b)
     this->bookPrice->setText(QString::fromStdString(to_string(currentBook.getPrice())));
     //this->bookPublisher->setText(QString::fromStdString(currentBook.getPublisherName()));
     this->bookLike->setText(QString::fromStdString(to_string(currentBook.getLike())));
-    this->ReturnDate->setText(QString::fromStdString(to_string(currentBook.getPrice())));
 
     if(currentBook.getAvailability()) this->bookAvailability->setText("Available");
     else this->bookAvailability->setText("Not Available");
@@ -237,15 +238,18 @@ void BookWidget::okkkButtonClicked()
         return;
     }
     // return Date must be > todayDate
-    if(this->ReturnDate->text().toInt() <= todayDate)
+    int flag = currdate.daysTo(this->ReturnDate->date());
+    cout<<"no of days gap: "<<flag<<endl;
+    if(!flag)
     {
-        this->errorBox->setText("Invalid Return Data");
+        this->errorBox->setText("Invalid Return Date");
         this->errorBox->show();
         return;
     }
-    this->expectedReturnDate = this->ReturnDate->text().toInt();
+
+    QString rd = this->ReturnDate->date().toString();
+    this->expectedReturnDate = rd.toStdString();
     emit borrowBook(this->bookNameStr,this->userName ,this->expectedReturnDate);
-    //emit borrowBook(this->bookNameStr, this->userName);
     this->ReturnWidget->hide();
     this->successBox->setText("Borrowed the Book Successfully !");
     this->successBox->show();

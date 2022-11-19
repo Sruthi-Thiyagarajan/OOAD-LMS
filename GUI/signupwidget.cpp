@@ -147,6 +147,12 @@ void SignUp::signUpCheck()
         return;
     }
 
+    if(QDate::currentDate().daysTo(this->expiry_date->date())<95)
+    {
+        this->errorBox->setText("Provided Card expiry date is near. Please provide another card.");
+        this->errorBox->show();
+        return;
+    }
     string name,pass,email;int type=0;
     name=this->Name->text().toStdString();
     email=this->Email->text().toStdString();

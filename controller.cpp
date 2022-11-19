@@ -1,5 +1,6 @@
 #include "controller.h"
-extern int todayDate;
+#include "qdatetime.h"
+
 Controller::Controller() : QObject()
 {
     QString path = QCoreApplication::applicationDirPath();
@@ -32,27 +33,12 @@ void Controller::sign_up(string name ,string email , string password , int choic
         }
         cout<<"You signed up successfully"<<endl;
     }
-    else
-    {
-        publisher1.setName(name);
-        publisher1.setPassword(password);
-        publisher1.setEmail(email);
-
-        if(! db.savePublisher(publisher1))
-        {
-            emit error("Publisher Name already Exist ! Enter another name");
-            cout << "Publisher Name already Exist ! Enter another name" << endl;
-            return;
-        }
-        cout<<"You signed up successfully"<<endl;
-    }
-    this->log_in(name,password,choice);
 }
 void Controller::log_in(string name , string password , int choice)
 {
     if(choice==1)
     {
-        Student s;
+        Student s; Transaction t;
         int mode = db.checkStudent(name,password);
         if (mode==1)
         {
@@ -65,8 +51,9 @@ void Controller::log_in(string name , string password , int choice)
         else if(mode==0)
         {
             s = db.loadStudent(name);
+            t = db.loadtransaction(name);
             cout<<"You've logged in successfully"<<endl;
-            emit studentLoggedin(s);
+            emit studentLoggedin(s,t);
             emit setCurrentWidget(STUDENT_WIDGET);
         }
     }
@@ -190,8 +177,6 @@ void Controller::removeBookData(Book b)
 }
 void Controller::searchBookByName(string BookNameOrID,string stuName)
 {
-    //Book b = db.loadBookByRowId(BookNameOrID);
-
     Book b;
     // check for available books
     b= db.loadBook(BookNameOrID);
@@ -246,32 +231,6 @@ void Controller::searchBookByPub(string pub, string stuName)
     }
 }
 
-
-//void Controller::borrowBook(string bookName, string stuName)
-//{
-//    if(db.loadBook(bookName).getName().empty())
-//    {
-//        emit error_noBook("This book is not available");
-//        return;
-//    }
-//    else{
-//        Student s = db.loadStudent(stuName);
-//        Book b = db.loadBook(bookName);
-//        s.setCurrentBook(db.loadBook(bookName).getRowId());
-//        //db.addCurrentBooks(b,stuName);
-//        //db.addBorrowedBooks(b,stuName);
-//        b.setAvailability(0);
-//        //b.setBorrower(stuName);
-//        //db.updateStudent(s,stuName);
-//        db.updateBookByRowId(b,db.loadBook(bookName).getRowId());
-//        //**********************
-//        emit payRental(b);
-//        //**********************
-//    }
-
-
-//}
-
 int Controller::checkLikeAlready(bookstudent bs)
 {   int likeAlready;
     likeAlready = db.checkLikeStatus(bs);
@@ -292,7 +251,7 @@ void Controller::saveReview(string review, bookstudent bs){
     db.saveReview(review, bs);
 }
 
-void Controller::borrowBook(string bookName,string stuName,int expectedReturnDate)
+void Controller::borrowBook(string bookName,string stuName,string expectedReturnDate)
 {
     if(db.loadBook(bookName).getName().empty())
     {
@@ -300,87 +259,120 @@ void Controller::borrowBook(string bookName,string stuName,int expectedReturnDat
         return;
     }
     else {
-        int borrowDate=todayDate;
+        QDate borrowDate= QDate::currentDate();
         Student s = db.loadStudent(stuName);
         Book b = db.loadBook(bookName);
-        s.setCurrentBook(db.loadBook(bookName).getRowId());
-        b.setBorrowedDate(borrowDate);
+        s.setCurrentBook(to_string(b.getRowId()));
+        b.setBorrowedDate(borrowDate.toString().toStdString());
         b.setExpectedReturnDate(expectedReturnDate);
+        b.setAvailability(0);
+        b.setborrowed_by(stuName);
         db.addCurrentBooks(b,stuName);
         db.addBorrowedBooks(b,stuName);
-        b.setAvailability(0);
-        //db.updateStudent(s,stuName);
-        db.updateBookByRowId(b,db.loadBook(bookName).getRowId());
-        //**********************
-        emit payRental(b);
-        //**********************
-        Publisher pub = db.loadPublisher(b.getPublisherName());
-        pub.addCash(b.getPrice()/2);
-        db.updatePublisher(pub,pub.getName());
+        db.updateBookByRowId(b,to_string(db.loadBook(bookName).getRowId()));
         cout<<"You borrowed the book successfully, your book's ID is : "<<b.getRowId()<<endl;
-        cout<<"You will pay : "<<ceil((expectedReturnDate-borrowDate)/7.0)*b.getPrice()<<endl;
+        //cout<<"You will pay : "<<ceil((expectedReturnDate-borrowDate)/7.0)*b.getPrice()<<endl;
         cout<<"Warning 1 : if you return the book late, you'll pay a fee of 5$ for each week late"<<endl;
         cout<<"Warning 2 : if you return the book damaged, you'll pay a fee of half the book's price"<<endl;
-    }}
+    }
+}
 
+void Controller::addAmount(double amt, string stuName)
+{
+    Transaction t=db.loadtransaction(stuName);
+    t.add_wallet_amt(amt);
+    db.updateTransaction(t,stuName);
+    emit transactionupdate(t);
+    return;
+}
 
 void Controller::returnBook(string bookName, string stuName)
 {
-    int bill=0,actualReturnDate,actualBorrowedPeriod,expectedBorrowedPeriod;int flag=0,flag2=0,flag3=0,flag4=0,mode;
-    string rowid;Librarian l;vector<string> v;Book b;
+    int actualBorrowedPeriod,expectedBorrowedPeriod,rowid;
+    QDate actualReturnDate;
+    int borrowed_book_found=0,mode=0,zero_bal=0;
+    vector<string> v, vborrowed;
+    Book b; Transaction t;
+    double bill=0.0;
     Student s=db.loadStudent(stuName);
     v= split_string(s.getCurrentBookName(),",");
+    vborrowed = s.getborrow_books_vector();
     for(int i=0;i<v.size();i++)
     {
-        if(db.loadBookByRowId(v[i]).getName()==bookName)
+        cout<<"v[i] start:"<<v[i]<<endl;
+        b = db.loadBookByRowId(v[i]);
+        if(b.getName()==bookName)
         {
-            flag2=1;
-            b=db.loadBookByRowId(v[i]);
+            borrowed_book_found=1;
             v.erase(v.begin()+i);
+            break;
         }
+        cout<<"v[i] end:"<<v[i]<<endl;
     }
-    if(!flag2)
+    if(!borrowed_book_found)
         emit error_return("You didn't borrow this book");
     else
     {
-        actualReturnDate=todayDate;
-        b.setActualReturnDate(actualReturnDate);
-        actualBorrowedPeriod = b.getActualReturnDate() - b.getBorrowedDate();
-        expectedBorrowedPeriod=b.getExpectedReturnDate()-b.getBorrowedDate();
-        bill=ceil(actualBorrowedPeriod/7.0)*b.getPrice();
-        if(actualBorrowedPeriod>expectedBorrowedPeriod)
-        {
-            int fee;
-            fee=5*ceil((actualBorrowedPeriod-expectedBorrowedPeriod)/7.0);
-            bill+=fee;
-            flag=1;flag3=1;
-        }
-        //int state = l.checkState(&b);
-        if(1)
-        {
-            int fee;
-            fee=b.getPrice()/2;
-            bill+=fee;
-            flag=1;flag4=1;
-        }
-        if(!flag3&&flag4)mode=1;       //late
-        else if(flag3&&!flag4)mode=2;  //damaged
-        else if(flag3&&flag4)mode=3;   //late and damaged (7ayawan ya3ni)
-        else mode=0;                   //wa7ed mo7taram <3
-        emit bookReturned(bill,mode);
-        s.addCash(-1*bill);
-        string str=s.getCurrentBookName();
-        int x;
-        for(int i=0;i<str.size();i++)
-        {if(b.getRowId()[0]==str[i])x=i;}
-        if(str.size()==1)str="";
-        else if(x==(str.size()-1)) str.erase (str.end()-2, str.end());
-        else str.erase(x,2);
-        s.setCurrentBook(str);
-        b.setAvailability(1);
-        b.setState(1);
-        db.updateStudent(s,stuName);
-        db.updateBookByRowId(b,b.getRowId());
+          actualReturnDate=QDate::currentDate();
+          cout<<"b date string : "<<b.getBorrowedDate()<<endl;
+          QString bstring = QString::fromStdString(b.getBorrowedDate());
+          QDate borrow_date = QDate::fromString(bstring,"ddd MMM dd yyyy");
+          cout<<"B Date: "<<borrow_date.toString().toStdString()<<endl;
+          QString expecstring = QString::fromStdString(b.getExpectedReturnDate());
+          QDate expdate = QDate::fromString(expecstring,"ddd MMM dd yyyy");
+
+          actualBorrowedPeriod = borrow_date.daysTo(actualReturnDate);
+          expectedBorrowedPeriod= borrow_date.daysTo(expdate);
+
+          cout <<"Actual B Period : "<<actualBorrowedPeriod<<endl;
+          cout <<"Exp B Period : "<<expectedBorrowedPeriod<<endl;
+
+          bill = ceil(actualBorrowedPeriod/7.0)*b.getPrice();
+          if(actualBorrowedPeriod>expectedBorrowedPeriod)
+          {
+             double fee;
+             fee=5*ceil((actualBorrowedPeriod-expectedBorrowedPeriod)/7.0);
+             bill+=fee;
+             mode=1;
+          }
+          cout<<"Bill is : "<<bill<<endl;
+          if((t=db.loadtransaction(stuName)).getwalletcash()<bill)
+          {
+              cout << "In whileloop"<<endl;
+              string str = "Your Bill is : $" + to_string(bill) + ". Please update your wallet with the required amount before returning. Click MY WALLET to update wallet.\n";
+              cout<<str<<endl;
+              zero_bal=1;
+              emit update_wallet(str);
+
+          }
+          if(zero_bal)return;
+          emit bookReturned(bill,mode);
+          //Student DB update
+          string current_books=join_string(v,",");
+          cout<<"current books string:"<<current_books<<endl;
+          s.setCurrentBook(current_books);
+          for(int i=0;i<vborrowed.size();i++) {
+              if(vborrowed[i]==bookName){
+                  vborrowed.erase(vborrowed.begin()+i);
+              }
+          }
+          string borrowed_books=join_string(vborrowed,",");
+          cout<<"borrowed books string:"<<borrowed_books<<endl;
+          s.setborrowed_books(borrowed_books);
+          db.updateStudent(s,stuName);
+          //Book DB update
+          b.setExpectedReturnDate("");
+          b.setBorrowedDate("");
+          b.setActualReturnDate("");
+          b.setborrowed_by("");
+          b.setAvailability(1);
+          b.setState(1);
+          db.updateBookByRowId(b,to_string(b.getRowId()));
+          //Transaction/CardData DB update
+          t.add_wallet_amt(-1.0*bill);
+          db.updateTransaction(t,stuName);
+          emit transactionupdate(t);
+          return;
     }
 }
 
@@ -429,19 +421,20 @@ void Controller::updatePublisher(string pubName, string name, string pass, strin
     db.updatePublisher(p,pubName);
 }
 
-void Controller::updateStudent(string stuName, string name, string pass, string email, int cashAmount)
+void Controller::updateStudent(string stuName, string name, string pass, string email, Transaction t)
 {
     Student s;
     s=db.loadStudent(stuName);
+    //n=db.loadtransaction(stuName);
     s.setName(name);
     s.setPassword(pass);
     s.setEmail(email);
-    s.setCash(cashAmount);
     db.updateStudent(s,stuName);
 }
+
 void Controller::studentLoggedIn(string stuName)
 {
-    int choice;
+    /*int choice;
     while(1)
     {
         cout<<"what do yo want to do ? "<<endl;
@@ -463,7 +456,7 @@ void Controller::studentLoggedIn(string stuName)
                 cout<<"Do you wanna search books by :"<<endl;
                 cout<<"1-Name"<<endl;
                 cout<<"2-Type"<<endl;
-                cout<<"3-Publisher"<<endl;
+                //cout<<"3-Publisher"<<endl;
                 cout<<"4-Price"<<endl;
                 cout<<"5-Exit"<<endl;
                 cin>>choice1;
@@ -544,13 +537,13 @@ void Controller::studentLoggedIn(string stuName)
                 cin>>expectedReturnDate;
                 Student s = db.loadStudent(stuName);
                 Book b = db.loadBook(name);
-                s.setCurrentBook(db.loadBook(name).getRowId());
-                b.setBorrowedDate(borrowDate);
-                b.setExpectedReturnDate(expectedReturnDate);
+//s               s.setCurrentBook(db.loadBook(name).getRowId());
+//s                b.setBorrowedDate(borrowDate);
+//s                b.setExpectedReturnDate(expectedReturnDate);
                 db.addBorrowedBooks(b,stuName);
                 b.setAvailability(0);
                 db.updateStudent(s,stuName);
-                db.updateBookByRowId(b,db.loadBook(name).getRowId());
+//s                db.updateBookByRowId(b,db.loadBook(name).getRowId());
                 Publisher pub = db.loadPublisher(db.loadBook(b.getName()).getPublisherName());
                 pub.addCash(db.loadBook(b.getName()).getPrice()/2);
                 db.updatePublisher(pub,pub.getName());
@@ -568,39 +561,40 @@ void Controller::studentLoggedIn(string stuName)
             cin>>rowid;
             Book b=db.loadBookByRowId(rowid);
             Student s=db.loadStudent(stuName);
-            if(b.getRowId()!=s.getCurrentBookName())
-                cout<<"This is not the book you borrowed!"<<endl;
-            else
-            {
-                cout<<"Enter today's date : ";
-                cin>>actualReturnDate;
-                b.setActualReturnDate(actualReturnDate);
-                actualBorrowedPeriod = b.getActualReturnDate() - b.getBorrowedDate();
-                expectedBorrowedPeriod=b.getExpectedReturnDate()-b.getBorrowedDate();
-                bill=ceil(actualBorrowedPeriod/7.0)*b.getPrice();
-                if(actualBorrowedPeriod>expectedBorrowedPeriod)
-                {
-                    int fee;
-                    fee=5*ceil((actualBorrowedPeriod-expectedBorrowedPeriod)/7.0);
-                    bill+=fee;
-                    flag=1;
-                }
-                int state = l.checkState(&b);
-                if(state)
-                {
-                    int fee;
-                    fee=b.getPrice()/2;
-                    bill+=fee;
-                    flag=1;
-                }
-                if(!flag)
-                    cout<<"You're a good boy, you returned the book sound and in the right time, here's your bill : "<<bill<<endl;
-                else cout<<"Enta 3ayel 3el2 w hatedfa3 8arama, 5od b2a : "<<bill<<endl;
-                s.addCash(-1*bill);
-                b.setAvailability(1);
-                db.updateStudent(s,stuName);
-                db.updateBookByRowId(b,b.getRowId());
-            }}
+//s         if(b.getRowId()!=s.getCurrentBookName())
+//                cout<<"This is not the book you borrowed!"<<endl;
+//            else
+//            {
+//                cout<<"Enter today's date : ";
+//                cin>>actualReturnDate;
+//                b.setActualReturnDate(actualReturnDate);
+//                actualBorrowedPeriod = b.getActualReturnDate() - b.getBorrowedDate();
+//                expectedBorrowedPeriod=b.getExpectedReturnDate()-b.getBorrowedDate();
+//                bill=ceil(actualBorrowedPeriod/7.0)*b.getPrice();
+//                if(actualBorrowedPeriod>expectedBorrowedPeriod)
+//                {
+//                    int fee;
+//                    fee=5*ceil((actualBorrowedPeriod-expectedBorrowedPeriod)/7.0);
+//                    bill+=fee;
+//                    flag=1;
+//                }
+//                int state = l.checkState(&b);
+//                if(state)
+//                {
+//                    int fee;
+//                    fee=b.getPrice()/2;
+//                    bill+=fee;
+//                    flag=1;
+//                }
+//                if(!flag)
+//                    cout<<"You're a good boy, you returned the book sound and in the right time, here's your bill : "<<bill<<endl;
+//                else cout<<"Enta 3ayel 3el2 w hatedfa3 8arama, 5od b2a : "<<bill<<endl;
+//                s.addCash(-1*bill);
+//                b.setAvailability(1);
+//                db.updateStudent(s,stuName);
+//                db.updateBookByRowId(b,b.getRowId());
+//            }
+        }
         else if(choice==4)
         {
             Student s = db.loadStudent(stuName);
@@ -643,7 +637,7 @@ void Controller::studentLoggedIn(string stuName)
             break;
         else
             cout<<"Enter correct choice"<<endl;
-    }
+    }*/
 
 }
 vector<string> Controller :: split_string(string s,string splitter)
@@ -661,4 +655,12 @@ vector<string> Controller :: split_string(string s,string splitter)
     }
 
     return splitted;
+}
+
+string Controller::join_string(vector<string> strings, string delim)
+{
+    std::stringstream ss;
+    std::copy(strings.begin(), strings.end(),
+        std::ostream_iterator<std::string>(ss, delim.c_str()));
+    return ss.str();
 }

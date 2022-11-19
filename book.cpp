@@ -2,16 +2,16 @@
 #include "book.h"
 #include "publisher.h"
 
-Book::Book(string name, string Type, Publisher* author,
-           string Rowid, int price, bool State , bool Availability, int Like)
+Book::Book(string name, string Type, string author,
+           int price, bool State , bool Availability, int Like, int rowid)
 {
     Name = name;
     type = Type;
-    publisher = author ;
+    publisher_name = author ;
     Price = price ;
     state = State;
-    availability = 1;
-    rowid=Rowid;
+    availability = Availability;
+    this->rowid=rowid;
     like = Like;
 }
 
@@ -71,32 +71,38 @@ void Book::setAvailability(bool Availability)
     this->availability = Availability;
 }
 
-void Book::setBorrowedDate(int date)
+void Book::setBorrowedDate(string date)
 {
     this->borrowedDate = date;
 }
 
-void Book::setExpectedReturnDate(int date)
+void Book::setExpectedReturnDate(string date)
 {
     this->expectedReturnDate = date;
 }
 
-void Book::setActualReturnDate(int date)
+void Book::setActualReturnDate(string date)
 {
     this->actualReturnDate = date ;
 }
 
-void Book::setRowId(string Rowid)
+void Book::setRowId(int Rowid)
 {
     this->rowid = Rowid;
 }
 
+void Book::setborrowed_by(string b)
+{
+    this->borrowed_by=b;
+}
+
+//
 int Book::getLike()
 {
     return this->like;
 }
 
-string Book::getRowId()
+int Book::getRowId()
 {
     return this->rowid;
 }
@@ -141,19 +147,24 @@ bool Book::getAvailability()
     return this->availability;
 }
 
-int Book::getBorrowedDate()
+string Book::getBorrowedDate()
 {
     return this->borrowedDate;
 }
 
-int Book::getExpectedReturnDate()
+string Book::getExpectedReturnDate()
 {
     return this->expectedReturnDate;
 }
 
-int Book::getActualReturnDate()
+string Book::getActualReturnDate()
 {
     return this->actualReturnDate;
+}
+
+string Book::getborrowed_by()
+{
+    return this->borrowed_by;
 }
 
 void Book::showInfo()

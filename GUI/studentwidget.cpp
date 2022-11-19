@@ -1,6 +1,5 @@
 #include "studentwidget.h"
 
-extern int todayDate;
 Book b;
 
 StudentWidget::StudentWidget(QWidget *parent) : QWidget(parent)
@@ -13,21 +12,14 @@ StudentWidget::StudentWidget(QWidget *parent) : QWidget(parent)
 
     this->viewBooksScroll = new QScrollArea();
     this->viewBooksWidget = new QWidget();
-    this->viewBooksWidget->setStyleSheet("background: white;");
+    this->viewBooksWidget->setStyleSheet("background: black;");
     this->viewBooksLayout = new QGridLayout();
     this->lastSize.setWidth(0);
     this->lastSize.setHeight(0);
 
-    //today   to be designed
-    this->increaseTime = new QPushButton("Add day");
-    this->increaseTime->setStyleSheet("background: #008080; border-radius: 10px; padding: 10px 0px; color: white;"
-                                      "font-weight: bold;"
-                                      "font-size: 15px;");
-    this->increaseTime->setCursor(Qt::PointingHandCursor);
-
     this->today = new QLabel();
-    this->today->setText(" Today: "+QString::fromStdString(to_string(todayDate)));
-    this->today->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 18px; background-color:white;");
+    this->today->setText(" Today: "+ QDate::currentDate().toString());
+    this->today->setStyleSheet("color:black;font-weight: bold;font-size: 14px; background-color:white;");
 
     this->errorBox = new QMessageBox();
     this->successBox = new QMessageBox();
@@ -63,8 +55,6 @@ void StudentWidget::initToolBar()
     this->toolBar->addAction(Profile,ProfileText);
     this->toolBar->addAction(Search,SearchText);
     this->toolBar->addAction(favorite,favoriteText);
-
-//    this->toolBar->addAction(Borrowed,BorrowedText);
     this->toolBar->addAction(History,HistoryText);
     // ***********************************
     this->toolBar -> addAction(Pay, PayText);
@@ -84,7 +74,12 @@ void StudentWidget::initProfileWidget()
     QLabel* name = new QLabel("Name:");             this->nameEdit = new QLineEdit(); nameEdit->setReadOnly(true);  this->nameEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true);  this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true); this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true);  this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    QLabel* cardnamelabel = new QLabel("Card Name:");    this->cardname = new QLineEdit(); cardname->setReadOnly(true); this->cardname->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    QLabel* cardnumlabel = new QLabel("Card Number:");    this->cardnum = new QLineEdit(); cardnum->setReadOnly(true); this->cardnum->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    QLabel* cvvlabel = new QLabel("CVV:");    this->cvv = new QLineEdit(); cvv->setEchoMode(QLineEdit::Password);cvv->setReadOnly(true); this->cvv->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    QLabel* explabel = new QLabel("Expiry:");    this->expiry = new QLineEdit(); expiry->setReadOnly(true); this->expiry->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+
+    //QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true);  this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
 
 
     QLabel *image; QPixmap* pixMap;
@@ -117,13 +112,22 @@ void StudentWidget::initProfileWidget()
     this->ProfileLayout->addWidget(email,5,0,Qt::AlignLeft);
     this->ProfileLayout->addWidget(emailEdit,5,1);
 
-    this->ProfileLayout->addWidget(cashAmount,6,0,Qt::AlignLeft);
-    this->ProfileLayout->addWidget(cashEdit,6,1);
+    this->ProfileLayout->addWidget(cardnamelabel,6,0,Qt::AlignLeft);
+    this->ProfileLayout->addWidget(cardname,6,1);
+
+    this->ProfileLayout->addWidget(cardnumlabel,7,0,Qt::AlignLeft);
+    this->ProfileLayout->addWidget(cardnum,7,1);
+
+    this->ProfileLayout->addWidget(cvvlabel,8,0,Qt::AlignLeft);
+    this->ProfileLayout->addWidget(cvv,8,1);
+
+    this->ProfileLayout->addWidget(explabel,9,0,Qt::AlignLeft);
+    this->ProfileLayout->addWidget(expiry,9,1);
 
     QHBoxLayout* horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(this->EditBtn);
     horizontalLayout->addWidget(this->OkBtn);
-    this->ProfileLayout->addLayout(horizontalLayout,7,0,1,-1);
+    this->ProfileLayout->addLayout(horizontalLayout,10,0,1,-1);
 
     this->ProfileWidget->setLayout(this->ProfileLayout);
     this->ProfileWidget->setMinimumWidth(500);
@@ -131,6 +135,7 @@ void StudentWidget::initProfileWidget()
 }
 void StudentWidget::initReturnWidget()
 {
+    cout<<"Return Widget"<<endl;
     this->ReturnWidget = new QWidget();
     this->ReturnWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->ReturnLayout = new QGridLayout();
@@ -164,7 +169,7 @@ void StudentWidget::initBorrowedWidget()
     this->borrowedList = new QTreeWidget();
     this->borrowedList->setStyleSheet("background: white");
     this->Ok1Btn = new QPushButton("Ok");
-    this->Ok1Btn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->Ok1Btn->setStyleSheet("background: black; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->Ok1Btn->setCursor(Qt::PointingHandCursor);
     this->BorrowedWidget->setMinimumSize(600,150);
 
@@ -186,46 +191,50 @@ void StudentWidget::initBorrowedWidget()
     verticlaLayout->addWidget(this->Ok1Btn);
     this->BorrowedWidget->setLayout(verticlaLayout);
 }
-// ********************* ****************************************
+
 void StudentWidget::initPayWidget()
 {
+    cout<<"Inside Pay widget"<<endl;
     this->PayWidget = new QWidget();
-    this->PayWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 19px; font-weight: 400;");
-    QLabel* CashLabel = new QLabel("Your balance is: ");
-    CashLabel->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
-    CashLabel->setCursor(Qt::PointingHandCursor);
+    this->PayWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
 
+    QLabel* CashShowLabel = new QLabel("Your Existing Balance is (in $)");
+    CashShowLabel->setStyleSheet("background: white; border-radius: 10px; padding: 10px 0px; color: black; width: 200px;");
+    CashShowLabel->setCursor(Qt::PointingHandCursor);
+    this->CashShow = new QLineEdit();
+    this->CashShow->setReadOnly(true);
+
+    QLabel* CashEditLabel = new QLabel("Add Money (in $)");
+    CashEditLabel->setStyleSheet("background: white; border-radius: 10px; padding: 10px 0px; color: black; width: 200px;");
+    CashEditLabel->setCursor(Qt::PointingHandCursor);
     this->CashEdit = new QLineEdit();
-    this->CashEdit->setReadOnly(true);
 
-    /*
-    QHBoxLayout* HorLayout = new QHBoxLayout;
-    HorLayout->addWidget(CashLabel);
-    HorLayout ->addWidget(CashEdit);
-    */
-
-    PayButton = new QPushButton("Pay");
+    PayButton = new QPushButton("Add Money");
     this->PayButton->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->PayButton->setCursor(Qt::PointingHandCursor);
-    QGridLayout* payWidgetLayout = new QGridLayout;
-    payWidgetLayout ->addWidget(CashLabel,0,0);
-    payWidgetLayout ->addWidget(CashEdit,0,1);
 
-    payWidgetLayout->addWidget(PayButton,1,0,1,2);
-    PayWidget->setLayout(payWidgetLayout);
+    this->payBackbtn = new QPushButton("Back");
+    this->payBackbtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->payBackbtn->setCursor(Qt::PointingHandCursor);
 
-    /*
-    QVBoxLayout* payWidgetLayout = new QVBoxLayout;
-    payWidgetLayout->addWidget(CashLabel);
-    payWidgetLayout->addWidget(CashEdit);
-    payWidgetLayout->addWidget(PayButton);
+    this->payWidgetLayout = new QGridLayout;
+    this->payWidgetLayout ->addWidget(CashShowLabel,0,0);
+    this->payWidgetLayout ->addWidget(CashShow,0,1);
+
+    this->payWidgetLayout ->addWidget(CashEditLabel,1,0);
+    this->payWidgetLayout ->addWidget(CashEdit,1,1);
+
+    QHBoxLayout* verticlaLayout = new QHBoxLayout;
+    verticlaLayout->addWidget(this->payBackbtn);
+    verticlaLayout->addWidget(this->PayButton);
+    this->payWidgetLayout->addLayout(verticlaLayout,2,0,1,-1);
     this->PayWidget->setLayout(payWidgetLayout);
-    */
+
     this->PayWidget->setMinimumWidth(500);
     this->PayWidget->setMinimumHeight(400);
 
 }
-// *************************************************************
+
 void StudentWidget::initSearchWidget()
 {
     this->SearchWidget = new QWidget();
@@ -246,10 +255,6 @@ void StudentWidget::initSearchWidget()
     this->PriceBtn = new QPushButton("Price");
     this->PriceBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->PriceBtn->setCursor(Qt::PointingHandCursor);
-
-    //this->PubBtn = new QPushButton("Publisher");
-    //this->PubBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
-    //this->PubBtn->setCursor(Qt::PointingHandCursor);
 
     this->DoneBtn = new QPushButton("Done");
     this->DoneBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
@@ -319,7 +324,6 @@ void StudentWidget::Design()
 
     this->grid->addWidget(this->toolBar,0,1,-1,1);
     this->grid->addWidget(this->viewBooksScroll,0,0);
-    this->grid->addWidget(this->increaseTime,1,0);
     this->grid->addWidget(this->today,1,1,Qt::AlignLeft);
 
     this->setMinimumSize(MIN_SIZE);
@@ -330,7 +334,6 @@ void StudentWidget::Design()
 void StudentWidget::Signals_Slots()
 {
     connect(this->toolBar,SIGNAL(actionTriggered(QAction*)),this,SLOT(ButtonClicked(QAction*)));
-    connect(this->increaseTime,SIGNAL(clicked()),this,SLOT(increaseIsClicked()));
     connect(this->EditBtn,SIGNAL(clicked()),this,SLOT(editButtonClicked()));
     connect(this->OkBtn,SIGNAL(clicked()),this,SLOT(okButtonClicked()));
     connect(this->BackBtn,SIGNAL(clicked()),this,SLOT(backButtonClicked()));
@@ -340,9 +343,11 @@ void StudentWidget::Signals_Slots()
     connect(this->NameBtn,SIGNAL(clicked()),this,SLOT(nameButtonClicked()));
     connect(this->TypeBtn,SIGNAL(clicked()),this,SLOT(typeButtonClicked()));
     connect(this->PriceBtn,SIGNAL(clicked()),this,SLOT(priceButtonClicked()));
-    //connect(this->PubBtn,SIGNAL(clicked()),this,SLOT(pubButtonClicked()));
     connect(this->DoneBtn,SIGNAL(clicked()),this,SLOT(doneButtonClicked()));
+    connect(this->PayButton,SIGNAL(clicked()),this,SLOT(PayButtonClicked()));
+    connect(this->payBackbtn,SIGNAL(clicked()),this,SLOT(payBackbtnClicked()));
 }
+
 
 void StudentWidget::UpdateBooks()
 {
@@ -354,7 +359,7 @@ void StudentWidget::UpdateBooks()
         imageWidget* book_interface = new imageWidget(i->first,i->second);
         connect(book_interface,SIGNAL(bookClicked(string)),this,SLOT(bookClicked(string)));
         books.push_back(book_interface);
-        cout << i->first << ",";
+        //cout << i->first << ",";
     }
     cout << "  =========== books" << endl;
     // display it in the gridlayout
@@ -380,27 +385,50 @@ void StudentWidget::UpdateBooks()
 
 }
 
-void StudentWidget::studentLoggedIn(Student student)
+void StudentWidget::studentLoggedIn(Student student,Transaction t)
 {
     this->currentStudent = student;
-    std::cout << "studentloggedIn cash amount:" << currentStudent.getCash()<< std::endl;
+    this->currenttrans = t;
+    std::cout << "studentloggedIn cash amount:" << currenttrans.getwalletcash()<< std::endl;
     emit setLoggedInUserName(this->currentStudent.getName());
     this->nameEdit->setText(QString::fromStdString(this->currentStudent.getName()));
     this->passEdit->setText(QString::fromStdString(this->currentStudent.getPassword()));
     this->emailEdit->setText(QString::fromStdString(this->currentStudent.getEmail()));
-    this->cashEdit->setText(QString::fromStdString(to_string(this->currentStudent.getCash())));
-    this->CashEdit->setText(QString::fromStdString("$" + to_string(this->currentStudent.getCash())));
+    this->CashShow->setText(QString::fromStdString(to_string(this->currenttrans.getwalletcash())));
+    this->cardname->setText(QString::fromStdString(this->currenttrans.getCardName()));
+    this->cardnum->setText(QString::fromStdString(this->currenttrans.getCardNumber()));
+    this->cvv->setText(QString::fromStdString(this->currenttrans.getCVV()));
+    this->expiry->setText(QString::fromStdString(this->currenttrans.getexpiry_date()));
     this->UpdateBooks();
 }
 
-
-//***********************
-void StudentWidget::payRental(Book b)
+void StudentWidget::transactionupdate(Transaction t)
 {
-    this->CashEdit->setText(QString::fromStdString(to_string(b.getPrice())));
-
+    this->currenttrans = t;
+    this->cardname->setText(QString::fromStdString(this->currenttrans.getCardName()));
+    this->cardnum->setText(QString::fromStdString(this->currenttrans.getCardNumber()));
+    this->cvv->setText(QString::fromStdString(this->currenttrans.getCVV()));
+    this->expiry->setText(QString::fromStdString(this->currenttrans.getexpiry_date()));
+    this->CashShow->setText(QString::fromStdString(to_string(this->currenttrans.getwalletcash())));
 }
-//***********************
+
+void StudentWidget::PayButtonClicked()
+{
+    if(this->CashEdit->text().isEmpty() )
+    {
+        this->errorBox->setText("Please Enter a Valid Amount");
+        this->errorBox->show();
+        return;
+    }
+    double amt = this->CashEdit->text().toDouble();
+    emit addAmount(amt,currentStudent.getName());
+}
+
+void StudentWidget::payBackbtnClicked()
+{
+    this->PayWidget->hide();
+}
+
 void StudentWidget::ButtonClicked(QAction *action)
 {
     if (action->text() == "Profile")
@@ -411,8 +439,8 @@ void StudentWidget::ButtonClicked(QAction *action)
         emit aa(currentStudent.getName());
     else if (action->text() == "Search")
         this->SearchWidget->show();
-    else if (action->text() == "Pay")
-        this -> PayWidget ->show();
+    else if (action->text() == "My Wallet")
+        this->PayWidget ->show();
     else if (action->text() == "History")
         emit getSearchHistory(currentStudent.getName());
     else if (action->text() == "Log Out")
@@ -430,7 +458,11 @@ void StudentWidget::editButtonClicked()
     this->nameEdit->setReadOnly(false);
     this->passEdit->setReadOnly(false);
     this->emailEdit->setReadOnly(false);
-    this->cashEdit->setReadOnly(false);
+    this->cardname->setReadOnly(false);
+    this->cardnum->setReadOnly(false);
+    this->cvv->setReadOnly(false);
+    this->expiry->setReadOnly(false);
+    //this->cashEdit->setReadOnly(false);
 }
 
 void StudentWidget::okButtonClicked()
@@ -439,23 +471,27 @@ void StudentWidget::okButtonClicked()
     string name = this->nameEdit->text().toStdString();
     string pass = this->passEdit->text().toStdString();
     string email = this->emailEdit->text().toStdString();
-    int cash = this->cashEdit->text().toInt();
+   // int cash = this->cashEdit->text().toInt();
 
-    emit updateStudent(this->currentStudent.getName(),name,pass,email,cash);
+    Transaction t;
+    t.setName(name);
+    t.setCardName(this->cardname->text().toStdString());
+    t.setCardNumber(this->cardnum->text().toStdString());
+    t.setCVV(this->cvv->text().toStdString());
+    t.setexpiry_date(this->expiry->text().toStdString());
+    emit updateStudent(this->currentStudent.getName(),name,pass,email, t);
 
     this->currentStudent.setName(name);
     this->currentStudent.setPassword(pass);
     this->currentStudent.setEmail(email);
-    this->currentStudent.setCash(cash);
 
     this->nameEdit->setReadOnly(true);
     this->passEdit->setReadOnly(true);
     this->emailEdit->setReadOnly(true);
-    this->cashEdit->setReadOnly(true);
     this->ProfileWidget->hide();
     emit setLoggedInUserName(this->currentStudent.getName());
 
-    this->successBox->setText("Edit Successfully !");
+    this->successBox->setText("Edit Successful !");
     this->successBox->show();
 }
 
@@ -468,7 +504,7 @@ void StudentWidget::okkButtonClicked()
 {
     if(this->ReturnBook->text().isEmpty() )
     {
-        this->errorBox->setText("Please Enter a Valid Date");
+        this->errorBox->setText("Please Enter a Valid Book Name");
         this->errorBox->show();
         return;
     }
@@ -476,36 +512,35 @@ void StudentWidget::okkButtonClicked()
     emit returnBook(returnBookName,currentStudent.getName());
 }
 
-void StudentWidget::increaseIsClicked()
-{
-    todayDate++;
-    this->today->setText(" Today: "+QString::fromStdString(to_string(todayDate)));
-}
-
 void StudentWidget::error_return(string text)
 {
     this->errorBox->setText(QString::fromStdString(text));//setIcon if you want
     this->errorBox->show();
 }
-
-void StudentWidget::bookReturned(int bill , int mode)
-{//set icons if you want
+void StudentWidget::update_wallet(string text)
+{
+    this->errorBox->setText(QString::fromStdString(text));
+    this->errorBox->show();
+}
+void StudentWidget::bookReturned(double bill , int mode)
+{
+    string str = "Your Bill : " + to_string(bill) + " deducted from wallet.";
     if(mode==0){
-        this->errorBox->setText("Thanks for returning the book sound and in time\n Here's your bill: "+QString::fromStdString(to_string(bill)));
+        this->errorBox->setText("Thanks for returning the book sound and in time\n"+QString::fromStdString(str));
         this->errorBox->show();
     }
     else if(mode==1){
-        this->errorBox->setText("You've damaged the book, you will pay half of its price\n Here's your bill: "+QString::fromStdString(to_string(bill)));
+        this->errorBox->setText("You're late, a fee is added to the bill. ($5/week for the days between your said and actual return date)\n"+QString::fromStdString(str));
         this->errorBox->show();
     }
-    else if(mode==2){
-        this->errorBox->setText("You're late, a fee will be added to the bill\n Here's your bill: "+QString::fromStdString(to_string(bill)));
-        this->errorBox->show();
-    }
-    else if(mode==3){
-        this->errorBox->setText("You're late and you've damaged the book!! \n Here's your bill: "+QString::fromStdString(to_string(bill)));
-        this->errorBox->show();
-    }
+//    else if(mode==2){
+//        this->errorBox->setText("You're late, a fee will be added to the bill\n Here's your bill: "+QString::fromStdString(to_string(bill)));
+//        this->errorBox->show();
+//    }
+//    else if(mode==3){
+//        this->errorBox->setText("You're late and you've damaged the book!! \n Here's your bill: "+QString::fromStdString(to_string(bill)));
+//        this->errorBox->show();
+//    }
     this->ReturnWidget->hide();
 }
 
@@ -514,10 +549,10 @@ void StudentWidget::borrowedBooks(vector<Book> v)
     for(int i=0;i<v.size();i++)
     {
         string a = v[i].getName();
-        int b = v[i].getBorrowedDate();
-        int c = v[i].getExpectedReturnDate();
-        int d =ceil((c-b)/7.0)*v[i].getPrice();
-        this->addRoot(a,to_string(b),to_string(c),to_string(d));
+        //sint b = v[i].getBorrowedDate();
+        //int c = v[i].getExpectedReturnDate();
+        //int d =ceil((c-b)/7.0)*v[i].getPrice();
+        //this->addRoot(a,to_string(b),to_string(c),to_string(d));
     }
     this->BorrowedWidget->show();
 }
@@ -647,13 +682,4 @@ void StudentWidget::addRoot(string s)
      HistoryList->addTopLevelItem(i1);
 }
 
-//void StudentWidget::librarianWidgetOpen()
-//{
-//    this->librarianWidget->show();
-//}
 
-//void StudentWidget::Ok2ButtonClicked()
-//{
-//    emit libBookState(stoi(this->bookState->text().toStdString()));
-//    this->librarianWidget->hide();
-//}

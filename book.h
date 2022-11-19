@@ -10,7 +10,7 @@ using namespace std;
 class Book
 {
 private:
-    string rowid;
+    int rowid=-1;
     string Name;
     int Price;
     bool state;
@@ -19,15 +19,14 @@ private:
     Publisher* publisher;
     bool availability;
     string publisher_name;
-    //*************
+    string borrowed_by="";
     int like=0;
-    //int NumRating=0;
-    //*****************
-    int borrowedDate=0, expectedReturnDate=0, actualReturnDate=0 ;
+    string borrowedDate="", expectedReturnDate="", actualReturnDate="" ;
 
 public:
     Book();
-    Book(string name , string type , Publisher* author , string Rowid ,int price = 0 , bool State = true, bool Availability = true, int Like=0);
+    Book(string name , string type , string author, int price = 0 , bool State = true, bool Availability = true, int Like=0, int rowid=-1);
+
     // ========= Setters ===========
     void setName(string);
     void setPrice(int);
@@ -37,20 +36,18 @@ public:
     void setImagePath(string);
     void setState(bool);
     void setAvailability(bool);
-    void setBorrowedDate(int);
-    void setExpectedReturnDate(int);
-    void setActualReturnDate(int);
-    void setRowId(string);
+    void setBorrowedDate(string);
+    void setExpectedReturnDate(string);
+    void setActualReturnDate(string);
+    void setRowId(int);
     void setLike(int);
-    //******************
     void incLike();
     void decLike();
-    //***************
+    void setborrowed_by(string);
+
     // ========== Getters ===========
-    //***************
     int getLike();
-    //**************
-    string getRowId();
+    int getRowId();
     string getName();
     int getPrice();
     string getType();
@@ -59,10 +56,10 @@ public:
     string getImagePath();
     bool getState();
     bool getAvailability();
-    int getBorrowedDate();
-    int getExpectedReturnDate();
-    int getActualReturnDate();
-
+    string getBorrowedDate();
+    string getExpectedReturnDate();
+    string getActualReturnDate();
+    string getborrowed_by();
     void showInfo();
     bool operator == (Book&);
 };

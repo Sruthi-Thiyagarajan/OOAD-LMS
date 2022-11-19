@@ -16,7 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <QDebug>
-
+#include <QDateEdit>
 #include <QVBoxLayout>
 #include <QTabBar>
 #include <QTabWidget>
@@ -69,11 +69,13 @@ private:
     QMessageBox* borrowed,*errorBox,*successBox;
     QString Path;
     string bookNameStr;
-    int expectedReturnDate;
+    //S int expectedReturnDate;
+    string expectedReturnDate;
 
     QWidget* ReturnWidget;
     QGridLayout* ReturnLayout;
-    QLineEdit* ReturnDate;
+   // QLineEdit* ReturnDate;
+    QDateEdit * ReturnDate;
     QPushButton *OkkBtn;
 
     string userName ;
@@ -91,9 +93,7 @@ signals:
     void setCurrentWidget(int);
     void getBookInfo(string);
     void getBookInfo(Book);
-    void borrowBook(string,string,int);
-    //*******************
-    //void borrowBook(string, string);
+    void borrowBook(string,string,string);
     int checkLikeAlready(bookstudent);
     void saveBookLikeDB(bookstudent, int);
     vector<string> loadReview(string);
