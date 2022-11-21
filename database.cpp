@@ -31,7 +31,7 @@ QSqlQuery* DataBase::getBookTableHandle()
 {
     int test = 111;
     QSqlQuery* qry = new QSqlQuery(this->db);
-    qry->prepare("select Name, Type, Price, Publisher, Availability from books");
+    qry->prepare("select Name, Type, Price, Author, Availability from books");
 
     if(qry->exec()) test=222;
     return qry;
@@ -43,7 +43,7 @@ bool DataBase::saveBook(Book book)
     check.bindValue(0,QString::fromStdString(book.getName()));
     check.exec();
     QSqlQuery query(this->db);
-    query.prepare("INSERT INTO Books(Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath) VALUES(?,?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO Books(Name,Type,Price,Author,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath) VALUES(?,?,?,?,?,?,?,?,?,?);");
     query.bindValue(0,QString::fromStdString(book.getName()));
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
@@ -182,7 +182,7 @@ void DataBase::updatePublisher(Publisher publisher, string old_name)
 void DataBase::updateBook(Book book , string oldBookName)
 {
     QSqlQuery query(this->db);
-    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Publisher=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=?,borrowedBy=? WHERE Name = ? ;");
+    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Author=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=?,borrowedBy=? WHERE Name = ? ;");
     query.bindValue(0,QString::fromStdString(book.getName()));
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
@@ -201,7 +201,7 @@ void DataBase::updateBook(Book book , string oldBookName)
 void DataBase::updateBookByRowId(Book book, string rowid)
 {
     QSqlQuery query(this->db);
-    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Publisher=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=?,borrowedBy=? WHERE rowid = ? ;");
+    query.prepare("UPDATE Books SET Name=?,Type=?,Price=?,Author=?,borrowedDate=?,expectedReturnDate=?,actualReturnDate=?,State=?,Availability=?,imagePath=?,borrowedBy=? WHERE rowid = ? ;");
     query.bindValue(0,QString::fromStdString(book.getName()));
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
@@ -220,7 +220,7 @@ void DataBase::updateBookByRowId(Book book, string rowid)
 Book DataBase::loadBook(string name)
 {
     QSqlQuery query(this->db);
-    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,rowid FROM "
+    query.prepare("SELECT Name,Type,Price,Author,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,rowid FROM "
                   "Books WHERE Name=?;");
     query.bindValue(0,QString::fromStdString(name));
     query.exec();
@@ -251,7 +251,7 @@ Book DataBase::loadBook(string name)
 Book DataBase::loadBookByRowId(string rowid)
 {
     QSqlQuery query(this->db);
-    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,borrowedBy,rowid FROM "
+    query.prepare("SELECT Name,Type,Price,Author,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,borrowedBy,rowid FROM "
                   "Books WHERE rowid=?;");
     query.bindValue(0,QString::fromStdString(rowid));
     query.exec();
@@ -277,7 +277,7 @@ Book DataBase::loadBookByRowId(string rowid)
 Book DataBase::loadBookForce(string name)
 {
     QSqlQuery query(this->db);
-    query.prepare("SELECT Name,Type,Price,Publisher,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,rowid FROM "
+    query.prepare("SELECT Name,Type,Price,Author,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,Like,rowid FROM "
                   "Books WHERE Name=?;");
     query.bindValue(0,QString::fromStdString(name));
     query.exec();

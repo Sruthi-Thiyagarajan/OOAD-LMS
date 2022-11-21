@@ -45,13 +45,15 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
     this->bookPrice->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     this->bookType = new QLineEdit;
     this->bookType->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->bookAuthor = new QLineEdit;
+    this->bookAuthor->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
 
     this->pubBooksNumLabel = new QLabel("Books Published");
     this->pubNameLabel = new QLabel("Publisher Name");
     this->bookNameLabel = new QLabel("Book Name");
     this->bookPriceLabel= new QLabel("Book Price");
     this->bookTypeLabel = new QLabel("Book Type");
-
+    this->bookAuthorLabel = new QLabel("Book Author");
 
     this->errorBox = new QMessageBox();
     this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/error.png"));
@@ -150,9 +152,14 @@ void PublisherWidget::Design()
     this->rightLayout->addWidget(this->bookPrice,1,1,1,-1);
     this->rightLayout->addWidget(this->bookTypeLabel,2,0);
     this->rightLayout->addWidget(this->bookType,2,1,1,-1);
-    this->rightLayout->addWidget(this->addBookBtn,3,0,1,1);
+
+    this->rightLayout->addWidget(this->bookAuthorLabel,3,0);
+    this->rightLayout->addWidget(this->bookAuthor,3,1,1,-1);
+
+
+    this->rightLayout->addWidget(this->addBookBtn,4,0,1,1);
     //***************** removeBookBtn *************************
-    this->rightLayout->addWidget(this->removeBookBtn, 3,3,1,-1);
+    this->rightLayout->addWidget(this->removeBookBtn, 4,3,1,-1);
     //******************************************************
 
     this->grid->addWidget(this->headerWidget,0,0,1,-1,Qt::AlignTop);
@@ -193,11 +200,13 @@ void PublisherWidget::bookDataCheck()
     string Name;
     string Type;
     int Price;
+    string Author;
     Name  =this->bookName->text().toStdString();
     Type  =this->bookType->text().toStdString();
     Price =this->bookPrice->text().toInt();
-    emit addBookData(this->currentPublisher.getName(),Name,Type,Price);
-
+    Author =this->bookAuthor->text().toStdString();
+    //emit addBookData(this->currentPublisher.getName(),Name,Type,Price);
+    emit addBookData(Author, Name, Type, Price);
     // check box
     this->sucessBox->setText("Book Added Successfully!");
     this->sucessBox->show();

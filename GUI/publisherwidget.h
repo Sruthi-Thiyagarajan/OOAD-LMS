@@ -58,6 +58,7 @@ private :
     QLineEdit* bookName;        QLabel* bookNameLabel;
     QLineEdit* bookPrice;       QLabel* bookPriceLabel;
     QLineEdit* bookType;        QLabel* bookTypeLabel;
+    QLineEdit* bookAuthor;      QLabel* bookAuthorLabel;
     QMessageBox* errorBox;
     QMessageBox* sucessBox;
 
