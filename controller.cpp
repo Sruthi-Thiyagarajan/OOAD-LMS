@@ -38,6 +38,7 @@ void Controller::sign_up(string name ,string email , string password , int choic
             return;
         }
         cout<<"You signed up successfully"<<endl;
+        this->log_in(name,password,choice);
     }
 }
 void Controller::log_in(string name , string password , int choice)

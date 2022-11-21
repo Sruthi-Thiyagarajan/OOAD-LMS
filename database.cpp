@@ -31,7 +31,8 @@ QSqlQuery* DataBase::getBookTableHandle()
 {
     int test = 111;
     QSqlQuery* qry = new QSqlQuery(this->db);
-    qry->prepare("select * from books");
+    qry->prepare("select Name, Type, Price, Publisher, Availability from books");
+
     if(qry->exec()) test=222;
     return qry;
 }
@@ -83,7 +84,7 @@ bool DataBase::saveStudent(Student student)
     if(check.next())
         return false;
     QSqlQuery query(this->db);
-    query.prepare("INSERT INTO Students(Name,Email,Password,cashAmount) VALUES(?,?,?,?);");
+    query.prepare("INSERT INTO Students(Name,Email,Password) VALUES(?,?,?);");
     query.bindValue(0,QString::fromStdString(student.getName()));
     query.bindValue(1,QString::fromStdString(student.getEmail()));
     query.bindValue(2,QString::fromStdString(student.getPassword()));
