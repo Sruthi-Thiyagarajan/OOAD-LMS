@@ -31,7 +31,7 @@ QSqlQuery* DataBase::getBookTableHandle()
 {
     int test = 111;
     QSqlQuery* qry = new QSqlQuery(this->db);
-    qry->prepare("select Name, Type, Price, Author, Availability from books");
+    qry->prepare("select Name, Type, Price, Author, Availability,borrowedBy from books");
 
     if(qry->exec()) test=222;
     return qry;
@@ -311,6 +311,8 @@ bool DataBase::insertNewRowInBookStudent(bookstudent bs)
 
 
     string bookName = bs.getbookname();
+    std::string::iterator end_pos = std::remove(bookName.begin(), bookName.end(), ' ');
+    bookName.erase(end_pos, bookName.end());
     string studentName = bs.getstudentname();
 
     // check the table "bookName" exists or not
@@ -352,6 +354,8 @@ bool DataBase::insertNewRowInBookStudent(bookstudent bs)
 //int DataBase::checkLikeStatus(string bookName, string studentName)
 int DataBase::checkLikeStatus(bookstudent bs)
 {   string bookName = bs.getbookname();
+    std::string::iterator end_pos = std::remove(bookName.begin(), bookName.end(), ' ');
+    bookName.erase(end_pos, bookName.end());
     string studentName = bs.getstudentname();
     int likeAlready;
     int test = 11;
@@ -376,6 +380,8 @@ bool DataBase::saveReview(string review, bookstudent bs)
 {
     int test = 111;
     string bookName = bs.getbookname();
+    std::string::iterator end_pos = std::remove(bookName.begin(), bookName.end(), ' ');
+    bookName.erase(end_pos, bookName.end());
     string studentName = bs.getstudentname();;
     insertNewRowInBookStudent(bs);
     QSqlQuery query(this->db);
@@ -403,6 +409,8 @@ bool DataBase::saveBookLikeDB(bookstudent bs, int liked)
 {
     int test = 111;
     string bookName = bs.getbookname();
+    std::string::iterator end_pos = std::remove(bookName.begin(), bookName.end(), ' ');
+    bookName.erase(end_pos, bookName.end());
     string studentName = bs.getstudentname();
     QSqlQuery query(this->db);
     string query_string = "UPDATE " + bookName + " SET likeAlready = ? WHERE studentName = ?;";
@@ -416,17 +424,17 @@ bool DataBase::saveBookLikeDB(bookstudent bs, int liked)
     int nextLike;
     QSqlQuery query1(this->db);
     QSqlQuery query2(this->db);
-    query1.prepare("SELECT liked from BOOKS where Name = ?");
+    query1.prepare("SELECT Like from BOOKS where Name = ?");
     query1.bindValue(0, QString::fromStdString(bookName));
     query1.exec();
-    while (query.next())
+    while (query1.next())
     {
-        curLike = query.value(0).toInt();
+        curLike = query1.value(0).toInt();
         if (liked == 1) nextLike = curLike + 1;
         else nextLike = curLike - 1;
-        query2.prepare("UPDATE Books SET liked = ? WHERE Name = ?");
+        query2.prepare("UPDATE Books SET Like = ? WHERE Name = ?");
         query2.bindValue(0, QString::fromStdString(to_string(nextLike)));
-        query2.bindValue(1, QString::fromStdString(studentName));
+        query2.bindValue(1, QString::fromStdString(bookName));
         if(query2.exec())
             test = 333;
     }
