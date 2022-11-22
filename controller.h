@@ -44,6 +44,7 @@ public slots:
 
     // books
     void searchBookByName(string,string);
+    void searchBookByISBN(string, string);
     void searchBookByType(string,string);
     void searchBookByPrice(int,string);
     void searchBookByPub(string,string);

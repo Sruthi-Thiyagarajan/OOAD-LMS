@@ -6,43 +6,43 @@ SignUp::SignUp(QWidget* parent): QWidget(parent)
     this->widget = new QWidget;
 
     this->image = new QLabel;
-    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/signup.jpg");
+    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/signup.png");
     this->image->setPixmap(pixMap->scaled(this->image->width()/2,this->image->height()/2,Qt::KeepAspectRatio) );
     this->image->setScaledContents(true);
 
     this->grid = new QGridLayout;
     this->SignUpBtn = new QPushButton("Sign Up");
-    this->SignUpBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white;");
+    this->SignUpBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white;");
     this->SignUpBtn->setCursor(Qt::PointingHandCursor);
     this->BackBtn = new QPushButton("Back");
-    this->BackBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->BackBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->BackBtn->setCursor(Qt::PointingHandCursor);
 
     this->Name = new QLineEdit;
-    this->Name->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->Name->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->Email = new QLineEdit;
-    this->Email->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->Email->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->Password = new QLineEdit;
     this->Password->setEchoMode(QLineEdit::PasswordEchoOnEdit);
-    this->Password->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->Password->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->ConfirmPassword = new QLineEdit;
     this->ConfirmPassword->setEchoMode(QLineEdit::Password);
-    this->ConfirmPassword->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->ConfirmPassword->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->CardName = new QLineEdit;
-    this->CardName->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->CardName->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->CardNumber = new QLineEdit;
     this->CardNumber->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{16}"), this));
     this->CardNumber->show();
-    this->CardNumber->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->CardNumber->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->CVV = new QLineEdit;
     this->CVV->setEchoMode(QLineEdit::Password);
-    this->CVV->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->CVV->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->expiry_date = new QDateEdit;
     this->expiry_date->setCalendarPopup(true);

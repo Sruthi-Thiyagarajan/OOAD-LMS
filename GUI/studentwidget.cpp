@@ -25,6 +25,8 @@ StudentWidget::StudentWidget(QWidget *parent) : QWidget(parent)
     this->successBox = new QMessageBox();
     this->successBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/sucess.png"));
     this->tabWidget = new QTabWidget();
+    this->tabWidget->setMinimumHeight(500);
+    this->tabWidget->setMinimumWidth(800);
 
     this->initProfileWidget();
     this->initReturnWidget();
@@ -32,6 +34,7 @@ StudentWidget::StudentWidget(QWidget *parent) : QWidget(parent)
     this->initSearchWidget();
     this->initPayWidget();
     this->initHistoryWidget();
+    this->initMymessageWidget();
     this->initLibrarianWidget();
     this->initToolBar();
     this->Design();
@@ -44,13 +47,14 @@ void StudentWidget::initToolBar()
     this->toolBar->setOrientation(Qt::Vertical);
     this->toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    QIcon Profile(this->Path +"/../../OOAD-LMS/icons/profile.png"); QString ProfileText = "Profile";
+    QIcon Profile(this->Path +"/../../OOAD-LMS/icons/profile.jpg"); QString ProfileText = "Profile";
     QIcon Search(this->Path + "/../../OOAD-LMS/icons/search.png"); QString SearchText = "Search";
     QIcon favorite(this->Path + "/../../OOAD-LMS/icons/book.png"); QString favoriteText = "My Books";
     QIcon History( this->Path + "/../../OOAD-LMS/icons/history.png"); QString HistoryText = "History";
-    QIcon Return(this->Path + "/../../OOAD-LMS/icons/return.png"); QString ReturnText = "Return";
-    QIcon LogOut(this->Path + "/../../OOAD-LMS/icons/logout.png"); QString LogOutText = "Log Out";
+    QIcon Return(this->Path + "/../../OOAD-LMS/icons/return1.png"); QString ReturnText = "Return";
+    QIcon LogOut(this->Path + "/../../OOAD-LMS/icons/logout1.png"); QString LogOutText = "Log Out";
     QIcon Pay(this->Path + "/../../OOAD-LMS/icons/pay.jpg"); QString PayText = "My Wallet";
+    QIcon Mymessage(this->Path + "/../../OOAD-LMS/icons/mymessage.png"); QString MymessageText = "My Message";
 
     this->toolBar->addAction(Profile,ProfileText);
     this->toolBar->addAction(Search,SearchText);
@@ -58,12 +62,15 @@ void StudentWidget::initToolBar()
     this->toolBar->addAction(History,HistoryText);
     // ***********************************
     this->toolBar -> addAction(Pay, PayText);
+    this->toolBar->addAction(Mymessage, MymessageText);
     this->toolBar->addAction(Return,ReturnText);
+
     this->toolBar->addAction(LogOut,LogOutText);
     this->toolBar->setStyleSheet("QToolButton:hover{padding: 5px;background-color: white; color: black;}"
                                  "QToolButton:select{padding: 5px;background-color: white; color: black;}"
                                  "QToolButton{padding: 10px; border-radius: 10px;}"
                                  "QToolBar{background-color:white;}");
+
 }
 void StudentWidget::initProfileWidget()
 {
@@ -71,15 +78,15 @@ void StudentWidget::initProfileWidget()
     this->ProfileWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->ProfileLayout = new QGridLayout();
 
-    QLabel* name = new QLabel("Name:");             this->nameEdit = new QLineEdit(); nameEdit->setReadOnly(true);  this->nameEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true);  this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true); this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cardnamelabel = new QLabel("Card Name:");    this->cardname = new QLineEdit(); cardname->setReadOnly(true); this->cardname->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cardnumlabel = new QLabel("Card Number:");    this->cardnum = new QLineEdit(); cardnum->setReadOnly(true); this->cardnum->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cvvlabel = new QLabel("CVV:");    this->cvv = new QLineEdit(); cvv->setEchoMode(QLineEdit::Password);cvv->setReadOnly(true); this->cvv->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* explabel = new QLabel("Expiry:");    this->expiry = new QLineEdit(); expiry->setReadOnly(true); this->expiry->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    QLabel* name = new QLabel("Name:");             this->nameEdit = new QLineEdit(); nameEdit->setReadOnly(true);  this->nameEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
+    QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true);  this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
+    QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true); this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
+    QLabel* cardnamelabel = new QLabel("Card Name:");    this->cardname = new QLineEdit(); cardname->setReadOnly(true); this->cardname->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
+    QLabel* cardnumlabel = new QLabel("Card Number:");    this->cardnum = new QLineEdit(); cardnum->setReadOnly(true); this->cardnum->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
+    QLabel* cvvlabel = new QLabel("CVV:");    this->cvv = new QLineEdit(); cvv->setEchoMode(QLineEdit::Password);cvv->setReadOnly(true); this->cvv->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
+    QLabel* explabel = new QLabel("Expiry:");    this->expiry = new QLineEdit(); expiry->setReadOnly(true); this->expiry->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
-    //QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true);  this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    //QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true);  this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
 
     QLabel *image; QPixmap* pixMap;
@@ -89,11 +96,11 @@ void StudentWidget::initProfileWidget()
     image->setScaledContents(true);
 
     this->EditBtn = new QPushButton("Edit");
-    this->EditBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->EditBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->EditBtn->setCursor(Qt::PointingHandCursor);
 
     this->OkBtn = new QPushButton("Ok");
-    this->OkBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkBtn->setCursor(Qt::PointingHandCursor);
 
     QLabel* setting =new QLabel("Profile Settings");
@@ -140,16 +147,16 @@ void StudentWidget::initReturnWidget()
     this->ReturnWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->ReturnLayout = new QGridLayout();
 
-    QLabel* enterBook = new QLabel("Enter return book :"); enterBook->setStyleSheet("color:#00BFFF");
+    QLabel* enterBook = new QLabel("Enter return book :"); enterBook->setStyleSheet("color:#808080");
     this->ReturnBook = new QLineEdit();
     this->ReturnBook->setStyleSheet("background: white;");
 
     this->BackBtn = new QPushButton("Back");
-    this->BackBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->BackBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->BackBtn->setCursor(Qt::PointingHandCursor);
 
     this->OkkBtn = new QPushButton("Ok");
-    this->OkkBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkkBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkkBtn->setCursor(Qt::PointingHandCursor);
 
     this->ReturnLayout->addWidget(enterBook,0,0,Qt::AlignLeft);
@@ -169,7 +176,7 @@ void StudentWidget::initBorrowedWidget()
     this->borrowedList = new QTreeWidget();
     this->borrowedList->setStyleSheet("background: white");
     this->Ok1Btn = new QPushButton("Ok");
-    this->Ok1Btn->setStyleSheet("background: black; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->Ok1Btn->setStyleSheet("background: gray; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->Ok1Btn->setCursor(Qt::PointingHandCursor);
     this->BorrowedWidget->setMinimumSize(600,150);
 
@@ -192,6 +199,27 @@ void StudentWidget::initBorrowedWidget()
     this->BorrowedWidget->setLayout(verticlaLayout);
 }
 
+void StudentWidget::initMymessageWidget()
+{
+    this->MymessageWidget = new QWidget();
+    this->MymessageWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
+    QLabel* MymessageLabel = new QLabel("Dear");
+    MymessageLabel->setStyleSheet("background: white; border-radius: 10px; padding: 10px 0px; color: black; width: 200px;");
+    MymessageLabel->setCursor(Qt::PointingHandCursor);
+    this->nameShow = new QLineEdit();
+    this->nameShow->setReadOnly(true);
+    this->MymessageShow = new QLineEdit();
+    this->MymessageShow->setReadOnly(true);
+
+    this->MymessageWidgetLayout = new QGridLayout;
+    this->MymessageWidgetLayout ->addWidget(MymessageLabel,0,0);
+    this->MymessageWidgetLayout->addWidget(nameShow, 0, 1);
+    this->MymessageWidgetLayout ->addWidget(MymessageShow,1,0,-1,-1);
+    this->MymessageWidget->setLayout(MymessageWidgetLayout);
+
+    this->MymessageWidget->setMinimumWidth(500);
+    this->MymessageWidget->setMinimumHeight(400);
+}
 void StudentWidget::initPayWidget()
 {
     cout<<"Inside Pay widget"<<endl;
@@ -210,11 +238,11 @@ void StudentWidget::initPayWidget()
     this->CashEdit = new QLineEdit();
 
     PayButton = new QPushButton("Add Money");
-    this->PayButton->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
+    this->PayButton->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->PayButton->setCursor(Qt::PointingHandCursor);
 
     this->payBackbtn = new QPushButton("Back");
-    this->payBackbtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->payBackbtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->payBackbtn->setCursor(Qt::PointingHandCursor);
 
     this->payWidgetLayout = new QGridLayout;
@@ -242,28 +270,33 @@ void StudentWidget::initSearchWidget()
     this->SearchLayout = new QVBoxLayout();
     this->SearchBook = new QLineEdit();
     this->SearchBook->setStyleSheet("background: white;");
-    QLabel *lbl = new QLabel("You want to search by :"); lbl->setStyleSheet("color:#00BFFF");
+    QLabel *lbl = new QLabel("You want to search by :"); lbl->setStyleSheet("color:#808080");
 
     this->NameBtn = new QPushButton("Name");
-    this->NameBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->NameBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->NameBtn->setCursor(Qt::PointingHandCursor);
 
     this->TypeBtn = new QPushButton("Type");
-    this->TypeBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->TypeBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->TypeBtn->setCursor(Qt::PointingHandCursor);
 
     this->PriceBtn = new QPushButton("Price");
-    this->PriceBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->PriceBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->PriceBtn->setCursor(Qt::PointingHandCursor);
 
+    this->ISBNBtn = new QPushButton("ISBN");
+    this->ISBNBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->ISBNBtn->setCursor(Qt::PointingHandCursor);
+
     this->DoneBtn = new QPushButton("Done");
-    this->DoneBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->DoneBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->DoneBtn->setCursor(Qt::PointingHandCursor);
 
     this->SearchLayout->addWidget(lbl);
     this->SearchLayout->addWidget(NameBtn);
     this->SearchLayout->addWidget(TypeBtn);
     this->SearchLayout->addWidget(PriceBtn);
+    this->SearchLayout->addWidget(ISBNBtn);
     //this->SearchLayout->addWidget(PubBtn);
     this->SearchLayout->addWidget(SearchBook);
     this->SearchLayout->addWidget(DoneBtn);
@@ -277,7 +310,7 @@ void StudentWidget::initHistoryWidget()
     this->HistoryList = new QTreeWidget();
     this->HistoryList->setStyleSheet("background: white");
     this->OkBtnh = new QPushButton("Ok");
-    this->OkBtnh->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkBtnh->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkBtnh->setCursor(Qt::PointingHandCursor);
     this->HistoryWidget->setMinimumSize(600,150);
 
@@ -346,6 +379,7 @@ void StudentWidget::Signals_Slots()
     connect(this->DoneBtn,SIGNAL(clicked()),this,SLOT(doneButtonClicked()));
     connect(this->PayButton,SIGNAL(clicked()),this,SLOT(PayButtonClicked()));
     connect(this->payBackbtn,SIGNAL(clicked()),this,SLOT(payBackbtnClicked()));
+    connect(this->ISBNBtn, SIGNAL(clicked()), this, SLOT(ISBNBtnClicked()));
 }
 
 
@@ -399,6 +433,8 @@ void StudentWidget::studentLoggedIn(Student student,Transaction t)
     this->cardnum->setText(QString::fromStdString(this->currenttrans.getCardNumber()));
     this->cvv->setText(QString::fromStdString(this->currenttrans.getCVV()));
     this->expiry->setText(QString::fromStdString(this->currenttrans.getexpiry_date()));
+    this->MymessageShow->setText(QString::fromStdString(this->currentStudent.getMessage()));
+    this->nameShow->setText(QString::fromStdString(this->currentStudent.getName()));
     this->UpdateBooks();
 }
 
@@ -443,6 +479,8 @@ void StudentWidget::ButtonClicked(QAction *action)
         this->PayWidget ->show();
     else if (action->text() == "History")
         emit getSearchHistory(currentStudent.getName());
+    else if (action->text() == "My Message")
+        emit MymessageWidget->show();
     else if (action->text() == "Log Out")
     {
         emit setCurrentWidget(LOGIN_WIDGET);
@@ -548,8 +586,8 @@ void StudentWidget::borrowedBooks(vector<Book> v)
 {
     for(int i=0;i<v.size();i++)
     {
-        string a = v[i].getName();
-        //sint b = v[i].getBorrowedDate();
+        //int a = v[i].getName();
+        //int b = v[i].getBorrowedDate();
         //int c = v[i].getExpectedReturnDate();
         //int d =ceil((c-b)/7.0)*v[i].getPrice();
         //this->addRoot(a,to_string(b),to_string(c),to_string(d));
@@ -593,6 +631,19 @@ void StudentWidget::nameButtonClicked()
     }
     this->tabWidget->clear();
     emit searchBookByName(this->SearchBook->text().toStdString(),currentStudent.getName());
+}
+
+void StudentWidget::ISBNBtnClicked()
+{
+    if(SearchBook->text().isEmpty())
+    {
+        this->errorBox->setText("Empty Search");
+        this->errorBox->show();
+        return;
+    }
+    this->tabWidget->clear();
+    emit searchBookByISBN(this->SearchBook->text().toStdString(),currentStudent.getName());
+
 }
 
 void StudentWidget::typeButtonClicked()

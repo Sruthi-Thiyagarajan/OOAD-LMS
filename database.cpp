@@ -426,16 +426,18 @@ bool DataBase::saveBookLikeDB(bookstudent bs, int liked)
     QSqlQuery query1(this->db);
     QSqlQuery query2(this->db);
     query1.prepare("SELECT Like from BOOKS where Name = ?");
-    query1.bindValue(0, QString::fromStdString(bookName));
+    query1.bindValue(0, QString::fromStdString(bs.getbookname()));
     query1.exec();
     while (query1.next())
     {
         curLike = query1.value(0).toInt();
-        if (liked == 1) nextLike = curLike + 1;
-        else nextLike = curLike - 1;
+        if (liked == 1)
+            nextLike = curLike + 1;
+        else
+            nextLike = curLike - 1;
         query2.prepare("UPDATE Books SET Like = ? WHERE Name = ?");
         query2.bindValue(0, QString::fromStdString(to_string(nextLike)));
-        query2.bindValue(1, QString::fromStdString(bookName));
+        query2.bindValue(1, QString::fromStdString(bs.getbookname()));
         if(query2.exec())
             test = 333;
     }
@@ -673,6 +675,21 @@ vector<Book> DataBase::searchBookByType(string type)
     QSqlQuery query(this->db);
     query.prepare("SELECT Name FROM Books where Type = ? ;");
     query.bindValue(0,QString::fromStdString(type));
+    query.exec();
+    vector<Book> v;
+    vector<string> ss;
+    while(query.next())
+        ss.push_back(query.value(0).toString().toStdString());
+    for(int i=0 ; i<ss.size();i++)
+        v.push_back(this->loadBookForce(ss[i]));
+    return v;
+}
+
+vector<Book> DataBase::searchBookByISBN(string bookISBN)
+{
+    QSqlQuery query(this->db);
+    query.prepare("SELECT Name FROM Books where ISBN = ? ;");
+    query.bindValue(0,QString::fromStdString(bookISBN));
     query.exec();
     vector<Book> v;
     vector<string> ss;

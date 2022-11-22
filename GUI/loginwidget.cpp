@@ -6,24 +6,24 @@ LogInWidget::LogInWidget(QWidget* parent): QWidget(parent)
     this->widget = new QWidget;
 
     this->image = new QLabel;
-    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/laptop.jpg");
+    this->pixMap =new QPixmap(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/library.jpg");
     this->image->setPixmap(pixMap->scaled(this->image->width()/2,this->image->height()/2,Qt::KeepAspectRatio) );
     this->image->setScaledContents(true);
 
     this->grid = new QGridLayout;
     this->LogInBtn = new QPushButton("Log In");
-    this->LogInBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->LogInBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->LogInBtn->setCursor(Qt::PointingHandCursor);
 
     this->BackBtn = new QPushButton("Back");
-    this->BackBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->BackBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->BackBtn->setCursor(Qt::PointingHandCursor);
 
     this->Name = new QLineEdit;
-    this->Name->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->Name->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
     this->Password = new QLineEdit;
     this->Password->setEchoMode(QLineEdit::Password);
-    this->Password->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->Password->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->nameLabel = new QLabel("Name");   this->nameLabel->setStyleSheet("color:black;");
     this->passLabel = new QLabel("Password"); this->passLabel->setStyleSheet("color:black;");

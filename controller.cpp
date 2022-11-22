@@ -203,6 +203,19 @@ void Controller::searchBookByName(string BookNameOrID,string stuName)
     db.updateStudent(s,stuName);
 }
 
+void Controller::searchBookByISBN(string bookISBN,string stuName)
+{
+    vector<Book> v = db.searchBookByISBN(bookISBN);
+    Student s =db.loadStudent(stuName);
+    for(int i=0;i<v.size();i++)
+    {
+        db.addSearchHistory(v[i],stuName);
+        db.updateStudent(s,stuName);
+    }
+
+    emit booksFound(v);
+}
+
 void Controller::searchBookByType(string type , string stuName)
 {
     vector<Book> v = db.searchBookByType(type);

@@ -66,7 +66,8 @@ private:
     QWidget* SearchWidget;
     QVBoxLayout* SearchLayout;
     QLineEdit* SearchBook;
-    QPushButton *NameBtn,*TypeBtn,*PriceBtn,*DoneBtn;
+    QPushButton *NameBtn,*TypeBtn,*PriceBtn,*DoneBtn,*ISBNBtn;
+
 
     QWidget* PayWidget;
     QGridLayout* payWidgetLayout;
@@ -128,6 +129,7 @@ signals:
     void searchBookByType(string,string);
     void searchBookByPrice(int,string);
     void searchBookByPub(string,string);
+    void searchBookByISBN(string,string);
     void getSearchHistory(string);
     void setCurrentWidget(int);
     void setLoggedInUserName(string);
@@ -154,6 +156,7 @@ public slots:
     void priceButtonClicked();
     void pubButtonClicked();
     void doneButtonClicked();
+    void ISBNBtnClicked();
     void booksFound(vector<Book>);
     void searchedBooks(vector<string>);
     void bookClicked(string name);

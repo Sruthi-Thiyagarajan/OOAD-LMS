@@ -1,3 +1,4 @@
+
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
@@ -8,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     this->stackWidget =new QStackedWidget();
 
-    this->stackWidget->setStyleSheet("background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #00BFFF, stop:1 #F0F8FF);"
+    this->stackWidget->setStyleSheet("background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #000000, stop:1 #F0F8FF);"
                                      "color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->controller = new Controller();
     //this->librarian = new Librarian();
@@ -54,7 +55,7 @@ void MainWindow::Signals_Slots()
     connect(this->controller,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
     connect(this->controller,SIGNAL(publisherLoggedin(Publisher)),this->publisherWidget,SLOT(publisherLoggedIn(Publisher)));
     connect(this->publisherWidget,SIGNAL(setCurrentWidget(int)),this,SLOT(changeCurrentWidget(int)));
-    connect(this->publisherWidget,SIGNAL(addBookData(string,string,string,int)),this->controller,SLOT(Upload_book(string,string,string,int)));
+    connect(this->publisherWidget,SIGNAL(addBookData(string,string,string,int,string)),this->controller,SLOT(Upload_book(string,string,string,int,string)));
     connect(this->publisherWidget,SIGNAL(removeBookData(Book)),this->controller,SLOT(removeBookData(Book)));
     connect(this->publisherWidget,SIGNAL(updatePublisher(string,string,string,string,int)),this->controller,SLOT(updatePublisher(string ,string,string,string,int)));
 
@@ -81,6 +82,7 @@ void MainWindow::Signals_Slots()
     connect(this->studentWidget,SIGNAL(aa(string)),this->controller,SLOT(aa(string)));
     connect(this->controller,SIGNAL(borrowedBooks(vector<Book>)),this->studentWidget,SLOT(borrowedBooks(vector<Book>)));
     connect(this->studentWidget,SIGNAL(searchBookByName(string,string)),this->controller,SLOT(searchBookByName(string,string)));
+    connect(this->studentWidget,SIGNAL(searchBookByISBN(string,string)),this->controller,SLOT(searchBookByISBN(string,string)));
     connect(this->studentWidget,SIGNAL(searchBookByType(string,string)),this->controller,SLOT(searchBookByType(string,string)));
     connect(this->studentWidget,SIGNAL(searchBookByPrice(int,string)),this->controller,SLOT(searchBookByPrice(int,string)));
     connect(this->studentWidget,SIGNAL(searchBookByPub(string,string)),this->controller,SLOT(searchBookByPub(string,string)));
