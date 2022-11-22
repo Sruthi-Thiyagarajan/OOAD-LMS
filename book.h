@@ -22,7 +22,7 @@ private:
     string borrowed_by="";
     int like=0;
     string borrowedDate="", expectedReturnDate="", actualReturnDate="" ;
-
+    string ISBN;
 public:
     Book();
     Book(string name , string type , string author, int price = 0 , bool State = true, bool Availability = true, int Like=0, int rowid=-1);
@@ -44,6 +44,7 @@ public:
     void incLike();
     void decLike();
     void setborrowed_by(string);
+    void setISBN(string isbn);
 
     // ========== Getters ===========
     int getLike();
@@ -62,6 +63,7 @@ public:
     string getborrowed_by();
     void showInfo();
     bool operator == (Book&);
+    string getISBN();
 };
 
 #endif // BOOK_H

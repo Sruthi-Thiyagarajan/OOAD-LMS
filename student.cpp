@@ -12,6 +12,13 @@ Student::Student(string name, string password, string email) : User(name,email,p
 
 }
 
+string Student::getMessage(){
+    return this->Mymessage;
+}
+void Student::setMessage(string message)
+{
+    this->Mymessage = message;
+}
 void Student::addSearchHistory(vector<string> x)
 {
     for(int i =0; i<x.size();i++)

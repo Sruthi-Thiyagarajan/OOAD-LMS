@@ -11,7 +11,7 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
     this->Path = QCoreApplication::applicationDirPath();
     this->grid = new QGridLayout();
-
+    this->grid->setColumnStretch(1,12);
     this->bookName = new QLabel(); bookName->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
     this->bookType = new QLabel(); bookType->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
     this->bookPrice = new QLabel(); bookPrice->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
@@ -85,7 +85,7 @@ void BookWidget::Design()
     //this->grid->addWidget(this->publisher,3,0);
     this->grid->addWidget(this->availability,3,0);
     this->grid->addWidget(this->like,4,0);
-    this->grid->addWidget(this->reviewBtn, 5,2,1,-1);
+    this->grid->addWidget(this->reviewBtn, 5,2,1,4);
 
     this->grid->addWidget(this->bookName,0,1,1,-1);
     this->grid->addWidget(this->bookType,1,1,1,-1);
@@ -114,8 +114,8 @@ void BookWidget::Design()
     this->ReturnLayout->addLayout(verticlaLayout,2,0,1,-1);
     this-> ReturnWidget->setLayout(ReturnLayout);
 
-    this->setMinimumWidth(400);
-    this->setMinimumHeight(300);
+    this->setMinimumWidth(600);
+    this->setMinimumHeight(400);
     this->setLayout(this->grid);
 }
 
@@ -215,6 +215,7 @@ void BookWidget::bookInfo(Book b)
     else this->bookAvailability->setText("Not Available");
     QIcon icon(this->Path + QString::fromStdString(currentBook.getImagePath()));
     QPixmap image = icon.pixmap(100,100);
+
     bookImage->setPixmap(image);
     bookNameStr=currentBook.getName();
     this->show();

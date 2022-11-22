@@ -34,7 +34,7 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
                                     "hover{background-color:white; color:#00BFFF;}"); // hover is not working
     this->removeBookBtn->setCursor(Qt::PointingHandCursor);
 
-    // **************************************************************
+    // ********************************************************  ******
 //    this->BackBtn = new QPushButton("Logout");
 //    this->BackBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 100px;");
 //    this->BackBtn->setCursor(Qt::PointingHandCursor);
@@ -47,6 +47,8 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
     this->bookType->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
     this->bookAuthor = new QLineEdit;
     this->bookAuthor->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
+    this->bookISBN = new QLineEdit;
+    this->bookISBN->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
 
     this->pubBooksNumLabel = new QLabel("Books Published");
     this->pubNameLabel = new QLabel("Publisher Name");
@@ -54,6 +56,7 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
     this->bookPriceLabel= new QLabel("Book Price");
     this->bookTypeLabel = new QLabel("Book Type");
     this->bookAuthorLabel = new QLabel("Book Author");
+    this->bookISBNLabel = new QLabel("ISBN");
 
     this->errorBox = new QMessageBox();
     this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/error.png"));
@@ -155,11 +158,13 @@ void PublisherWidget::Design()
 
     this->rightLayout->addWidget(this->bookAuthorLabel,3,0);
     this->rightLayout->addWidget(this->bookAuthor,3,1,1,-1);
+    this->rightLayout->addWidget(this->bookISBNLabel,4,0);
+    this->rightLayout->addWidget(this->bookISBN,4,1,1,-1);
 
 
-    this->rightLayout->addWidget(this->addBookBtn,4,0,1,1);
+    this->rightLayout->addWidget(this->addBookBtn,5,0,1,1);
     //***************** removeBookBtn *************************
-    this->rightLayout->addWidget(this->removeBookBtn, 4,3,1,-1);
+    this->rightLayout->addWidget(this->removeBookBtn, 5,3,1,-1);
     //******************************************************
 
     this->grid->addWidget(this->headerWidget,0,0,1,-1,Qt::AlignTop);
@@ -201,12 +206,14 @@ void PublisherWidget::bookDataCheck()
     string Type;
     int Price;
     string Author;
+    string ISBN;
     Name  =this->bookName->text().toStdString();
     Type  =this->bookType->text().toStdString();
     Price =this->bookPrice->text().toInt();
     Author =this->bookAuthor->text().toStdString();
+    ISBN = this->bookISBN->text().toStdString();
     //emit addBookData(this->currentPublisher.getName(),Name,Type,Price);
-    emit addBookData(Author, Name, Type, Price);
+    emit addBookData(Author, Name, Type, Price, ISBN);
     // check box
     this->sucessBox->setText("Book Added Successfully!");
     this->sucessBox->show();

@@ -97,6 +97,10 @@ private:
     QLineEdit* bookState;
     QPushButton *Ok2Btn;
 
+    QWidget* MymessageWidget;
+    QLineEdit* MymessageShow;
+    QLineEdit* nameShow;
+    QGridLayout* MymessageWidgetLayout;
 public:
     StudentWidget(QWidget* parent = nullptr);
     void initToolBar();
@@ -106,6 +110,7 @@ public:
     void initSearchWidget();
     void initPayWidget();
     void initHistoryWidget();
+    void initMymessageWidget();
     void initLibrarianWidget();
     void Design();
     void Signals_Slots();

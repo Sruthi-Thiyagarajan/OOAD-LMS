@@ -31,7 +31,7 @@ QSqlQuery* DataBase::getBookTableHandle()
 {
     int test = 111;
     QSqlQuery* qry = new QSqlQuery(this->db);
-    qry->prepare("select Name, Type, Price, Author, Availability,borrowedBy from books");
+    qry->prepare("select Name as BookName, Type, Price, Author, Availability, borrowedBy as Member,ISBN from books");
 
     if(qry->exec()) test=222;
     return qry;
@@ -43,7 +43,7 @@ bool DataBase::saveBook(Book book)
     check.bindValue(0,QString::fromStdString(book.getName()));
     check.exec();
     QSqlQuery query(this->db);
-    query.prepare("INSERT INTO Books(Name,Type,Price,Author,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath) VALUES(?,?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO Books(Name,Type,Price,Author,borrowedDate,expectedReturnDate,actualReturnDate,State,Availability,imagePath,ISBN) VALUES(?,?,?,?,?,?,?,?,?,?,?);");
     query.bindValue(0,QString::fromStdString(book.getName()));
     query.bindValue(1,QString::fromStdString(book.getType()));
     query.bindValue(2,book.getPrice());
@@ -54,6 +54,7 @@ bool DataBase::saveBook(Book book)
     query.bindValue(7,book.getState());
     query.bindValue(8,book.getAvailability());
     query.bindValue(9,QString::fromStdString(book.getImagePath()));
+    query.bindValue(10, QString::fromStdString(book.getISBN()));
     //query.bindValue(10,book.getLike());
     query.exec();
     return true;
@@ -446,7 +447,7 @@ bool DataBase::saveBookLikeDB(bookstudent bs, int liked)
 Student DataBase::loadStudent(string name)
 {
     QSqlQuery query(this->db);
-    query.prepare("SELECT Name,Email,Password,cashAmount,currentBook,requestedBook,borrowedBooks,searchHistory,favoriteBooks FROM Students WHERE Name=?;");
+    query.prepare("SELECT Name,Email,Password,cashAmount,currentBook,requestedBook,borrowedBooks,searchHistory,favoriteBooks, Mymessage FROM Students WHERE Name=?;");
     query.bindValue(0,QString::fromStdString(name));
     query.exec();
     Student student;
@@ -455,13 +456,16 @@ Student DataBase::loadStudent(string name)
         student.setName(query.value(0).toString().toStdString());
         student.setEmail(query.value(1).toString().toStdString());
         student.setPassword(query.value(2).toString().toStdString());
+
         //student.setCash(stoi(query.value(3).toString().toStdString()));
         student.setCurrentBook(query.value(4).toString().toStdString());
         student.setRequestedBook(query.value(5).toString().toStdString());
         student.setborrowed_books(query.value(6).toString().toStdString());
+
         student.addBorrowedBooks(split_string(query.value(6).toString().toStdString(),","));
         student.addSearchHistory(split_string(query.value(7).toString().toStdString(),","));
         student.addFavoriteBooks(split_string(query.value(8).toString().toStdString(),","));
+        student.setMessage(query.value(9).toString().toStdString());
     }
     return student;
 }
