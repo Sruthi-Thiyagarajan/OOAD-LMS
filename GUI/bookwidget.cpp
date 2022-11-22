@@ -8,15 +8,15 @@ BookWidget::BookWidget(Book b)
 
 BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
 {
-    this->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
+    this->setStyleSheet("background: white;color: #808080; font-size: 18px; font-weight: 400;");
     this->Path = QCoreApplication::applicationDirPath();
     this->grid = new QGridLayout();
-
-    this->bookName = new QLabel(); bookName->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
-    this->bookType = new QLabel(); bookType->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
-    this->bookPrice = new QLabel(); bookPrice->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
-    //this->bookPublisher = new QLabel(); bookPublisher->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
-    this->bookAvailability = new QLabel(); bookAvailability->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
+    this->grid->setColumnStretch(1,12);
+    this->bookName = new QLabel(); bookName->setStyleSheet("color:#808080;font-weight: bold;font-size: 15px;");
+    this->bookType = new QLabel(); bookType->setStyleSheet("color:#808080;font-weight: bold;font-size: 15px;");
+    this->bookPrice = new QLabel(); bookPrice->setStyleSheet("color:#808080;font-weight: bold;font-size: 15px;");
+    //this->bookPublisher = new QLabel(); bookPublisher->setStyleSheet("color:#808080;font-weight: bold;font-size: 15px;");
+    this->bookAvailability = new QLabel(); bookAvailability->setStyleSheet("color:#808080;font-weight: bold;font-size: 15px;");
 
     this->name = new QLabel("Name :"); name->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     this->type = new QLabel("Type :"); type->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
@@ -24,16 +24,16 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     //this->publisher = new QLabel("Publisher :"); publisher->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     this->availability = new QLabel("Status :"); availability->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     //************************
-    this->bookLike = new QLabel(); bookLike->setStyleSheet("color:#00BFFF;font-weight: bold;font-size: 15px;");
+    this->bookLike = new QLabel(); bookLike->setStyleSheet("color:#808080;font-weight: bold;font-size: 15px;");
     this->like = new QLabel("LIKE :"); like->setStyleSheet("color:black;font-weight: bold;font-size: 16px;");
     //*******************************************
 
     this->bookImage = new QLabel();
     this->likeBtn = new QPushButton("like");
     this->likeBtn->setCursor(Qt::PointingHandCursor);
-    this->likeBtn->setStyleSheet("background: green; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
+    this->likeBtn->setStyleSheet("background: gray; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->borrowBtn = new QPushButton("Borrow book");
-    this->borrowBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
+    this->borrowBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->borrowBtn->setCursor(Qt::PointingHandCursor);
     this->borrowed = new QMessageBox();
     this->errorBox = new QMessageBox();
@@ -41,7 +41,7 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->successBox = new QMessageBox();
     this->successBox->setWindowIcon(QIcon(":images/sucess.png"));
     //****************************
-    this->reviewBtn = new QPushButton("Review"); this->reviewBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
+    this->reviewBtn = new QPushButton("Review"); this->reviewBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->reviewBtn->setCursor(Qt::PointingHandCursor);
     this->showReviewLabel = new QLabel("Existing reviews");
     //this->showReview = new QLineEdit();
@@ -51,16 +51,16 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->editReview = new QLineEdit();
     this->reviewWidget = new QWidget();
     this->saveReviewBtn = new QPushButton("Save");
-    this->saveReviewBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
+    this->saveReviewBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->saveReviewBtn->setCursor(Qt::PointingHandCursor);
 
-    this->reviewWidget->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
+    this->reviewWidget->setStyleSheet("background: white;color: #808080; font-size: 18px; font-weight: 400;");
     this->reviewLayout = new QGridLayout();
 
     this->ReturnWidget = new QWidget();
-    this->ReturnWidget->setStyleSheet("background: white;color: #00BFFF; font-size: 18px; font-weight: 400;");
+    this->ReturnWidget->setStyleSheet("background: white;color: #808080; font-size: 18px; font-weight: 400;");
     this->ReturnLayout = new QGridLayout();
-    this->enterBook = new QLabel("Enter expected return date :"); enterBook->setStyleSheet("color:#00BFFF;");
+    this->enterBook = new QLabel("Enter expected return date :"); enterBook->setStyleSheet("color:#808080;");
 
     QDate maxborrowperiod = currdate.addMonths(3);
     cout<<maxborrowperiod.toString().toStdString()<<endl;
@@ -69,7 +69,7 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->ReturnDate->setMaximumDate(maxborrowperiod);
     this->ReturnDate->setCalendarPopup(true);
     this->OkkBtn = new QPushButton("Ok");
-    this->OkkBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkkBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkkBtn->setCursor(Qt::PointingHandCursor);
 
     this->Design();
@@ -85,7 +85,7 @@ void BookWidget::Design()
     //this->grid->addWidget(this->publisher,3,0);
     this->grid->addWidget(this->availability,3,0);
     this->grid->addWidget(this->like,4,0);
-    this->grid->addWidget(this->reviewBtn, 5,2,1,-1);
+    this->grid->addWidget(this->reviewBtn, 5,2,1,4);
 
     this->grid->addWidget(this->bookName,0,1,1,-1);
     this->grid->addWidget(this->bookType,1,1,1,-1);
@@ -114,8 +114,8 @@ void BookWidget::Design()
     this->ReturnLayout->addLayout(verticlaLayout,2,0,1,-1);
     this-> ReturnWidget->setLayout(ReturnLayout);
 
-    this->setMinimumWidth(400);
-    this->setMinimumHeight(300);
+    this->setMinimumWidth(600);
+    this->setMinimumHeight(400);
     this->setLayout(this->grid);
 }
 
@@ -215,6 +215,7 @@ void BookWidget::bookInfo(Book b)
     else this->bookAvailability->setText("Not Available");
     QIcon icon(this->Path + QString::fromStdString(currentBook.getImagePath()));
     QPixmap image = icon.pixmap(100,100);
+
     bookImage->setPixmap(image);
     bookNameStr=currentBook.getName();
     this->show();

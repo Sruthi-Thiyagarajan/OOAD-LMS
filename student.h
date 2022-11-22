@@ -15,6 +15,7 @@ private:
     string currentBook_name;
     string requestedBook_name;
     string borrowed_books;
+    string Mymessage;
     vector<string> borrowedBooks_names;
     vector<string> searchHistory_names;
     vector<string> favoriteBooks_names;
@@ -32,7 +33,7 @@ public:
     void addSearchHistory(vector<string>);
     void addFavoriteBooks(vector<string>);
     void showInfo();
-
+    void setMessage(string message);
     // getters
     string getborrowed_books();
     vector<string> getborrow_books_vector();
@@ -40,6 +41,7 @@ public:
     vector<Book> getCurrentBookVector(DataBase*);
     string getRequestedBookName();
     vector<string> getSearchHistory();
+    string getMessage();
 
 };
 

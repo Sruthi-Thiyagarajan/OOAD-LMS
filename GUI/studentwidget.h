@@ -66,7 +66,8 @@ private:
     QWidget* SearchWidget;
     QVBoxLayout* SearchLayout;
     QLineEdit* SearchBook;
-    QPushButton *NameBtn,*TypeBtn,*PriceBtn,*DoneBtn;
+    QPushButton *NameBtn,*TypeBtn,*PriceBtn,*DoneBtn,*ISBNBtn;
+
 
     QWidget* PayWidget;
     QGridLayout* payWidgetLayout;
@@ -97,6 +98,10 @@ private:
     QLineEdit* bookState;
     QPushButton *Ok2Btn;
 
+    QWidget* MymessageWidget;
+    QLineEdit* MymessageShow;
+    QLineEdit* nameShow;
+    QGridLayout* MymessageWidgetLayout;
 public:
     StudentWidget(QWidget* parent = nullptr);
     void initToolBar();
@@ -106,6 +111,7 @@ public:
     void initSearchWidget();
     void initPayWidget();
     void initHistoryWidget();
+    void initMymessageWidget();
     void initLibrarianWidget();
     void Design();
     void Signals_Slots();
@@ -124,6 +130,7 @@ signals:
     void searchBookByType(string,string);
     void searchBookByPrice(int,string);
     void searchBookByPub(string,string);
+    void searchBookByISBN(string,string);
     void getSearchHistory(string);
     void setCurrentWidget(int);
     void setLoggedInUserName(string);
@@ -150,6 +157,7 @@ public slots:
     void priceButtonClicked();
     void pubButtonClicked();
     void doneButtonClicked();
+    void ISBNBtnClicked();
     void booksFound(vector<Book>);
     void searchedBooks(vector<string>);
     void bookClicked(string name);

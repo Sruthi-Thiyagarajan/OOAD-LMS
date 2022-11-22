@@ -59,6 +59,8 @@ private :
     QLineEdit* bookPrice;       QLabel* bookPriceLabel;
     QLineEdit* bookType;        QLabel* bookTypeLabel;
     QLineEdit* bookAuthor;      QLabel* bookAuthorLabel;
+    QLineEdit* bookISBN;        QLabel* bookISBNLabel;
+
     QMessageBox* errorBox;
     QMessageBox* sucessBox;
 
@@ -103,7 +105,7 @@ public:
     //***************************
 
 signals:
-    void addBookData(string,string,string,int);
+    void addBookData(string,string,string,int,string);
     void removeBookData(Book);
     void setCurrentWidget(int);
     void updatePublisher(string,string,string,string,int);

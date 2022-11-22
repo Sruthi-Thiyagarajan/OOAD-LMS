@@ -76,6 +76,7 @@ public:
     //*********************
     // user search
     vector<Book> searchBookByType(string);
+    vector<Book> searchBookByISBN(string);
     vector<Book> searchBookByPrice(int);
     vector<Book> searchBookByPubName(string);
 

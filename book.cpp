@@ -20,6 +20,14 @@ Book::Book()
 
 }
 
+void Book::setISBN(string isbn)
+{
+    this->ISBN = isbn;
+}
+
+string Book::getISBN(){
+    return this->ISBN;
+}
 void Book::setLike(int curLike){
     this->like = curLike;
 

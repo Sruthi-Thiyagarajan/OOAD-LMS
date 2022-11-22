@@ -104,13 +104,14 @@ void Controller::publisherLoggedIn(string pubName)
         {
             string name,type;
             int price;
+            string isbn;
             cout<<"Enter Book Name : ";
             cin>>name;
             cout<<"Enter Book Type : ";
             cin>>type;
             cout<<"Enter Book Price : ";
             cin>>price;
-            this->Upload_book(pubName,name,type,price);
+            this->Upload_book(pubName,name,type,price,isbn);
         }
         else if(choice==2)
         {
@@ -164,7 +165,7 @@ void Controller::publisherLoggedIn(string pubName)
     }
 }
 
-void Controller::Upload_book(string pubName ,string name ,string type,int price)
+void Controller::Upload_book(string pubName ,string name ,string type,int price, string isbn)
 {
     Book book1;
     book1.setName(name);
@@ -173,6 +174,7 @@ void Controller::Upload_book(string pubName ,string name ,string type,int price)
     book1.setPublisherName(pubName);
     book1.setState(1);
     book1.setAvailability(1);
+    book1.setISBN(isbn);
     db.saveBook(book1);
     cout<<"Book saved succesfully"<<endl;
 }
@@ -199,6 +201,19 @@ void Controller::searchBookByName(string BookNameOrID,string stuName)
     Student s =db.loadStudent(stuName);
     db.addSearchHistory(b,stuName);
     db.updateStudent(s,stuName);
+}
+
+void Controller::searchBookByISBN(string bookISBN,string stuName)
+{
+    vector<Book> v = db.searchBookByISBN(bookISBN);
+    Student s =db.loadStudent(stuName);
+    for(int i=0;i<v.size();i++)
+    {
+        db.addSearchHistory(v[i],stuName);
+        db.updateStudent(s,stuName);
+    }
+
+    emit booksFound(v);
 }
 
 void Controller::searchBookByType(string type , string stuName)
