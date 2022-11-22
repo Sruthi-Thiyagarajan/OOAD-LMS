@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     this->stackWidget =new QStackedWidget();
 
-    this->stackWidget->setStyleSheet("background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #00BFFF, stop:1 #F0F8FF);"
+    this->stackWidget->setStyleSheet("background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #000000, stop:1 #F0F8FF);"
                                      "color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->controller = new Controller();
     //this->librarian = new Librarian();

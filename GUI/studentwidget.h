@@ -110,6 +110,7 @@ public:
     void Design();
     void Signals_Slots();
     void UpdateBooks();
+    double calculate_expected_bill(string,string,int);
 
 signals:
 

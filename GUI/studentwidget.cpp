@@ -71,16 +71,13 @@ void StudentWidget::initProfileWidget()
     this->ProfileWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->ProfileLayout = new QGridLayout();
 
-    QLabel* name = new QLabel("Name:");             this->nameEdit = new QLineEdit(); nameEdit->setReadOnly(true);  this->nameEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true);  this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true); this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cardnamelabel = new QLabel("Card Name:");    this->cardname = new QLineEdit(); cardname->setReadOnly(true); this->cardname->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cardnumlabel = new QLabel("Card Number:");    this->cardnum = new QLineEdit(); cardnum->setReadOnly(true); this->cardnum->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* cvvlabel = new QLabel("CVV:");    this->cvv = new QLineEdit(); cvv->setEchoMode(QLineEdit::Password);cvv->setReadOnly(true); this->cvv->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-    QLabel* explabel = new QLabel("Expiry:");    this->expiry = new QLineEdit(); expiry->setReadOnly(true); this->expiry->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-
-    //QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true);  this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #00BFFF;border-radius: 5px;}");
-
+    QLabel* name = new QLabel("Name:");             this->nameEdit = new QLineEdit(); nameEdit->setReadOnly(true);  this->nameEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
+    QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true);  this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
+    QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true); this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
+    QLabel* cardnamelabel = new QLabel("Card Name:");    this->cardname = new QLineEdit(); cardname->setReadOnly(true); this->cardname->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
+    QLabel* cardnumlabel = new QLabel("Card Number:");    this->cardnum = new QLineEdit(); cardnum->setReadOnly(true); this->cardnum->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
+    QLabel* cvvlabel = new QLabel("CVV:");    this->cvv = new QLineEdit(); cvv->setEchoMode(QLineEdit::Password);cvv->setReadOnly(true); this->cvv->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
+    QLabel* explabel = new QLabel("Expiry:");    this->expiry = new QLineEdit(); expiry->setReadOnly(true); this->expiry->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #000000;border-radius: 5px;}");
 
     QLabel *image; QPixmap* pixMap;
     image = new QLabel;
@@ -89,11 +86,11 @@ void StudentWidget::initProfileWidget()
     image->setScaledContents(true);
 
     this->EditBtn = new QPushButton("Edit");
-    this->EditBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->EditBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->EditBtn->setCursor(Qt::PointingHandCursor);
 
     this->OkBtn = new QPushButton("Ok");
-    this->OkBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkBtn->setCursor(Qt::PointingHandCursor);
 
     QLabel* setting =new QLabel("Profile Settings");
@@ -140,16 +137,16 @@ void StudentWidget::initReturnWidget()
     this->ReturnWidget->setStyleSheet("background: white;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->ReturnLayout = new QGridLayout();
 
-    QLabel* enterBook = new QLabel("Enter return book :"); enterBook->setStyleSheet("color:#00BFFF");
+    QLabel* enterBook = new QLabel("Enter return book :"); enterBook->setStyleSheet("color:#000000");
     this->ReturnBook = new QLineEdit();
     this->ReturnBook->setStyleSheet("background: white;");
 
     this->BackBtn = new QPushButton("Back");
-    this->BackBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->BackBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->BackBtn->setCursor(Qt::PointingHandCursor);
 
     this->OkkBtn = new QPushButton("Ok");
-    this->OkkBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkkBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkkBtn->setCursor(Qt::PointingHandCursor);
 
     this->ReturnLayout->addWidget(enterBook,0,0,Qt::AlignLeft);
@@ -210,11 +207,11 @@ void StudentWidget::initPayWidget()
     this->CashEdit = new QLineEdit();
 
     PayButton = new QPushButton("Add Money");
-    this->PayButton->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
+    this->PayButton->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;");
     this->PayButton->setCursor(Qt::PointingHandCursor);
 
     this->payBackbtn = new QPushButton("Back");
-    this->payBackbtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->payBackbtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->payBackbtn->setCursor(Qt::PointingHandCursor);
 
     this->payWidgetLayout = new QGridLayout;
@@ -242,22 +239,22 @@ void StudentWidget::initSearchWidget()
     this->SearchLayout = new QVBoxLayout();
     this->SearchBook = new QLineEdit();
     this->SearchBook->setStyleSheet("background: white;");
-    QLabel *lbl = new QLabel("You want to search by :"); lbl->setStyleSheet("color:#00BFFF");
+    QLabel *lbl = new QLabel("You want to search by :"); lbl->setStyleSheet("color:#000000");
 
     this->NameBtn = new QPushButton("Name");
-    this->NameBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->NameBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->NameBtn->setCursor(Qt::PointingHandCursor);
 
     this->TypeBtn = new QPushButton("Type");
-    this->TypeBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->TypeBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->TypeBtn->setCursor(Qt::PointingHandCursor);
 
     this->PriceBtn = new QPushButton("Price");
-    this->PriceBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->PriceBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->PriceBtn->setCursor(Qt::PointingHandCursor);
 
     this->DoneBtn = new QPushButton("Done");
-    this->DoneBtn->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->DoneBtn->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->DoneBtn->setCursor(Qt::PointingHandCursor);
 
     this->SearchLayout->addWidget(lbl);
@@ -277,7 +274,7 @@ void StudentWidget::initHistoryWidget()
     this->HistoryList = new QTreeWidget();
     this->HistoryList->setStyleSheet("background: white");
     this->OkBtnh = new QPushButton("Ok");
-    this->OkBtnh->setStyleSheet("background: #00BFFF; border-radius: 10px; padding: 10px 0px; color: white; ");
+    this->OkBtnh->setStyleSheet("background: #000000; border-radius: 10px; padding: 10px 0px; color: white; ");
     this->OkBtnh->setCursor(Qt::PointingHandCursor);
     this->HistoryWidget->setMinimumSize(600,150);
 
@@ -533,14 +530,6 @@ void StudentWidget::bookReturned(double bill , int mode)
         this->errorBox->setText("You're late, a fee is added to the bill. ($5/week for the days between your said and actual return date)\n"+QString::fromStdString(str));
         this->errorBox->show();
     }
-//    else if(mode==2){
-//        this->errorBox->setText("You're late, a fee will be added to the bill\n Here's your bill: "+QString::fromStdString(to_string(bill)));
-//        this->errorBox->show();
-//    }
-//    else if(mode==3){
-//        this->errorBox->setText("You're late and you've damaged the book!! \n Here's your bill: "+QString::fromStdString(to_string(bill)));
-//        this->errorBox->show();
-//    }
     this->ReturnWidget->hide();
 }
 
@@ -548,13 +537,25 @@ void StudentWidget::borrowedBooks(vector<Book> v)
 {
     for(int i=0;i<v.size();i++)
     {
-        string a = v[i].getName();
-        //sint b = v[i].getBorrowedDate();
-        //int c = v[i].getExpectedReturnDate();
-        //int d =ceil((c-b)/7.0)*v[i].getPrice();
-        //this->addRoot(a,to_string(b),to_string(c),to_string(d));
+        string name = v[i].getName();
+        string b_date = v[i].getBorrowedDate();
+        string e_date = v[i].getExpectedReturnDate();
+        double b = calculate_expected_bill(b_date,e_date,v[i].getPrice());
+        this->addRoot(name,b_date,e_date,to_string(b));
     }
     this->BorrowedWidget->show();
+}
+
+double StudentWidget::calculate_expected_bill(string b_date, string e_date, int p)
+{
+    QString bstring = QString::fromStdString(b_date);
+    QString estring = QString::fromStdString(e_date);
+    QDate borrow = QDate::fromString(bstring,"ddd MMM dd yyyy");
+    QDate expected = QDate::fromString(estring,"ddd MMM dd yyyy");
+
+    int ex_borrow_period = borrow.daysTo(expected);
+    double bill = ceil(ex_borrow_period/7.0)*p;
+    return bill;
 }
 
 void StudentWidget::searchedBooks(vector<string> v)
