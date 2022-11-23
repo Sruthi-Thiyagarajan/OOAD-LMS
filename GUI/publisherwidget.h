@@ -25,6 +25,8 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include <QHeaderView>
+#include <QAbstractItemView>
+#include <QTreeWidget>
 
 using namespace std;
 class PublisherWidget : public QWidget
@@ -48,8 +50,6 @@ private :
     QPixmap* pixMap;
     QGridLayout* rightLayout;
 
-
-
     QPushButton* addBookBtn;
     QPushButton* BackBtn;
     QLabel* pubNameLabel;
@@ -66,7 +66,7 @@ private :
 
     QWidget* ProfileWidget;
     QGridLayout* ProfileLayout;
-    QLineEdit* nameEdit ,*passEdit , * emailEdit ,* cashEdit ;
+    QLineEdit* nameEdit ,*passEdit , * emailEdit;
     QPushButton *EditBtn , *OkBtn;
     Publisher currentPublisher;
     QPushButton* showInfo;
@@ -77,18 +77,23 @@ private :
     QWidget* browseWidget;
     QWidget* sendNotificationWidget;
 
-    // **************** Browse all the books ******************
-    QSize lastSize;
-    std::vector<imageWidget*> books;
-    QGridLayout* gridBrowse;
-    QScrollArea* viewBooksScroll;
-    QWidget* viewBooksWidget;
-    QGridLayout* viewBooksLayout = new QGridLayout();
-
+    // **************** Browse all the books *****************
     QTableView* bookTableView;
     QSqlQueryModel* model;
     QSqlQuery* bookTableHandle;
     QGridLayout* tableviewLayout;
+
+    // *********** View borrowed books and borrowed by List ans send notification **********
+    QTableView* BorrowedTableView;
+    QSqlQueryModel* Borrowedmodel;
+    QSqlQuery* BorrowedTableHandle;
+//    QTreeWidget* borrowedList;
+//    QGridLayout* BorrowedtableviewLayout;
+    QPushButton* sendnotifbtn;
+    QPushButton* backbtn;
+    QHBoxLayout* bhorizontalLayout;
+    QVBoxLayout* verticalLayout;
+
 public:
     PublisherWidget(QWidget *parent = nullptr);
     void initHeader();
@@ -111,8 +116,10 @@ signals:
     void updatePublisher(string,string,string,string,int);
     map<string,string> getAllBooksP();
     void getbookInfo(string);
-
     QSqlQuery* getbooktablehandle();
+    QSqlQuery* getborrowedtablehandle();
+    void sendnotif(Book);
+
 public slots:
     void bookDataCheck();
     void removeDataCheck();
@@ -123,9 +130,12 @@ public slots:
     void publisherLoggedIn(Publisher);
     void showInfoBtnClicked();
     void browseBtnClicked();
+    void notification_btn_clicked();
     void handleToolBar(QAction*);
     void bookClicked(string);
-
+    void notifbackbtnClicked();
+    void notifsendbtnClicked();
+    void display_msg(string);
 };
 
 #endif // PUBLISHERWIDGET_H

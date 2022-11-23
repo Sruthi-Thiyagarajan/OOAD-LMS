@@ -93,8 +93,12 @@ void MainWindow::Signals_Slots()
     connect(this->studentWidget,SIGNAL(setLoggedInUserName(string)),this->bookWidget,SLOT(setLoggedInUserName(string)));
 
     connect(this->studentWidget,SIGNAL(getAllBooks()),this->controller,SLOT(getAllBooks()));
+
     connect(this->publisherWidget,SIGNAL(getAllBooksP()),this->controller,SLOT(getAllBooks()));
     connect(this->publisherWidget, SIGNAL(getbooktablehandle()),this->controller,SLOT(getbooktablehandle()));
+    connect(this->publisherWidget, SIGNAL(getborrowedtablehandle()),this->controller,SLOT(getborrowedtablehandle()));
+    connect(this->publisherWidget, SIGNAL(sendnotif(Book)),this->controller,SLOT(sendnotif(Book)));
+    connect(this->controller, SIGNAL(display_msg(string)),this->publisherWidget,SLOT(display_msg(string)));
 }
 
 

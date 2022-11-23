@@ -29,13 +29,38 @@ void DataBase::init(QString path)
 
 QSqlQuery* DataBase::getBookTableHandle()
 {
-    int test = 111;
     QSqlQuery* qry = new QSqlQuery(this->db);
     qry->prepare("select Name as BookName, Type, Price, Author, Availability, borrowedBy as Member,ISBN from books");
-
-    if(qry->exec()) test=222;
+    qry->exec();
     return qry;
 }
+
+QSqlQuery* DataBase::getBorrowedTableHandle()
+{
+    QSqlQuery* qry = new QSqlQuery(this->db);
+    qry->prepare("select borrowedBy as MEMBER, Name as BOOKNAME, borrowedDate as BORROWEDDATE, expectedReturnDate as EXPECTEDRETURNDATE from books where borrowedBy!=?");
+    qry->bindValue(0,QString::fromStdString(""));
+    qry->exec();
+    return qry;
+}
+
+bool DataBase::updateMymessage(Book b)
+{
+    Student s;
+    QDate d=QDate::currentDate();
+    string ds = d.toString().toStdString();
+    string rd = b.getExpectedReturnDate();
+    string str = ds + ":   Your Book:  "+b.getName()+"  is due on  " + rd + ".  If returned, please ignore this message. For more details, check your 'MY BOOKS' tab.\n";
+    s = loadStudent(b.getborrowed_by());
+    string old = s.getMessage();
+    old+=str;
+    QSqlQuery query(this->db);
+    query.prepare("UPDATE Students SET Mymessage=? WHERE Name = ? ;");
+    query.bindValue(0,QString::fromStdString(old));
+    query.bindValue(1,QString::fromStdString(b.getborrowed_by()));
+    return query.exec();
+}
+
 bool DataBase::saveBook(Book book)
 {
     QSqlQuery check(this->db);

@@ -34,11 +34,6 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
                                     "hover{background-color:white; color:#808080;}"); // hover is not working
     this->removeBookBtn->setCursor(Qt::PointingHandCursor);
 
-    // ********************************************************  ******
-//    this->BackBtn = new QPushButton("Logout");
-//    this->BackBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 100px;");
-//    this->BackBtn->setCursor(Qt::PointingHandCursor);
-
     this->bookName = new QLineEdit;
     this->bookName->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
     this->bookPrice = new QLineEdit;
@@ -62,11 +57,6 @@ PublisherWidget::PublisherWidget(QWidget *parent) : QWidget(parent)
     this->errorBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/error.png"));
     this->sucessBox = new QMessageBox();
     this->sucessBox->setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/../../OOAD-LMS/icons/sucess.png"));
-
-//    this->showInfo = new QPushButton("Profile");
-//    this->showInfo->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 100px;");
-//    this->showInfo->setCursor(Qt::PointingHandCursor);
-    // *************************
 
     this->browseWidget = new QWidget();
     this->sendNotificationWidget = new QWidget();
@@ -130,7 +120,6 @@ void PublisherWidget::initHeader()
 
     // name
     this->Name->setText("Name"); this->Name->setStyleSheet("font-weight:bold; font-size:18px; color:white;");
-
     this->headerWidget->setMinimumWidth(1000);
     this->headerWidget->show();
 
@@ -179,17 +168,43 @@ void PublisherWidget::Design()
     this->widget->setLayout(this->grid);
 }
 
-
-
-
 void PublisherWidget::Signals_Slots()
 {
     connect(this->toolBar,SIGNAL(actionTriggered(QAction*)),this,SLOT(handleToolBar(QAction*)));
-
     connect(this->addBookBtn,SIGNAL(clicked()),this,SLOT(bookDataCheck()));
     connect(this->removeBookBtn,SIGNAL(clicked()),this,SLOT(removeDataCheck()));
     connect(this->EditBtn,SIGNAL(clicked()),this,SLOT(editButtonClicked()));
     connect(this->OkBtn,SIGNAL(clicked()),this,SLOT(okButtonClicked()));
+
+    connect(this->backbtn,SIGNAL(clicked()),this,SLOT(notifbackbtnClicked()));
+    connect(this->sendnotifbtn,SIGNAL(clicked()),this,SLOT(notifsendbtnClicked()));
+}
+
+void PublisherWidget::notifbackbtnClicked()
+{
+    this->sendNotificationWidget->hide();
+}
+
+void PublisherWidget::notifsendbtnClicked()
+{
+    Book b;
+    QItemSelectionModel *select = this->BorrowedTableView->selectionModel();
+    QString n = select->selectedRows(0).value(0).data().toString();
+    QString bname = select->selectedRows(1).value(0).data().toString();
+    QString bdate = select->selectedRows(2).value(0).data().toString();
+    QString rdate = select->selectedRows(3).value(0).data().toString();
+    cout<<n.toStdString()<<" "<<bname.toStdString()<<" "<<bdate.toStdString()<<" "<<rdate.toStdString()<<endl;
+    b.setName(bname.toStdString());
+    b.setborrowed_by(n.toStdString());
+    b.setBorrowedDate(bdate.toStdString());
+    b.setExpectedReturnDate(rdate.toStdString());
+    emit sendnotif(b);
+}
+
+void PublisherWidget::display_msg(string s)
+{
+    this->sucessBox->setText(QString::fromStdString(s));
+    this->sucessBox->show();
 }
 
 void PublisherWidget::bookDataCheck()
@@ -251,7 +266,6 @@ void PublisherWidget::initProfileWidget()
     QLabel* name = new QLabel("Name:");             this->nameEdit = new QLineEdit(); nameEdit->setReadOnly(true); this->nameEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
     QLabel* password = new QLabel("Password:");     this->passEdit = new QLineEdit(); passEdit->setReadOnly(true); this->passEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
     QLabel* email = new QLabel("Email:");           this->emailEdit = new QLineEdit();emailEdit->setReadOnly(true);this->emailEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
-    QLabel* cashAmount = new QLabel("Cash Amount:");this->cashEdit = new QLineEdit(); cashEdit->setReadOnly(true); this->cashEdit->setStyleSheet("QLineEdit{ background-color:white;border: 2px solid #808080;border-radius: 5px;}");
 
     this->EditBtn = new QPushButton("Edit");
     this->EditBtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; ");
@@ -283,13 +297,10 @@ void PublisherWidget::initProfileWidget()
     this->ProfileLayout->addWidget(email,5,0,Qt::AlignLeft);
     this->ProfileLayout->addWidget(emailEdit,5,1);
 
-    this->ProfileLayout->addWidget(cashAmount,6,0,Qt::AlignLeft);
-    this->ProfileLayout->addWidget(cashEdit,6,1);
-
     QHBoxLayout* horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(this->EditBtn);
     horizontalLayout->addWidget(this->OkBtn);
-    this->ProfileLayout->addLayout(horizontalLayout,7,0,1,-1);
+    this->ProfileLayout->addLayout(horizontalLayout,6,0,1,-1);
 
     this->ProfileWidget->setLayout(this->ProfileLayout);
     this->ProfileWidget->setMinimumWidth(500);
@@ -298,7 +309,6 @@ void PublisherWidget::initProfileWidget()
 }
 
 void PublisherWidget::initBrowseWidget(){
-    this->browseWidget = new QWidget();
     this->browseWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
     this->model = new QSqlQueryModel();
     this->bookTableView = new QTableView();
@@ -306,71 +316,63 @@ void PublisherWidget::initBrowseWidget(){
     this->tableviewLayout = new QGridLayout();
     tableviewLayout->addWidget(bookTableView,0,0,0,-1);
 
-    //this->bookTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    //this->bookTableView->horizontalHeader()->setStretchLastSection(true);
     this->browseWidget->setLayout(tableviewLayout);
     this->browseWidget->setMinimumWidth(1000);
     this->browseWidget->setMinimumHeight(600);
-
-    //show individal book layout similar to studentWidget
-    /*
-    this->browseWidget = new QWidget();
-    this->browseWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
-    this->gridBrowse = new QGridLayout();
-    this->viewBooksScroll = new QScrollArea();
-    this->viewBooksWidget = new QWidget();
-    this->viewBooksWidget->setStyleSheet("background: white;");
-    this->viewBooksLayout = new QGridLayout();
-    this->lastSize.setWidth(0);
-    this->lastSize.setHeight(0);
-
-    this->viewBooksScroll->setWidget(viewBooksWidget);
-    this->viewBooksScroll->setWidgetResizable(true);
-    this->viewBooksScroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-    this->viewBooksWidget->setStyleSheet("background-color:white");
-    this->viewBooksWidget->setLayout(viewBooksLayout);
-
-    this->gridBrowse->addWidget(viewBooksScroll,0,0);
-    this->browseWidget->setLayout(gridBrowse);
-    */
 }
 
-void PublisherWidget::updateBooks()
-{
-    // get allBooks from dataBase -> no duplicates
-    map<string, string> name_imagePath = emit getAllBooksP();
-    // convert them into imageWidget (book interface)
-    for (auto i = name_imagePath.begin(); i != name_imagePath.end() ;i++)
-    {
-        imageWidget* book_interface = new imageWidget(i->first,i->second);
-        connect(book_interface,SIGNAL(bookClicked(string)),this,SLOT(bookClicked(string)));
-        books.push_back(book_interface);
-        cout << i->first << ",";
-    }
-    cout << "  =========== books" << endl;
-    // display it in the gridlayout
-    uint COLOMN_SIZE = 3;
-    uint ROW_SIZE = books.size()/COLOMN_SIZE +1;
+void PublisherWidget::initSendNotificationWidget(){
+    this->sendNotificationWidget->setStyleSheet("background: #F6F5E4;color: #2E2E2E; font-size: 15px; font-weight: 400;");
+    //this->borrowedList = new QTreeWidget();
+    this->Borrowedmodel = new QSqlQueryModel();
+    this->BorrowedTableView = new QTableView();
+    this->BorrowedTableView->setAlternatingRowColors(true);
+    this->BorrowedTableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+    this->BorrowedTableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    cout << ROW_SIZE << "," << COLOMN_SIZE << endl;
-    for (uint i =0 ; i< ROW_SIZE ; i++)
-    {
-        for(uint j =0 ; j< COLOMN_SIZE; j++)
-        {
-            uint index =  i * COLOMN_SIZE + j ;
-            if(index >= books.size())
-                break;
-            cout << "i=" << i << ",j=" << j << ",index=" << index << endl;
-            // for sizing apperance
-            books[index]->setMaximumWidth(this->viewBooksWidget->width()/3);
-            books[index]->setMaximumHeight(this->viewBooksWidget->height()/3);
+    this->BorrowedTableView->setColumnWidth(1,250);
+    this->BorrowedTableView->setColumnWidth(2,250);
+    this->BorrowedTableView->setColumnWidth(3,250);
+    this->BorrowedTableView->setColumnWidth(4,250);
+    /**** Buttons ***/
+    this->sendnotifbtn = new QPushButton("Send Notification");
+    this->sendnotifbtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;"
+                                    "hover{background-color:white; color:#808080;}"); // hover is not working
+    this->sendnotifbtn->setCursor(Qt::PointingHandCursor);
+    this->backbtn = new QPushButton("Back");
+    this->backbtn->setStyleSheet("background: #808080; border-radius: 10px; padding: 10px 0px; color: white; width: 200px;"
+                                    "hover{background-color:white; color:#808080;}"); // hover is not working
+    this->backbtn->setCursor(Qt::PointingHandCursor);
 
-            this->viewBooksLayout->addWidget(books[index],i,j);
-        }
-    }
+    QHBoxLayout* bhorizontalLayout = new QHBoxLayout;
+    bhorizontalLayout->addWidget(this->backbtn);
+    bhorizontalLayout->addWidget(this->sendnotifbtn);
 
+    /**** Headers ****/
+//    QStringList headerLabels;
+//    headerLabels.push_back(tr("MEMBER NAME"));
+//    headerLabels.push_back(tr("BOOK"));
+//    headerLabels.push_back(tr("BORROWED DATE"));
+//    headerLabels.push_back(tr("RETURN DATE"));
+//    headerLabels.push_back(tr("EXPECTED BILL"));
+//    this->borrowedList->setColumnCount(headerLabels.count());
+//    this->borrowedList->setHeaderLabels(headerLabels);
+
+//    this->borrowedList->setColumnWidth(0,150);
+//    this->borrowedList->setColumnWidth(1,200);
+//    this->borrowedList->setColumnWidth(2,50);
+//    this->borrowedList->setColumnWidth(3,50);
+//    this->borrowedList->setColumnWidth(4,50);
+
+    QVBoxLayout* verticalLayout = new QVBoxLayout;
+    verticalLayout->addWidget(BorrowedTableView);
+    verticalLayout->addLayout(bhorizontalLayout);
+
+    this->sendNotificationWidget->setLayout(verticalLayout);
+    this->sendNotificationWidget->setMinimumWidth(1000);
+    this->sendNotificationWidget->setMinimumHeight(600);
 }
+
 
 void PublisherWidget::bookClicked(string name)
 {
@@ -378,9 +380,6 @@ void PublisherWidget::bookClicked(string name)
 
 }
 
-void PublisherWidget::initSendNotificationWidget(){
-
-}
 void PublisherWidget::error(string text)
 {
     this->errorBox->setText(QString::fromStdString(text));
@@ -398,25 +397,24 @@ void PublisherWidget::publisherLoggedIn(Publisher Publisher)
     this->nameEdit->setText(QString::fromStdString(this->currentPublisher.getName()));
     this->passEdit->setText(QString::fromStdString(this->currentPublisher.getPassword()));
     this->emailEdit->setText(QString::fromStdString(this->currentPublisher.getEmail()));
-    this->cashEdit->setText(QString::fromStdString(to_string(this->currentPublisher.getCash())));
-
     this->Name->setText(QString::fromStdString(this->currentPublisher.getName()));
-
-    //this->updateBooks();
-
 }
 
 
 void PublisherWidget::browseBtnClicked()
 {
     this->bookTableHandle = emit getbooktablehandle();
-    //if(this->bookTableHandle->exec())
-    //{
-    //    cout << "got the book table handle!" <<endl;
-    //}
     this->model->setQuery(*bookTableHandle);
     this->bookTableView->setModel(model);
     this->browseWidget->show();
+}
+
+void PublisherWidget::notification_btn_clicked()
+{
+    this->BorrowedTableHandle = emit getborrowedtablehandle();
+    this->Borrowedmodel->setQuery(*BorrowedTableHandle);
+    this->BorrowedTableView->setModel(Borrowedmodel);
+    this->sendNotificationWidget->show();
 }
 
 void PublisherWidget::showInfoBtnClicked()
@@ -433,8 +431,9 @@ void PublisherWidget::handleToolBar(QAction * action)
         this->showInfoBtnClicked();
     if (action_name == "Browse")
         this->browseBtnClicked();
+    if (action_name == "Send Notification")
+        this->notification_btn_clicked();
 }
-
 
 
 void PublisherWidget::editButtonClicked()
@@ -442,7 +441,6 @@ void PublisherWidget::editButtonClicked()
     this->nameEdit->setReadOnly(false);
     this->passEdit->setReadOnly(false);
     this->emailEdit->setReadOnly(false);
-    this->cashEdit->setReadOnly(false);
 }
 
 void PublisherWidget::okButtonClicked()
@@ -451,19 +449,16 @@ void PublisherWidget::okButtonClicked()
     string name = this->nameEdit->text().toStdString();
     string pass = this->passEdit->text().toStdString();
     string email = this->emailEdit->text().toStdString();
-    int cash = this->cashEdit->text().toInt();
 
-    emit updatePublisher(this->currentPublisher.getName(),name,pass,email,cash);
+    emit updatePublisher(this->currentPublisher.getName(),name,pass,email,0);
 
     this->currentPublisher.setName(name);
     this->currentPublisher.setPassword(pass);
     this->currentPublisher.setEmail(email);
-    this->currentPublisher.setCash(cash);
 
     this->nameEdit->setReadOnly(true);
     this->passEdit->setReadOnly(true);
     this->emailEdit->setReadOnly(true);
-    this->cashEdit->setReadOnly(true);
 
     this->sucessBox->setText("Edit Successfully !");
     this->sucessBox->show();

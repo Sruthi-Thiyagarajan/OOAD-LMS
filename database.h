@@ -55,6 +55,7 @@ public:
     void addSearchHistory(Book,string);
     void addBorrowedBooks(Book,string);
     void addFavoriteBooks(Book,string);
+    bool updateMymessage(Book);
     // system search
     Book loadBookByRowId(string);
     Book loadBook(string);
@@ -83,7 +84,7 @@ public:
     map<string,string> getAllBooks();
 
     QSqlQuery* getBookTableHandle();
-    //    void saveLibrarian(Librarian);
-    //    Book loadLibirian();
+    QSqlQuery* getBorrowedTableHandle();
+
 };
 #endif // DataBase_H

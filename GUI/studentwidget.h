@@ -99,7 +99,7 @@ private:
     QPushButton *Ok2Btn;
 
     QWidget* MymessageWidget;
-    QLineEdit* MymessageShow;
+    QTextEdit* MymessageShow;
     QLineEdit* nameShow;
     QGridLayout* MymessageWidgetLayout;
 public:

@@ -13,7 +13,20 @@ void Controller::start()
 QSqlQuery* Controller::getbooktablehandle()
 {
     return db.getBookTableHandle();
+}
 
+QSqlQuery* Controller::getborrowedtablehandle()
+{
+    return db.getBorrowedTableHandle();
+}
+
+void Controller::sendnotif(Book b)
+{
+    bool d = db.updateMymessage(b);
+    string str="";
+    if(d)str+="Message sent successfully.";
+    else str+="Message unsuccessful.";
+    emit display_msg(str);
 }
 
 void Controller::sign_up(string name ,string email , string password , int choice, Transaction t)

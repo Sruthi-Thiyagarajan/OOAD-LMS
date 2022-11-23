@@ -43,7 +43,7 @@ StudentWidget::StudentWidget(QWidget *parent) : QWidget(parent)
 void StudentWidget::initToolBar()
 {
     this->toolBar->setMovable(false);
-    this->toolBar->setIconSize(QSize(50,50));
+    this->toolBar->setIconSize(QSize(40,40));
     this->toolBar->setOrientation(Qt::Vertical);
     this->toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
@@ -60,11 +60,9 @@ void StudentWidget::initToolBar()
     this->toolBar->addAction(Search,SearchText);
     this->toolBar->addAction(favorite,favoriteText);
     this->toolBar->addAction(History,HistoryText);
-    // ***********************************
     this->toolBar -> addAction(Pay, PayText);
     this->toolBar->addAction(Mymessage, MymessageText);
     this->toolBar->addAction(Return,ReturnText);
-
     this->toolBar->addAction(LogOut,LogOutText);
     this->toolBar->setStyleSheet("QToolButton:hover{padding: 5px;background-color: white; color: black;}"
                                  "QToolButton:select{padding: 5px;background-color: white; color: black;}"
@@ -185,10 +183,10 @@ void StudentWidget::initBorrowedWidget()
     this->borrowedList->setColumnCount(headerLabels.count());
     this->borrowedList->setHeaderLabels(headerLabels);
 
-    this->borrowedList->setColumnWidth(0,150);
-    this->borrowedList->setColumnWidth(1,150);
-    this->borrowedList->setColumnWidth(2,150);
-    this->borrowedList->setColumnWidth(3,100);
+    this->borrowedList->setColumnWidth(0,250);
+    this->borrowedList->setColumnWidth(1,50);
+    this->borrowedList->setColumnWidth(2,50);
+    this->borrowedList->setColumnWidth(3,30);
 
     QVBoxLayout* verticlaLayout = new QVBoxLayout;
     verticlaLayout->addWidget(this->borrowedList);
@@ -205,7 +203,7 @@ void StudentWidget::initMymessageWidget()
     MymessageLabel->setCursor(Qt::PointingHandCursor);
     this->nameShow = new QLineEdit();
     this->nameShow->setReadOnly(true);
-    this->MymessageShow = new QLineEdit();
+    this->MymessageShow = new QTextEdit();
     this->MymessageShow->setReadOnly(true);
 
     this->MymessageWidgetLayout = new QGridLayout;
@@ -214,7 +212,7 @@ void StudentWidget::initMymessageWidget()
     this->MymessageWidgetLayout ->addWidget(MymessageShow,1,0,-1,-1);
     this->MymessageWidget->setLayout(MymessageWidgetLayout);
 
-    this->MymessageWidget->setMinimumWidth(500);
+    this->MymessageWidget->setMinimumWidth(1000);
     this->MymessageWidget->setMinimumHeight(400);
 }
 void StudentWidget::initPayWidget()
