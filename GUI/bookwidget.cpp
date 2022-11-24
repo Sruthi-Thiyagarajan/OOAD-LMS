@@ -46,7 +46,7 @@ BookWidget::BookWidget(QWidget *parent) : QWidget(parent)
     this->showReviewLabel = new QLabel("Existing reviews");
     //this->showReview = new QLineEdit();
     this->showReview = new QTextEdit();
-
+    this->showReview->setReadOnly(true);
     this->writeReview = new QLabel("Your Review: ");
     this->editReview = new QLineEdit();
     this->reviewWidget = new QWidget();
