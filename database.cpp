@@ -422,6 +422,8 @@ bool DataBase::saveReview(string review, bookstudent bs)
 vector<string> DataBase::loadReview(string bookName)
 {
     QSqlQuery query(this->db);
+    std::string::iterator end_pos = std::remove(bookName.begin(), bookName.end(), ' ');
+    bookName.erase(end_pos, bookName.end());
     vector<string> review;
     string query_string = "SELECT review from " + bookName + ";";
     query.exec(QString::fromStdString(query_string));
