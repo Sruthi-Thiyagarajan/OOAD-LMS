@@ -11,6 +11,6 @@ Project is created with:
 *	QT Framework
 *	SQLite
 
-## User Guide
-Check the User Guide located in "Doucmentation/user_guide.pdf"
+## Documentation
+Check the material in "Doucmentation/"
 
