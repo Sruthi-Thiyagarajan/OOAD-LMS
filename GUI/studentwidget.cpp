@@ -707,6 +707,7 @@ void StudentWidget::booksFound(vector<Book> v)
         connect(foundBookWidget, SIGNAL(saveBookLikeDB(bookstudent,int)),controller1,SLOT(saveBookLikeDB(bookstudent,int)));
         connect(foundBookWidget,SIGNAL(loadReview(string)),controller1,SLOT(loadReview(string)));
         connect(foundBookWidget,SIGNAL(saveReview(string,bookstudent)),controller1,SLOT(saveReview(string,bookstudent)));
+        connect(foundBookWidget,SIGNAL(borrowBook(string,string,string)),controller1,SLOT(borrowBook(string,string,string)));
         foundBookWidget->setCurrentBook(v[i]);
         foundBookWidget->setLoggedInUserName(currentStudent.getName());
         this->tabWidget->addTab(foundBookWidget,QString::fromStdString(v[i].getName()));
