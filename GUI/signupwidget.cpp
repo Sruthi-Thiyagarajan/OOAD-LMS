@@ -166,8 +166,6 @@ void SignUp::signUpCheck()
     t.setCVV(this->CVV->text().toStdString());
     t.setexpiry_date(this->expiry_date->text().toStdString());
     cout<<t.getexpiry_date()<<endl;
-    //if(this->publisherBtn->isChecked())type=2;
-
     emit signUpData(name,email,pass,type,t);
     //emit signupTransactionData(t);
     clear_entries();
@@ -179,6 +177,10 @@ void SignUp::clear_entries()
     this->Email->clear();
     this->Password->clear();
     this->ConfirmPassword->clear();
+    this->CardName->clear();
+    this->CardNumber->clear();
+    this->CVV->clear();
+    this->expiry_date->clear();
 }
 void SignUp::error(string text)
 {
