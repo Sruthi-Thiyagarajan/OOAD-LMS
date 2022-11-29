@@ -199,6 +199,7 @@ void BookWidget::saveReviewBtnIsClicked()
     bs.setstudentname(userName);
     string curReview = this->editReview->text().toStdString();
     emit saveReview(curReview, bs);
+    this->editReview->clear();
     this->reviewWidget->close();
 }
 
