@@ -58,7 +58,7 @@ SignUp::SignUp(QWidget* parent): QWidget(parent)
     this->cvvLabel = new QLabel("CVV");
     this->expLabel = new QLabel("Expiry Date");
 
-    //this->publisherBtn = new QRadioButton("Publisher");
+    this->publisherBtn = new QRadioButton("Admin");
     this->studentBtn = new QRadioButton("Member");
     this->studentBtn->setChecked(true);
 
@@ -108,7 +108,7 @@ void SignUp::Design()
     tempGrid->addWidget(this->expLabel,7,0);
     tempGrid->addWidget(this->expiry_date,7,1,1,-1);
 
-    //tempGrid->addWidget(this->publisherBtn,4,0);
+    tempGrid->addWidget(this->publisherBtn,8,0);
     tempGrid->addWidget(this->studentBtn,8,1);
 
     QHBoxLayout* verticalLayout = new QHBoxLayout;
@@ -158,6 +158,7 @@ void SignUp::signUpCheck()
     email=this->Email->text().toStdString();
     pass=this->Password->text().toStdString();
     if(this->studentBtn->isChecked())type=1;
+    if(this->publisherBtn->isChecked())type=2;
 
     Transaction t;
     t.setName(name);

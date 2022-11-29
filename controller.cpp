@@ -53,6 +53,26 @@ void Controller::sign_up(string name ,string email , string password , int choic
         cout<<"You signed up successfully"<<endl;
         this->log_in(name,password,choice);
     }
+    else if(choice ==2)
+    {
+        publisher1.setName(name);
+        publisher1.setPassword(password);
+        publisher1.setEmail(email);
+        if(!db.savePublisher(publisher1))
+        {
+            emit error("Admin already Exist ! Enter another name");
+            cout << "Admin Name already Exist ! Enter another name" << endl;
+            return;
+        }
+        if(!db.savetransactiondetails(t))
+        {
+            emit error("Error in transaction details. Please create a new Account");
+            cout<<"Transaction details error"<<endl;
+            return;
+        }
+        cout<<"You signed up successfully"<<endl;
+        this->log_in(name,password,choice);
+    }
 }
 void Controller::log_in(string name , string password , int choice)
 {
